@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /admin
+Disallow: /cart
+Disallow: /checkout
+Disallow: /login
+
+Allow: /
+
+Sitemap: https://domix.md/api/sitemap.xml
