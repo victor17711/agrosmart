@@ -30,12 +30,12 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-600 via-teal-700 to-teal-800 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-brand-500 via-brand-500 to-brand-600 flex items-center justify-center p-4">
       <div className="bg-white rounded-3xl shadow-2xl p-10 w-full max-w-md">
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 mb-4">
-            <span className="text-4xl font-extrabold tracking-tight text-teal-700">
-              Agro<span className="text-emerald-500">Smart</span>
+            <span className="text-4xl font-extrabold tracking-tight text-brand-700">
+              Agro<span className="text-brand-500">Smart</span>
             </span>
           </div>
           <p className="text-gray-600 text-lg">Loghează-te în panoul de administrare</p>
@@ -50,7 +50,7 @@ const AdminLogin = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="admin@agrosmart.md"
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition"
             />
           </div>
 
@@ -62,14 +62,14 @@ const AdminLogin = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
               placeholder="Parola"
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-teal-600 to-teal-700 text-white py-3 rounded-xl hover:from-teal-700 hover:to-teal-800 transition font-bold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-gradient-to-r from-brand-500 to-brand-600 text-white py-3 rounded-xl hover:from-brand-500 hover:to-brand-600 transition font-bold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? 'Se încarcă...' : 'Loghează-te'}
           </button>
@@ -83,7 +83,7 @@ const AdminLogin = () => {
               href="https://nextify.md"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-teal-600 font-semibold hover:underline transition"
+              className="text-brand-600 font-semibold hover:underline transition"
             >
               Nextify
             </a>

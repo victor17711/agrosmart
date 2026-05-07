@@ -88,9 +88,9 @@ const Footer = () => {
             <div className="col-span-12 md:col-span-12 xl:w-1/4 flex flex-col gap-y-6">
               <div>
                 <Link to="/" className="inline-flex items-center gap-2" data-testid="footer-logo">
-                  <Leaf className="w-9 h-9 text-emerald-300" />
+                  <Leaf className="w-9 h-9 text-brand-200" />
                   <span className="text-3xl font-extrabold tracking-tight text-white">
-                    Agro<span className="text-emerald-300">Smart</span>
+                    Agro<span className="text-brand-200">Smart</span>
                   </span>
                 </Link>
               </div>

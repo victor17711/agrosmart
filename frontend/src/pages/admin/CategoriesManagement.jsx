@@ -123,7 +123,7 @@ const CategoriesManagement = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-teal-600"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-brand-600"></div>
       </div>
     );
   }
@@ -131,15 +131,15 @@ const CategoriesManagement = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-teal-600 to-teal-700 rounded-2xl p-6 text-white">
+      <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm text-gray-900">
         <div className="flex justify-between items-center">
           <div>
-            <h2 className="text-3xl font-bold mb-2">Gestionare Categorii</h2>
-            <p className="text-teal-100">Total: {categories.length} categorii</p>
+            <h2 className="text-2xl font-extrabold tracking-tight">Gestionare Categorii</h2>
+            <p className="text-gray-500 text-sm mt-1">Total: {categories.length} categorii</p>
           </div>
           <button
             onClick={() => { setShowModal(true); setEditingCategory(null); setFormData({ name: '', nameRu: '', slug: '', icon: '', parentId: null, image: '' }); }}
-            className="bg-white text-teal-700 px-6 py-3 rounded-xl flex items-center gap-2 hover:bg-teal-50 transition font-semibold"
+            className="bg-white text-brand-700 px-6 py-3 rounded-xl flex items-center gap-2 hover:bg-brand-50 transition font-semibold"
           >
             <Plus className="w-5 h-5" />
             Adaugă Categorie
@@ -151,7 +151,7 @@ const CategoriesManagement = () => {
       <div className="bg-white rounded-2xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gradient-to-r from-teal-600 to-teal-700 text-white">
+            <thead className="bg-gray-50/60 text-gray-500 text-[11px] uppercase tracking-wider">
               <tr>
                 <th className="px-6 py-4 text-left font-semibold">Icon/Imagine</th>
                 <th className="px-6 py-4 text-left font-semibold">Nume Categorie</th>
@@ -164,7 +164,7 @@ const CategoriesManagement = () => {
             <tbody className="divide-y divide-gray-100">
               {getParentCategories().map((category, index) => (
                 <React.Fragment key={category.id}>
-                  <tr className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-teal-50 transition`}>
+                  <tr className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-brand-50 transition`}>
                     <td className="px-6 py-4">
                       {(category.image || category.icon) && (category.image?.startsWith('data:image') || category.icon?.startsWith('data:image')) ? (
                         <img src={category.image || category.icon} alt={category.name} className="w-12 h-12 object-cover rounded-lg shadow-md" />
@@ -180,7 +180,7 @@ const CategoriesManagement = () => {
                     <td className="px-6 py-4 text-gray-600">{category.slug}</td>
                     <td className="px-6 py-4 text-gray-500">-</td>
                     <td className="px-6 py-4">
-                      <span className="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm font-semibold">
+                      <span className="bg-brand-100 text-brand-800 px-3 py-1 rounded-full text-sm font-semibold">
                         {category.itemCount || 0}
                       </span>
                     </td>
@@ -203,7 +203,7 @@ const CategoriesManagement = () => {
                   </tr>
                   {/* Sub-categories */}
                   {getSubCategories(category.id).map((subCat) => (
-                    <tr key={subCat.id} className="bg-teal-50 hover:bg-teal-100 transition">
+                    <tr key={subCat.id} className="bg-brand-50 hover:bg-brand-100 transition">
                       <td className="px-6 py-3 pl-16">
                         {(subCat.image || subCat.icon) && (subCat.image?.startsWith('data:image') || subCat.icon?.startsWith('data:image')) ? (
                           <img src={subCat.image || subCat.icon} alt={subCat.name} className="w-10 h-10 object-cover rounded-lg shadow-md" />
@@ -219,7 +219,7 @@ const CategoriesManagement = () => {
                       <td className="px-6 py-3 text-gray-600">{subCat.slug}</td>
                       <td className="px-6 py-3 text-gray-500">{category.name}</td>
                       <td className="px-6 py-3">
-                        <span className="bg-teal-200 text-teal-900 px-3 py-1 rounded-full text-sm font-semibold">
+                        <span className="bg-brand-100 text-brand-800 px-3 py-1 rounded-full text-sm font-semibold">
                           {subCat.itemCount || 0}
                         </span>
                       </td>
@@ -252,7 +252,7 @@ const CategoriesManagement = () => {
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl max-w-2xl w-full">
-            <div className="bg-gradient-to-r from-teal-600 to-teal-700 text-white px-6 py-4 flex justify-between items-center rounded-t-2xl">
+            <div className="bg-gray-50/60 text-gray-500 text-[11px] uppercase tracking-wider px-6 py-4 flex justify-between items-center rounded-t-2xl">
               <h3 className="text-2xl font-bold">{editingCategory ? 'Editează Categorie' : 'Adaugă Categorie Nouă'}</h3>
               <button onClick={() => { setShowModal(false); setEditingCategory(null); }} className="text-white hover:text-gray-200">
                 <X className="w-6 h-6" />
@@ -263,7 +263,7 @@ const CategoriesManagement = () => {
               {/* Image Upload */}
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-2">Imagine Categorie * (recomandabil 200x200px)</label>
-                <div className="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center hover:border-teal-500 transition">
+                <div className="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center hover:border-brand-500 transition">
                   {imagePreview ? (
                     <div className="relative inline-block">
                       <img src={imagePreview} alt="Preview" className="max-h-40 rounded-lg shadow-lg" />
@@ -279,7 +279,7 @@ const CategoriesManagement = () => {
                     <div>
                       <ImageIcon className="w-16 h-16 text-gray-400 mx-auto mb-3" />
                       <label className="cursor-pointer">
-                        <span className="bg-teal-600 text-white px-6 py-3 rounded-lg inline-flex items-center gap-2 hover:bg-teal-700 transition font-semibold">
+                        <span className="bg-brand-500 text-white px-6 py-3 rounded-lg inline-flex items-center gap-2 hover:bg-brand-600 transition font-semibold">
                           <Upload className="w-5 h-5" />
                           Încarcă Imagine
                         </span>
@@ -304,7 +304,7 @@ const CategoriesManagement = () => {
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
                   placeholder="ex: Haine Femei"
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                 />
               </div>
 
@@ -315,7 +315,7 @@ const CategoriesManagement = () => {
                   value={formData.nameRu}
                   onChange={(e) => setFormData({...formData, nameRu: e.target.value})}
                   placeholder="напр: Женская одежда"
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                 />
               </div>
 
@@ -327,7 +327,7 @@ const CategoriesManagement = () => {
                   value={formData.slug}
                   onChange={(e) => setFormData({...formData, slug: e.target.value})}
                   placeholder="ex: haine-femei"
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                 />
                 <p className="text-xs text-gray-500 mt-1">URL-ul categoriei: /category/{formData.slug || 'slug-aici'}</p>
               </div>
@@ -337,7 +337,7 @@ const CategoriesManagement = () => {
                 <select
                   value={formData.parentId || ''}
                   onChange={(e) => setFormData({...formData, parentId: e.target.value || null})}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                 >
                   <option value="">Nicio (Categorie principală)</option>
                   {getParentCategories().filter(cat => !editingCategory || cat.id !== editingCategory.id).map(cat => (
@@ -349,7 +349,7 @@ const CategoriesManagement = () => {
               <div className="flex gap-3 pt-4">
                 <button
                   type="submit"
-                  className="flex-1 bg-gradient-to-r from-teal-600 to-teal-700 text-white py-3 rounded-xl hover:from-teal-700 hover:to-teal-800 transition font-semibold"
+                  className="flex-1 bg-gray-50/60 text-gray-500 text-[11px] uppercase tracking-wider py-3 rounded-xl hover:bg-brand-600 transition font-semibold"
                 >
                   {editingCategory ? 'Actualizează' : 'Creează'}
                 </button>

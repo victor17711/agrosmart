@@ -586,7 +586,7 @@ const ContentManagement = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-600"></div>
       </div>
     );
   }
@@ -603,13 +603,13 @@ const ContentManagement = () => {
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <button
             onClick={() => toggleSection('heroBanners')}
-            className="w-full px-6 py-5 flex items-center justify-between bg-gradient-to-r from-teal-600 to-teal-700 text-white hover:from-teal-700 hover:to-teal-800 transition"
+            className="w-full px-6 py-5 flex items-center justify-between bg-brand-500 text-white hover:bg-brand-600 transition"
           >
             <div className="flex items-center gap-3">
               <Image className="w-6 h-6" />
               <div className="text-left">
                 <h2 className="text-xl font-bold">Hero Banners (Slider Principal)</h2>
-                <p className="text-sm text-teal-100">
+                <p className="text-sm text-gray-500 text-sm mt-1">
                   {banners.length} {banners.length === 1 ? 'banner' : 'bannere'}
                 </p>
               </div>
@@ -647,7 +647,7 @@ const ContentManagement = () => {
                     });
                     setShowBannerModal(true);
                   }}
-                  className="flex items-center gap-2 bg-teal-600 text-white px-6 py-3 rounded-xl hover:bg-teal-700 transition font-semibold"
+                  className="flex items-center gap-2 bg-brand-500 text-white px-6 py-3 rounded-xl hover:bg-brand-600 transition font-semibold"
                 >
                   <Plus className="w-5 h-5" />
                   Adaugă Banner
@@ -663,7 +663,7 @@ const ContentManagement = () => {
               ) : (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {banners.map((banner, index) => (
-                    <div key={index} className="bg-gray-50 rounded-xl overflow-hidden border-2 border-gray-200 hover:border-teal-500 transition">
+                    <div key={index} className="bg-gray-50 rounded-xl overflow-hidden border-2 border-gray-200 hover:border-brand-500 transition">
                       {banner.image && (
                         <div className="h-48 overflow-hidden bg-gray-200">
                           <img 
@@ -675,7 +675,7 @@ const ContentManagement = () => {
                       )}
                       <div className="p-4">
                         {banner.badge && (
-                          <span className="inline-block bg-teal-100 text-teal-700 px-3 py-1 rounded-full text-xs font-bold mb-2">
+                          <span className="inline-block bg-brand-100 text-brand-700 px-3 py-1 rounded-full text-xs font-bold mb-2">
                             {banner.badge}
                           </span>
                         )}
@@ -687,14 +687,14 @@ const ContentManagement = () => {
                           <p className="text-sm text-gray-500 mb-3 line-clamp-2">{banner.description}</p>
                         )}
                         {banner.buttonText && (
-                          <div className="flex items-center gap-2 text-teal-600 text-sm font-semibold mb-3">
+                          <div className="flex items-center gap-2 text-brand-600 text-sm font-semibold mb-3">
                             <span>Buton: {banner.buttonText}</span>
                           </div>
                         )}
                         <div className="flex gap-2 pt-3 border-t">
                           <button
                             onClick={() => handleEditBanner(index)}
-                            className="flex-1 flex items-center justify-center gap-2 bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition"
+                            className="flex-1 flex items-center justify-center gap-2 bg-brand-500 text-white px-4 py-2 rounded-lg hover:bg-brand-500 transition"
                           >
                             <Edit className="w-4 h-4" />
                             Editează
@@ -719,13 +719,13 @@ const ContentManagement = () => {
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <button
             onClick={() => toggleSection('serviceAlbums')}
-            className="w-full px-6 py-5 flex items-center justify-between bg-gradient-to-r from-teal-600 to-teal-700 text-white hover:from-teal-700 hover:to-teal-800 transition"
+            className="w-full px-6 py-5 flex items-center justify-between bg-brand-500 text-white hover:bg-brand-600 transition"
           >
             <div className="flex items-center gap-3">
               <Images className="w-6 h-6" />
               <div className="text-left">
                 <h2 className="text-xl font-bold">Albume Servicii</h2>
-                <p className="text-sm text-teal-100">
+                <p className="text-sm text-gray-500 text-sm mt-1">
                   {albums.length} {albums.length === 1 ? 'album' : 'albume'}
                 </p>
               </div>
@@ -754,7 +754,7 @@ const ContentManagement = () => {
                     setTempGalleryUrl('');
                     setShowAlbumModal(true);
                   }}
-                  className="flex items-center gap-2 bg-teal-600 text-white px-6 py-3 rounded-xl hover:bg-teal-700 transition font-semibold"
+                  className="flex items-center gap-2 bg-brand-500 text-white px-6 py-3 rounded-xl hover:bg-brand-600 transition font-semibold"
                 >
                   <Plus className="w-5 h-5" />
                   Adaugă Album
@@ -770,7 +770,7 @@ const ContentManagement = () => {
               ) : (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {albums.map((album, index) => (
-                    <div key={index} className="bg-gray-50 rounded-xl overflow-hidden border-2 border-gray-200 hover:border-teal-500 transition">
+                    <div key={index} className="bg-gray-50 rounded-xl overflow-hidden border-2 border-gray-200 hover:border-brand-500 transition">
                       {album.coverImage && (
                         <div className="h-48 overflow-hidden bg-gray-200">
                           <img 
@@ -788,7 +788,7 @@ const ContentManagement = () => {
                         <div className="flex gap-2 pt-3 border-t">
                           <button
                             onClick={() => handleEditAlbum(index)}
-                            className="flex-1 flex items-center justify-center gap-2 bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition"
+                            className="flex-1 flex items-center justify-center gap-2 bg-brand-500 text-white px-4 py-2 rounded-lg hover:bg-brand-500 transition"
                           >
                             <Edit className="w-4 h-4" />
                             Editează
@@ -814,13 +814,13 @@ const ContentManagement = () => {
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <button
             onClick={() => toggleSection('homeTabs')}
-            className="w-full px-6 py-5 flex items-center justify-between bg-gradient-to-r from-teal-600 to-teal-700 text-white hover:from-teal-700 hover:to-teal-800 transition"
+            className="w-full px-6 py-5 flex items-center justify-between bg-brand-500 text-white hover:bg-brand-600 transition"
           >
             <div className="flex items-center gap-3">
               <Layout className="w-6 h-6" />
               <div className="text-left">
                 <h2 className="text-xl font-bold">Taburi Home: Bestsellers & Produse Noi</h2>
-                <p className="text-sm text-teal-100">
+                <p className="text-sm text-gray-500 text-sm mt-1">
                   Alege categoriile care apar ca tab-uri pe homepage
                 </p>
               </div>
@@ -870,13 +870,13 @@ const ContentManagement = () => {
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <button
             onClick={() => toggleSection('faqs')}
-            className="w-full px-6 py-5 flex items-center justify-between bg-gradient-to-r from-teal-600 to-teal-700 text-white hover:from-teal-700 hover:to-teal-800 transition"
+            className="w-full px-6 py-5 flex items-center justify-between bg-brand-500 text-white hover:bg-brand-600 transition"
           >
             <div className="flex items-center gap-3">
               <HelpCircle className="w-6 h-6" />
               <div className="text-left">
                 <h2 className="text-xl font-bold">Întrebări Frecvente (FAQs)</h2>
-                <p className="text-sm text-teal-100">
+                <p className="text-sm text-gray-500 text-sm mt-1">
                   {faqs.length} {faqs.length === 1 ? 'întrebare' : 'întrebări'}
                 </p>
               </div>
@@ -900,7 +900,7 @@ const ContentManagement = () => {
                     setFaqForm({ question: '', questionRu: '', answer: '', answerRu: '' });
                     setShowFaqModal(true);
                   }}
-                  className="flex items-center gap-2 bg-teal-600 text-white px-6 py-3 rounded-xl hover:bg-teal-700 transition font-semibold"
+                  className="flex items-center gap-2 bg-brand-500 text-white px-6 py-3 rounded-xl hover:bg-brand-600 transition font-semibold"
                 >
                   <Plus className="w-5 h-5" />
                   Adaugă FAQ
@@ -916,7 +916,7 @@ const ContentManagement = () => {
               ) : (
                 <div className="space-y-4">
                   {faqs.map((faq, index) => (
-                    <div key={index} className="bg-gray-50 rounded-xl p-4 border-2 border-gray-200 hover:border-teal-500 transition">
+                    <div key={index} className="bg-gray-50 rounded-xl p-4 border-2 border-gray-200 hover:border-brand-500 transition">
                       <div className="flex justify-between items-start gap-4">
                         <div className="flex-1">
                           <h4 className="font-bold text-gray-900 mb-2">{faq.question}</h4>
@@ -925,7 +925,7 @@ const ContentManagement = () => {
                         <div className="flex gap-2">
                           <button
                             onClick={() => handleEditFaq(index)}
-                            className="p-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition"
+                            className="p-2 bg-brand-500 text-white rounded-lg hover:bg-brand-500 transition"
                           >
                             <Edit className="w-4 h-4" />
                           </button>
@@ -949,13 +949,13 @@ const ContentManagement = () => {
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <button
             onClick={() => toggleSection('contactInfo')}
-            className="w-full px-6 py-5 flex items-center justify-between bg-gradient-to-r from-teal-600 to-teal-700 text-white hover:from-teal-700 hover:to-teal-800 transition"
+            className="w-full px-6 py-5 flex items-center justify-between bg-brand-500 text-white hover:bg-brand-600 transition"
           >
             <div className="flex items-center gap-3">
               <Phone className="w-6 h-6" />
               <div className="text-left">
                 <h2 className="text-xl font-bold">Date de Contact</h2>
-                <p className="text-sm text-teal-100">Telefon, email, adresă, social media</p>
+                <p className="text-sm text-gray-500 text-sm mt-1">Telefon, email, adresă, social media</p>
               </div>
             </div>
             {expandedSections.contactInfo ? (
@@ -978,7 +978,7 @@ const ContentManagement = () => {
                     type="text"
                     value={contactInfo.phone}
                     onChange={(e) => setContactInfo({...contactInfo, phone: e.target.value})}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                     placeholder="+373 69 123 456"
                   />
                 </div>
@@ -989,7 +989,7 @@ const ContentManagement = () => {
                     type="email"
                     value={contactInfo.email}
                     onChange={(e) => setContactInfo({...contactInfo, email: e.target.value})}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                     placeholder="contact@agrosmart.md"
                   />
                 </div>
@@ -1000,7 +1000,7 @@ const ContentManagement = () => {
                     type="text"
                     value={contactInfo.address}
                     onChange={(e) => setContactInfo({...contactInfo, address: e.target.value})}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                     placeholder="Str. Principală nr. 123, Chișinău"
                   />
                 </div>
@@ -1011,7 +1011,7 @@ const ContentManagement = () => {
                     type="text"
                     value={contactInfo.hours}
                     onChange={(e) => setContactInfo({...contactInfo, hours: e.target.value})}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                     placeholder="Luni - Vineri: 08:00 - 20:00"
                   />
                 </div>
@@ -1022,7 +1022,7 @@ const ContentManagement = () => {
                     type="url"
                     value={contactInfo.facebook}
                     onChange={(e) => setContactInfo({...contactInfo, facebook: e.target.value})}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                     placeholder="https://facebook.com/..."
                   />
                 </div>
@@ -1033,7 +1033,7 @@ const ContentManagement = () => {
                     type="url"
                     value={contactInfo.instagram}
                     onChange={(e) => setContactInfo({...contactInfo, instagram: e.target.value})}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                     placeholder="https://instagram.com/..."
                   />
                 </div>
@@ -1044,7 +1044,7 @@ const ContentManagement = () => {
                     type="url"
                     value={contactInfo.tiktok}
                     onChange={(e) => setContactInfo({...contactInfo, tiktok: e.target.value})}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                     placeholder="https://tiktok.com/@..."
                   />
                 </div>
@@ -1052,7 +1052,7 @@ const ContentManagement = () => {
 
               <button
                 onClick={handleContactInfoSave}
-                className="w-full bg-teal-600 text-white py-3 rounded-xl hover:bg-teal-700 transition font-semibold flex items-center justify-center gap-2"
+                className="w-full bg-brand-500 text-white py-3 rounded-xl hover:bg-brand-600 transition font-semibold flex items-center justify-center gap-2"
               >
                 <Save className="w-5 h-5" />
                 Salvează Date Contact
@@ -1096,7 +1096,7 @@ const ContentManagement = () => {
                   type="file"
                   accept="image/*"
                   onChange={handleImageUpload}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                 />
                 <p className="text-xs text-gray-500 mt-1">Rezoluție recomandată: 1920x600px</p>
               </div>
@@ -1110,7 +1110,7 @@ const ContentManagement = () => {
                   type="text"
                   value={bannerForm.badge}
                   onChange={(e) => setBannerForm({...bannerForm, badge: e.target.value})}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   placeholder="ex: Nou!, Reducere 50%"
                 />
               </div>
@@ -1124,7 +1124,7 @@ const ContentManagement = () => {
                   type="text"
                   value={bannerForm.badgeRu || ''}
                   onChange={(e) => setBannerForm({...bannerForm, badgeRu: e.target.value})}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   placeholder="ex: Новинка!, Скидка 50%"
                 />
               </div>
@@ -1138,7 +1138,7 @@ const ContentManagement = () => {
                   type="text"
                   value={bannerForm.title}
                   onChange={(e) => setBannerForm({...bannerForm, title: e.target.value})}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   placeholder="ex: Colecția de Vară 2024"
                 />
               </div>
@@ -1152,7 +1152,7 @@ const ContentManagement = () => {
                   type="text"
                   value={bannerForm.titleRu || ''}
                   onChange={(e) => setBannerForm({...bannerForm, titleRu: e.target.value})}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   placeholder="ex: Летняя коллекция 2024"
                 />
               </div>
@@ -1166,7 +1166,7 @@ const ContentManagement = () => {
                   type="text"
                   value={bannerForm.subtitle}
                   onChange={(e) => setBannerForm({...bannerForm, subtitle: e.target.value})}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   placeholder="ex: Tendințe de sezon"
                 />
               </div>
@@ -1180,7 +1180,7 @@ const ContentManagement = () => {
                   type="text"
                   value={bannerForm.subtitleRu || ''}
                   onChange={(e) => setBannerForm({...bannerForm, subtitleRu: e.target.value})}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   placeholder="ex: Сезонные тренды"
                 />
               </div>
@@ -1194,7 +1194,7 @@ const ContentManagement = () => {
                   value={bannerForm.description}
                   onChange={(e) => setBannerForm({...bannerForm, description: e.target.value})}
                   rows="3"
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   placeholder="Descriere scurtă pentru banner..."
                 />
               </div>
@@ -1208,7 +1208,7 @@ const ContentManagement = () => {
                   value={bannerForm.descriptionRu || ''}
                   onChange={(e) => setBannerForm({...bannerForm, descriptionRu: e.target.value})}
                   rows="3"
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   placeholder="Краткое описание баннера..."
                 />
               </div>
@@ -1222,7 +1222,7 @@ const ContentManagement = () => {
                   type="text"
                   value={bannerForm.buttonTextRu || ''}
                   onChange={(e) => setBannerForm({...bannerForm, buttonTextRu: e.target.value})}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   placeholder="ex: Смотреть товары"
                 />
               </div>
@@ -1237,7 +1237,7 @@ const ContentManagement = () => {
                     type="text"
                     value={bannerForm.buttonText}
                     onChange={(e) => setBannerForm({...bannerForm, buttonText: e.target.value})}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                     placeholder="ex: Vezi Produse"
                   />
                 </div>
@@ -1251,7 +1251,7 @@ const ContentManagement = () => {
                     type="text"
                     value={bannerForm.buttonLink}
                     onChange={(e) => setBannerForm({...bannerForm, buttonLink: e.target.value})}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                     placeholder="ex: /category/vara-2024"
                   />
                 </div>
@@ -1270,7 +1270,7 @@ const ContentManagement = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition font-semibold flex items-center gap-2"
+                  className="px-6 py-3 bg-brand-500 text-white rounded-xl hover:bg-brand-600 transition font-semibold flex items-center gap-2"
                 >
                   <Save className="w-5 h-5" />
                   {editingBanner !== null ? 'Actualizează' : 'Salvează'}
@@ -1310,7 +1310,7 @@ const ContentManagement = () => {
                   type="text"
                   value={albumForm.title}
                   onChange={(e) => setAlbumForm({...albumForm, title: e.target.value})}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="ex: Montaj produse"
                   required
                 />
@@ -1344,9 +1344,9 @@ const ContentManagement = () => {
                       accept="image/*"
                       onChange={handleUploadCoverImage}
                       disabled={uploadingCover}
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl"
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white"
                     />
-                    {uploadingCover && <p className="text-sm text-teal-600 mt-2">⏳ Se încarcă...</p>}
+                    {uploadingCover && <p className="text-sm text-brand-600 mt-2">⏳ Se încarcă...</p>}
                   </div>
                 )}
               </div>
@@ -1363,10 +1363,10 @@ const ContentManagement = () => {
                   multiple
                   onChange={handleUploadGalleryImages}
                   disabled={uploadingGallery || albumForm.galleryImages.length >= 10}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 disabled:opacity-50"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 disabled:opacity-50"
                   data-testid="album-gallery-upload"
                 />
-                {uploadingGallery && <p className="text-sm text-teal-600 mt-2">⏳ Se încarcă...</p>}
+                {uploadingGallery && <p className="text-sm text-brand-600 mt-2">⏳ Se încarcă...</p>}
 
                 {albumForm.galleryImages.length > 0 && (
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3">
@@ -1407,7 +1407,7 @@ const ContentManagement = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition font-semibold flex items-center gap-2"
+                  className="px-6 py-3 bg-brand-500 text-white rounded-xl hover:bg-brand-600 transition font-semibold flex items-center gap-2"
                 >
                   <Save className="w-5 h-5" />
                   {editingAlbum !== null ? 'Actualizează' : 'Salvează'}
@@ -1446,7 +1446,7 @@ const ContentManagement = () => {
                   type="text"
                   value={faqForm.question}
                   onChange={(e) => setFaqForm({...faqForm, question: e.target.value})}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   placeholder="ex: Cum pot plasa o comandă?"
                   required
                 />
@@ -1460,7 +1460,7 @@ const ContentManagement = () => {
                   type="text"
                   value={faqForm.questionRu}
                   onChange={(e) => setFaqForm({...faqForm, questionRu: e.target.value})}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   placeholder="напр: Как я могу разместить заказ?"
                 />
               </div>
@@ -1473,7 +1473,7 @@ const ContentManagement = () => {
                   value={faqForm.answer}
                   onChange={(e) => setFaqForm({...faqForm, answer: e.target.value})}
                   rows="5"
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   placeholder="Răspunsul complet la întrebare..."
                   required
                 />
@@ -1487,7 +1487,7 @@ const ContentManagement = () => {
                   value={faqForm.answerRu}
                   onChange={(e) => setFaqForm({...faqForm, answerRu: e.target.value})}
                   rows="5"
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   placeholder="Полный ответ на вопрос..."
                 />
               </div>
@@ -1505,7 +1505,7 @@ const ContentManagement = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition font-semibold flex items-center gap-2"
+                  className="px-6 py-3 bg-brand-500 text-white rounded-xl hover:bg-brand-600 transition font-semibold flex items-center gap-2"
                 >
                   <Save className="w-5 h-5" />
                   {editingFaq !== null ? 'Actualizează' : 'Salvează'}

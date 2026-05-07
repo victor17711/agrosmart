@@ -293,9 +293,9 @@ const Navbar = () => {
 
               <div className="flex justify-center">
                 <Link to="/" className="flex items-center justify-center gap-2" data-testid="navbar-logo-mobile">
-                  <Leaf className="w-7 h-7 text-emerald-600" />
+                  <Leaf className="w-7 h-7 text-brand-600" />
                   <span className="text-2xl font-extrabold tracking-tight text-gray-900">
-                    Agro<span className="text-emerald-600">Smart</span>
+                    Agro<span className="text-brand-600">Smart</span>
                   </span>
                 </Link>
               </div>
@@ -318,9 +318,9 @@ const Navbar = () => {
 
           <div className="hidden lg:flex items-center justify-between gap-8">
             <Link to="/" className="flex-shrink-0 flex items-center gap-2" data-testid="navbar-logo-desktop">
-              <Leaf className="w-8 h-8 text-emerald-600" />
+              <Leaf className="w-8 h-8 text-brand-600" />
               <span className="text-3xl font-extrabold tracking-tight text-gray-900">
-                Agro<span className="text-emerald-600">Smart</span>
+                Agro<span className="text-brand-600">Smart</span>
               </span>
             </Link>
 

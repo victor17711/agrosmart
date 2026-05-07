@@ -43,7 +43,7 @@ const HomeTabsEditor = ({
         <select
           value={selectedCategoryId}
           onChange={(e) => setSelectedCategoryId(e.target.value)}
-          className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
+          className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
           data-testid={`${testIdPrefix}-add-select`}
         >
           <option value="">-- Selectează o categorie --</option>
@@ -57,7 +57,7 @@ const HomeTabsEditor = ({
         <button
           onClick={handleAdd}
           disabled={!selectedCategoryId}
-          className="flex items-center justify-center gap-2 bg-teal-600 text-white px-6 py-3 rounded-xl hover:bg-teal-700 transition font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center justify-center gap-2 bg-brand-500 text-white px-6 py-3 rounded-xl hover:bg-brand-600 transition font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
           data-testid={`${testIdPrefix}-add-btn`}
         >
           <Plus className="w-5 h-5" />
@@ -82,7 +82,7 @@ const HomeTabsEditor = ({
                   data-testid={`${testIdPrefix}-tab-${tab.categoryId}`}
                 >
                   <div className="flex items-center gap-2 flex-1 min-w-0">
-                    <span className="bg-teal-100 text-teal-700 font-bold text-sm rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0">
+                    <span className="bg-brand-100 text-brand-700 font-bold text-sm rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0">
                       {idx + 1}
                     </span>
                     <div className="min-w-0">
@@ -101,14 +101,14 @@ const HomeTabsEditor = ({
                       value={tab.label || ''}
                       placeholder={`Etichetă RO (implicit: ${cat?.name || ''})`}
                       onChange={(e) => onLabelChange(tab.categoryId, 'label', e.target.value)}
-                      className="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
+                      className="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
                     />
                     <input
                       type="text"
                       value={tab.labelRu || ''}
                       placeholder={`Etichetă RU (implicit: ${cat?.nameRu || cat?.name || ''})`}
                       onChange={(e) => onLabelChange(tab.categoryId, 'labelRu', e.target.value)}
-                      className="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
+                      className="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
                     />
                   </div>
 
@@ -116,7 +116,7 @@ const HomeTabsEditor = ({
                     <button
                       onClick={() => onMove(tab.categoryId, 'up')}
                       disabled={idx === 0}
-                      className="p-2 text-gray-600 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition disabled:opacity-30 disabled:cursor-not-allowed"
+                      className="p-2 text-gray-600 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition disabled:opacity-30 disabled:cursor-not-allowed"
                       title="Mută sus"
                     >
                       <ArrowUp className="w-4 h-4" />
@@ -124,7 +124,7 @@ const HomeTabsEditor = ({
                     <button
                       onClick={() => onMove(tab.categoryId, 'down')}
                       disabled={idx === tabs.length - 1}
-                      className="p-2 text-gray-600 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition disabled:opacity-30 disabled:cursor-not-allowed"
+                      className="p-2 text-gray-600 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition disabled:opacity-30 disabled:cursor-not-allowed"
                       title="Mută jos"
                     >
                       <ArrowDown className="w-4 h-4" />
@@ -146,7 +146,7 @@ const HomeTabsEditor = ({
           <div className="flex justify-end mt-4">
             <button
               onClick={onSaveLabels}
-              className="flex items-center gap-2 bg-teal-600 text-white px-5 py-2.5 rounded-xl hover:bg-teal-700 transition font-semibold text-sm"
+              className="flex items-center gap-2 bg-brand-500 text-white px-5 py-2.5 rounded-xl hover:bg-brand-600 transition font-semibold text-sm"
               data-testid={`${testIdPrefix}-save-labels-btn`}
             >
               <Save className="w-4 h-4" />

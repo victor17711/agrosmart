@@ -109,7 +109,7 @@ const RequestsManagement = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-teal-600"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-brand-600"></div>
       </div>
     );
   }
@@ -117,9 +117,9 @@ const RequestsManagement = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-teal-600 to-teal-700 rounded-2xl p-6 text-white">
-        <h2 className="text-3xl font-bold mb-2">Solicitări</h2>
-        <p className="text-teal-100">Gestionează solicitările de contact și abonările la newsletter</p>
+      <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm text-gray-900">
+        <h2 className="text-2xl font-extrabold tracking-tight">Solicitări</h2>
+        <p className="text-gray-500 text-sm mt-1">Gestionează solicitările de contact și abonările la newsletter</p>
       </div>
 
       {/* Tabs */}
@@ -128,7 +128,7 @@ const RequestsManagement = () => {
           onClick={() => setActiveTab('contact')}
           className={`flex-1 px-6 py-3 rounded-xl font-semibold transition ${
             activeTab === 'contact'
-              ? 'bg-teal-600 text-white'
+              ? 'bg-brand-500 text-white'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
           }`}
         >
@@ -141,7 +141,7 @@ const RequestsManagement = () => {
           onClick={() => setActiveTab('newsletter')}
           className={`flex-1 px-6 py-3 rounded-xl font-semibold transition ${
             activeTab === 'newsletter'
-              ? 'bg-teal-600 text-white'
+              ? 'bg-brand-500 text-white'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
           }`}
         >
@@ -154,7 +154,7 @@ const RequestsManagement = () => {
           onClick={() => setActiveTab('installment')}
           className={`flex-1 px-6 py-3 rounded-xl font-semibold transition ${
             activeTab === 'installment'
-              ? 'bg-teal-600 text-white'
+              ? 'bg-brand-500 text-white'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
           }`}
         >
@@ -263,7 +263,7 @@ const RequestsManagement = () => {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gradient-to-r from-teal-600 to-teal-700 text-white">
+                <thead className="bg-gray-50/60 text-gray-500 text-[11px] uppercase tracking-wider">
                   <tr>
                     <th className="px-6 py-4 text-left font-semibold">Email</th>
                     <th className="px-6 py-4 text-left font-semibold">Data Abonării</th>
@@ -273,7 +273,7 @@ const RequestsManagement = () => {
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {newsletterSubscriptions.map((sub, index) => (
-                    <tr key={sub.id} className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-teal-50 transition`}>
+                    <tr key={sub.id} className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-brand-50 transition`}>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
                           <Mail className="w-4 h-4 text-gray-400" />
@@ -332,7 +332,7 @@ const RequestsManagement = () => {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gradient-to-r from-teal-600 to-teal-700 text-white">
+                <thead className="bg-gray-50/60 text-gray-500 text-[11px] uppercase tracking-wider">
                   <tr>
                     <th className="px-4 py-3 text-left text-sm font-semibold">Produs</th>
                     <th className="px-4 py-3 text-left text-sm font-semibold">Client</th>
@@ -351,7 +351,7 @@ const RequestsManagement = () => {
                     .map((request, index) => (
                       <tr
                         key={request.id}
-                        className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-teal-50 transition`}
+                        className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-brand-50 transition`}
                       >
                         <td className="px-4 py-4">
                           <div className="max-w-[220px]">
@@ -368,7 +368,7 @@ const RequestsManagement = () => {
                         <td className="px-4 py-4">
                           <a
                             href={`tel:${request.phone}`}
-                            className="text-sm font-medium text-teal-600 hover:text-teal-700"
+                            className="text-sm font-medium text-brand-600 hover:text-brand-700"
                           >
                             {request.phone}
                           </a>
@@ -398,7 +398,7 @@ const RequestsManagement = () => {
                           <select
                             value={request.status === 'contacted' ? 'contacted' : 'new'}
                             onChange={(e) => handleUpdateInstallmentStatus(request.id, e.target.value)}
-                            className={`px-3 py-2 rounded-lg text-sm font-medium border outline-none focus:ring-2 focus:ring-teal-500 ${
+                            className={`px-3 py-2 rounded-lg text-sm font-medium border outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 ${
                               request.status === 'contacted'
                                 ? 'bg-blue-50 text-blue-700 border-blue-200'
                                 : 'bg-orange-50 text-orange-700 border-orange-200'
@@ -413,7 +413,7 @@ const RequestsManagement = () => {
                           <div className="flex items-center gap-2">
                             <a
                               href={`tel:${request.phone}`}
-                              className="px-3 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition text-sm font-medium whitespace-nowrap"
+                              className="px-3 py-2 bg-brand-500 text-white rounded-lg hover:bg-brand-600 transition text-sm font-medium whitespace-nowrap"
                             >
                               Sună
                             </a>

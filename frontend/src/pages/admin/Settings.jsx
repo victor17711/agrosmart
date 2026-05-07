@@ -270,15 +270,15 @@ const Settings = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-teal-600 to-teal-700 rounded-2xl p-6 text-white">
-        <h2 className="text-3xl font-bold mb-2">Setări</h2>
-        <p className="text-teal-100">Gestionează meniurile, numele website-ului și favicon-ul</p>
+      <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
+        <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">Setări</h2>
+        <p className="text-sm text-gray-500 mt-1">Gestionează meniurile, numele website-ului și favicon-ul</p>
       </div>
 
       {/* Website Name & Favicon */}
-      <div className="bg-white rounded-2xl p-6 border-2 border-gray-100">
+      <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
         <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <Globe className="w-6 h-6 text-teal-600" />
+          <Globe className="w-6 h-6 text-brand-600" />
           Configurare Website
         </h3>
         
@@ -292,7 +292,7 @@ const Settings = () => {
               type="text"
               value={websiteName}
               onChange={(e) => setWebsiteName(e.target.value)}
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
               placeholder="ex: AgroSmart Shop"
             />
             <p className="text-xs text-gray-500 mt-1">
@@ -322,7 +322,7 @@ const Settings = () => {
               type="url"
               value={favicon}
               onChange={(e) => setFavicon(e.target.value)}
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
               placeholder="https://example.com/favicon.ico"
             />
             <p className="text-xs text-gray-500 mt-1">
@@ -334,9 +334,9 @@ const Settings = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Main Menu */}
-        <div className="bg-white rounded-2xl p-6 border-2 border-gray-100">
+        <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
           <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <MenuIcon className="w-6 h-6 text-teal-600" />
+            <MenuIcon className="w-6 h-6 text-brand-600" />
             Meniu Principal
           </h3>
           
@@ -348,7 +348,7 @@ const Settings = () => {
                   <button
                     onClick={() => moveMainItem(index, 'up')}
                     disabled={index === 0}
-                    className={`p-1 rounded ${index === 0 ? 'text-gray-300' : 'text-gray-600 hover:bg-teal-100 hover:text-teal-700'}`}
+                    className={`p-1 rounded ${index === 0 ? 'text-gray-300' : 'text-gray-600 hover:bg-brand-100 hover:text-brand-700'}`}
                     title="Mută sus"
                   >
                     <ArrowUp className="w-4 h-4" />
@@ -356,7 +356,7 @@ const Settings = () => {
                   <button
                     onClick={() => moveMainItem(index, 'down')}
                     disabled={index === menuItems.length - 1}
-                    className={`p-1 rounded ${index === menuItems.length - 1 ? 'text-gray-300' : 'text-gray-600 hover:bg-teal-100 hover:text-teal-700'}`}
+                    className={`p-1 rounded ${index === menuItems.length - 1 ? 'text-gray-300' : 'text-gray-600 hover:bg-brand-100 hover:text-brand-700'}`}
                     title="Mută jos"
                   >
                     <ArrowDown className="w-4 h-4" />
@@ -388,13 +388,13 @@ const Settings = () => {
             ))}
           </div>
 
-          <div className="space-y-3 p-4 bg-teal-50 rounded-xl">
+          <div className="space-y-3 p-4 bg-brand-50 rounded-xl">
             <h4 className="font-bold text-gray-900">Adaugă Item Nou</h4>
             
             <select
               value={newMainItem.type}
               onChange={(e) => setNewMainItem({...newMainItem, type: e.target.value, url: '', categoryId: '', pageId: ''})}
-              className="w-full px-4 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className="w-full px-4 py-2 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
             >
               <option value="link">Link Custom</option>
               <option value="category">Categorie</option>
@@ -406,7 +406,7 @@ const Settings = () => {
               placeholder="Nume (ex: Acasă, Contact)"
               value={newMainItem.name}
               onChange={(e) => setNewMainItem({...newMainItem, name: e.target.value})}
-              className="w-full px-4 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className="w-full px-4 py-2 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
             />
 
             <input
@@ -414,7 +414,7 @@ const Settings = () => {
               placeholder="Nume RU 🇷🇺 (ex: Главная, Контакты)"
               value={newMainItem.nameRu}
               onChange={(e) => setNewMainItem({...newMainItem, nameRu: e.target.value})}
-              className="w-full px-4 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className="w-full px-4 py-2 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
             />
 
             {newMainItem.type === 'link' && (
@@ -423,7 +423,7 @@ const Settings = () => {
                 placeholder="URL (ex: /contact, /about)"
                 value={newMainItem.url}
                 onChange={(e) => setNewMainItem({...newMainItem, url: e.target.value})}
-                className="w-full px-4 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-4 py-2 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
               />
             )}
 
@@ -431,7 +431,7 @@ const Settings = () => {
               <select
                 value={newMainItem.categoryId}
                 onChange={(e) => setNewMainItem({...newMainItem, categoryId: e.target.value})}
-                className="w-full px-4 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-4 py-2 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
               >
                 <option value="">Selectează o categorie</option>
                 {categories.map((cat) => (
@@ -446,7 +446,7 @@ const Settings = () => {
               <select
                 value={newMainItem.pageId}
                 onChange={(e) => setNewMainItem({...newMainItem, pageId: e.target.value})}
-                className="w-full px-4 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-4 py-2 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
               >
                 <option value="">Selectează o pagină</option>
                 {pages.map((page) => (
@@ -459,7 +459,7 @@ const Settings = () => {
 
             <button
               onClick={addMainMenuItem}
-              className="w-full bg-teal-600 text-white py-2 rounded-xl hover:bg-teal-700 transition font-semibold flex items-center justify-center gap-2"
+              className="w-full bg-brand-500 text-white py-2 rounded-xl hover:bg-brand-600 transition font-semibold flex items-center justify-center gap-2"
             >
               <Plus className="w-5 h-5" />
               Adaugă
@@ -468,9 +468,9 @@ const Settings = () => {
         </div>
 
         {/* Categories Menu */}
-        <div className="bg-white rounded-2xl p-6 border-2 border-gray-100">
+        <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
           <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <MenuIcon className="w-6 h-6 text-teal-600" />
+            <MenuIcon className="w-6 h-6 text-brand-600" />
             Meniu Toate Categoriile
           </h3>
           
@@ -487,7 +487,7 @@ const Settings = () => {
                     <button
                       onClick={() => moveCategoryItem(index, 'up')}
                       disabled={index === 0}
-                      className={`p-1 rounded ${index === 0 ? 'text-gray-300' : 'text-gray-600 hover:bg-teal-100 hover:text-teal-700'}`}
+                      className={`p-1 rounded ${index === 0 ? 'text-gray-300' : 'text-gray-600 hover:bg-brand-100 hover:text-brand-700'}`}
                       title="Mută sus"
                     >
                       <ArrowUp className="w-3 h-3" />
@@ -495,7 +495,7 @@ const Settings = () => {
                     <button
                       onClick={() => moveCategoryItem(index, 'down')}
                       disabled={index === categoryItems.length - 1}
-                      className={`p-1 rounded ${index === categoryItems.length - 1 ? 'text-gray-300' : 'text-gray-600 hover:bg-teal-100 hover:text-teal-700'}`}
+                      className={`p-1 rounded ${index === categoryItems.length - 1 ? 'text-gray-300' : 'text-gray-600 hover:bg-brand-100 hover:text-brand-700'}`}
                       title="Mută jos"
                     >
                       <ArrowDown className="w-3 h-3" />
@@ -514,7 +514,7 @@ const Settings = () => {
                       <div className="font-semibold text-gray-900">
                         {item.name}
                         {item.hasChildren && item.children && (
-                          <span className="ml-2 text-xs bg-teal-100 text-teal-700 px-2 py-0.5 rounded-full">
+                          <span className="ml-2 text-xs bg-brand-100 text-brand-700 px-2 py-0.5 rounded-full">
                             {item.children.length} subcategorii
                           </span>
                         )}
@@ -554,10 +554,10 @@ const Settings = () => {
             ))}
           </div>
 
-          <div className="space-y-3 p-4 bg-teal-50 rounded-xl">
+          <div className="space-y-3 p-4 bg-brand-50 rounded-xl">
             <h4 className="font-bold text-gray-900">Adaugă Categorie</h4>
             
-            <div className="space-y-2 max-h-48 overflow-y-auto border-2 border-gray-200 rounded-xl bg-white">
+            <div className="space-y-2 max-h-48 overflow-y-auto border border-gray-200 rounded-xl bg-white bg-white">
               {getParentCategories().map((cat) => {
                 const children = getChildCategories(cat.id);
                 const hasChildren = children.length > 0;
@@ -569,7 +569,7 @@ const Settings = () => {
                       className={`flex items-center justify-between p-3 transition ${
                         isAlreadyAdded 
                           ? 'bg-gray-100 cursor-not-allowed opacity-50' 
-                          : 'hover:bg-teal-50 cursor-pointer'
+                          : 'hover:bg-brand-50 cursor-pointer'
                       }`}
                       onClick={() => !isAlreadyAdded && addCategoryToMenu(cat.id)}
                     >
@@ -583,7 +583,7 @@ const Settings = () => {
                         )}
                         <span className="font-medium text-gray-900">{cat.name}</span>
                         {hasChildren && (
-                          <span className="text-xs bg-teal-100 text-teal-700 px-2 py-0.5 rounded-full">
+                          <span className="text-xs bg-brand-100 text-brand-700 px-2 py-0.5 rounded-full">
                             +{children.length}
                           </span>
                         )}
@@ -593,7 +593,7 @@ const Settings = () => {
                           </span>
                         )}
                       </div>
-                      {!isAlreadyAdded && <Plus className="w-5 h-5 text-teal-600" />}
+                      {!isAlreadyAdded && <Plus className="w-5 h-5 text-brand-600" />}
                     </div>
                   </div>
                 );
@@ -607,9 +607,9 @@ const Settings = () => {
       </div>
 
       {/* Featured Category for Homepage */}
-      <div className="bg-white rounded-2xl p-6 border-2 border-gray-100">
+      <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
         <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <Folder className="w-6 h-6 text-teal-600" />
+          <Folder className="w-6 h-6 text-brand-600" />
           Categorie carousel pagina principala
         </h3>
         <p className="text-sm text-gray-600 mb-4">
@@ -623,7 +623,7 @@ const Settings = () => {
           <select
             value={featuredCategoryId}
             onChange={(e) => setFeaturedCategoryId(e.target.value)}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
           >
             <option value="">Fără categorie (produse aleatorii)</option>
             {getParentCategories().map((cat) => (
@@ -637,9 +637,9 @@ const Settings = () => {
       </div>
 
       {/* Import/Export Products */}
-      <div className="bg-white rounded-2xl p-6 border-2 border-gray-100">
+      <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
         <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <ImageIcon className="w-6 h-6 text-teal-600" />
+          <ImageIcon className="w-6 h-6 text-brand-600" />
           Import / Export Produse
         </h3>
         <p className="text-sm text-gray-600 mb-6">
@@ -706,7 +706,7 @@ const Settings = () => {
       <div className="flex justify-end">
         <button
           onClick={handleSave}
-          className="bg-gradient-to-r from-teal-600 to-teal-700 text-white px-8 py-3 rounded-xl hover:from-teal-700 hover:to-teal-800 transition font-semibold flex items-center gap-2"
+          className="bg-brand-500 text-white px-8 py-3 rounded-xl hover:bg-brand-600 transition font-semibold flex items-center gap-2"
         >
           <Save className="w-5 h-5" />
           Salvează Setările

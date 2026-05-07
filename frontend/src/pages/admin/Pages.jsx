@@ -154,11 +154,11 @@ const Pages = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-teal-600 to-teal-700 rounded-2xl p-6 text-white">
+      <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm text-gray-900">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-3xl font-bold mb-2">Gestionare Pagini</h2>
-            <p className="text-teal-100">Creează și editează paginile site-ului</p>
+            <h2 className="text-2xl font-extrabold tracking-tight">Gestionare Pagini</h2>
+            <p className="text-gray-500 text-sm mt-1">Creează și editează paginile site-ului</p>
           </div>
           <button
             onClick={() => {
@@ -166,7 +166,7 @@ const Pages = () => {
               setFormData({ title: '', titleRu: '', slug: '', content: '', contentRu: '', isPublished: true });
               setShowModal(true);
             }}
-            className="bg-white text-teal-600 px-6 py-3 rounded-xl hover:bg-teal-50 transition font-semibold flex items-center gap-2 shadow-lg"
+            className="bg-white text-brand-600 px-6 py-3 rounded-xl hover:bg-brand-50 transition font-semibold flex items-center gap-2 shadow-lg"
           >
             <Plus className="w-5 h-5" />
             Pagină Nouă
@@ -182,7 +182,7 @@ const Pages = () => {
           <p className="text-gray-600 mb-6">Creează prima ta pagină pentru site.</p>
           <button
             onClick={() => setShowModal(true)}
-            className="bg-teal-600 text-white px-6 py-3 rounded-xl hover:bg-teal-700 transition font-semibold inline-flex items-center gap-2"
+            className="bg-brand-500 text-white px-6 py-3 rounded-xl hover:bg-brand-600 transition font-semibold inline-flex items-center gap-2"
           >
             <Plus className="w-5 h-5" />
             Creează Pagină
@@ -193,7 +193,7 @@ const Pages = () => {
           {pages.map((page) => (
             <div
               key={page.id}
-              className="bg-white rounded-2xl p-6 border-2 border-gray-100 hover:border-teal-200 transition"
+              className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:border-brand-200 transition"
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
@@ -223,7 +223,7 @@ const Pages = () => {
                 <div className="flex items-center gap-2 ml-4">
                   <button
                     onClick={() => handleEdit(page)}
-                    className="p-3 bg-teal-500 text-white rounded-xl hover:bg-teal-600 transition"
+                    className="p-3 bg-brand-500 text-white rounded-xl hover:bg-brand-500 transition"
                   >
                     <Edit className="w-5 h-5" />
                   </button>
@@ -265,7 +265,7 @@ const Pages = () => {
                   type="text"
                   value={formData.title}
                   onChange={handleTitleChange}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   placeholder="ex: Despre Noi"
                   required
                 />
@@ -279,7 +279,7 @@ const Pages = () => {
                   type="text"
                   value={formData.titleRu}
                   onChange={(e) => setFormData({...formData, titleRu: e.target.value})}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   placeholder="напр: О нас"
                 />
               </div>
@@ -294,7 +294,7 @@ const Pages = () => {
                     type="text"
                     value={formData.slug}
                     onChange={(e) => setFormData({...formData, slug: e.target.value})}
-                    className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 font-mono text-sm"
+                    className="flex-1 px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 font-mono text-sm"
                     placeholder="despre-noi"
                     required
                   />
@@ -307,7 +307,7 @@ const Pages = () => {
                   Conținut (RO)
                 </label>
                 {isContactPage ? (
-                  <div className="space-y-4 border-2 border-gray-200 rounded-xl p-6 bg-gray-50">
+                  <div className="space-y-4 border border-gray-200 rounded-xl bg-white p-6 bg-gray-50">
                     <p className="text-sm text-gray-600 mb-4">📝 Editează datele de contact pentru pagina de contact:</p>
                     
                     <div>
@@ -316,7 +316,7 @@ const Pages = () => {
                         type="text"
                         value={contactData.address}
                         onChange={(e) => setContactData({...contactData, address: e.target.value})}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                         placeholder="Str. Principală nr. 123, Chișinău, Moldova"
                       />
                     </div>
@@ -328,7 +328,7 @@ const Pages = () => {
                           type="text"
                           value={contactData.phone}
                           onChange={(e) => setContactData({...contactData, phone: e.target.value})}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                           placeholder="+373 69 123 456"
                         />
                       </div>
@@ -338,7 +338,7 @@ const Pages = () => {
                           type="email"
                           value={contactData.email}
                           onChange={(e) => setContactData({...contactData, email: e.target.value})}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                           placeholder="contact@agrosmart.md"
                         />
                       </div>
@@ -350,7 +350,7 @@ const Pages = () => {
                         type="text"
                         value={contactData.hours}
                         onChange={(e) => setContactData({...contactData, hours: e.target.value})}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                         placeholder="Luni - Vineri: 08:00 - 20:00"
                       />
                     </div>
@@ -360,7 +360,7 @@ const Pages = () => {
                       <textarea
                         value={contactData.mapUrl}
                         onChange={(e) => setContactData({...contactData, mapUrl: e.target.value})}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                         rows="3"
                         placeholder="https://www.google.com/maps/embed?pb=..."
                       />
@@ -374,7 +374,7 @@ const Pages = () => {
                     <textarea
                       value={formData.content}
                       onChange={(e) => setFormData({...formData, content: e.target.value})}
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 min-h-[300px]"
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 min-h-[300px]"
                       placeholder="Scrie conținutul paginii aici (RO)..."
                     />
                   </>
@@ -389,7 +389,7 @@ const Pages = () => {
                   <textarea
                     value={formData.contentRu}
                     onChange={(e) => setFormData({...formData, contentRu: e.target.value})}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 min-h-[300px]"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 min-h-[300px]"
                     placeholder="Напишите содержание страницы здесь..."
                   />
                 </div>
@@ -401,7 +401,7 @@ const Pages = () => {
                   id="isPublished"
                   checked={formData.isPublished}
                   onChange={(e) => setFormData({...formData, isPublished: e.target.checked})}
-                  className="w-5 h-5 text-teal-600 rounded focus:ring-2 focus:ring-teal-500"
+                  className="w-5 h-5 text-brand-600 rounded focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                 />
                 <label htmlFor="isPublished" className="text-sm font-semibold text-gray-900 cursor-pointer">
                   Publică pagina (vizibilă pe site)
@@ -418,7 +418,7 @@ const Pages = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition font-semibold"
+                  className="px-6 py-3 bg-brand-500 text-white rounded-xl hover:bg-brand-600 transition font-semibold"
                 >
                   {editingPage ? 'Actualizează' : 'Creează'} Pagina
                 </button>

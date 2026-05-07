@@ -109,7 +109,7 @@ const GiftsManagement = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-600"></div>
       </div>
     );
   }
@@ -118,7 +118,7 @@ const GiftsManagement = () => {
     <div className="p-8">
       {/* Breadcrumb */}
       {/* <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-        <Link to="/admin/dashboard" className="hover:text-teal-600">Panou de control</Link>
+        <Link to="/admin/dashboard" className="hover:text-brand-600">Panou de control</Link>
         <ChevronRight className="w-4 h-4" />
         <span className="text-gray-900 font-semibold">Adauga cadouri</span>
       </div> */}
@@ -126,14 +126,14 @@ const GiftsManagement = () => {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-            <Gift className="w-8 h-8 text-teal-600" />
+            <Gift className="w-8 h-8 text-brand-600" />
             Cadouri
           </h1>
           <p className="text-gray-600 mt-1">Gestionează cadourile promoționale (popup pe produs)</p>
         </div>
         <button
           onClick={openCreate}
-          className="flex items-center gap-2 bg-teal-600 text-white px-6 py-3 rounded-xl hover:bg-teal-700 transition font-semibold"
+          className="flex items-center gap-2 bg-brand-500 text-white px-6 py-3 rounded-xl hover:bg-brand-600 transition font-semibold"
           data-testid="add-gift-btn"
         >
           <Plus className="w-5 h-5" />
@@ -150,7 +150,7 @@ const GiftsManagement = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {gifts.map((g) => (
-            <div key={g.id} className="bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-gray-200 hover:border-teal-500 transition">
+            <div key={g.id} className="bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-gray-200 hover:border-brand-500 transition">
               {g.image && (
                 <div className="h-48 bg-gray-100 overflow-hidden flex items-center justify-center">
                   <img src={g.image} alt={g.name} className="w-full h-full object-contain" />
@@ -168,7 +168,7 @@ const GiftsManagement = () => {
                 <div className="flex gap-2 pt-3 border-t">
                   <button
                     onClick={() => openEdit(g)}
-                    className="flex-1 flex items-center justify-center gap-2 bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition"
+                    className="flex-1 flex items-center justify-center gap-2 bg-brand-500 text-white px-4 py-2 rounded-lg hover:bg-brand-500 transition"
                   >
                     <Edit className="w-4 h-4" /> Editează
                   </button>
@@ -213,7 +213,7 @@ const GiftsManagement = () => {
                   type="file"
                   accept="image/*"
                   onChange={handleImageUpload}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   data-testid="gift-image-input"
                 />
               </div>
@@ -225,7 +225,7 @@ const GiftsManagement = () => {
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   required
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   data-testid="gift-name-input"
                 />
               </div>
@@ -236,7 +236,7 @@ const GiftsManagement = () => {
                   type="text"
                   value={form.nameRu}
                   onChange={(e) => setForm({ ...form, nameRu: e.target.value })}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                 />
               </div>
 
@@ -246,7 +246,7 @@ const GiftsManagement = () => {
                   value={form.description}
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
                   rows="3"
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                 />
               </div>
 
@@ -256,7 +256,7 @@ const GiftsManagement = () => {
                   value={form.descriptionRu}
                   onChange={(e) => setForm({ ...form, descriptionRu: e.target.value })}
                   rows="3"
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                 />
               </div>
 
@@ -267,7 +267,7 @@ const GiftsManagement = () => {
                     type="checkbox"
                     checked={form.isActive}
                     onChange={(e) => setForm({ ...form, isActive: e.target.checked })}
-                    className="w-5 h-5 accent-teal-600"
+                    className="w-5 h-5 accent-brand-500"
                   />
                   <span className="text-sm font-semibold text-gray-700">
                     {form.isActive ? 'Activ' : 'Inactiv'}
@@ -285,7 +285,7 @@ const GiftsManagement = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition font-semibold flex items-center gap-2"
+                  className="px-6 py-3 bg-brand-500 text-white rounded-xl hover:bg-brand-600 transition font-semibold flex items-center gap-2"
                   data-testid="save-gift-btn"
                 >
                   <Save className="w-5 h-5" />

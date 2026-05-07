@@ -139,7 +139,7 @@ const GiftConditionsManagement = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-600"></div>
       </div>
     );
   }
@@ -147,7 +147,7 @@ const GiftConditionsManagement = () => {
   return (
     <div className="p-8">
       {/* <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-        <Link to="/admin/dashboard" className="hover:text-teal-600">Panou de control</Link>
+        <Link to="/admin/dashboard" className="hover:text-brand-600">Panou de control</Link>
         <ChevronRight className="w-4 h-4" />
         <span className="text-gray-900 font-semibold">Adauga conditie</span>
       </div> */}
@@ -155,14 +155,14 @@ const GiftConditionsManagement = () => {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-            <Target className="w-8 h-8 text-teal-600" />
+            <Target className="w-8 h-8 text-brand-600" />
             Condiții Cadouri
           </h1>
           <p className="text-gray-600 mt-1">Alege unde apare popup-ul de cadouri (categorie, brand sau produse specifice)</p>
         </div>
         <button
           onClick={openCreate}
-          className="flex items-center gap-2 bg-teal-600 text-white px-6 py-3 rounded-xl hover:bg-teal-700 transition font-semibold"
+          className="flex items-center gap-2 bg-brand-500 text-white px-6 py-3 rounded-xl hover:bg-brand-600 transition font-semibold"
           data-testid="add-condition-btn"
         >
           <Plus className="w-5 h-5" />
@@ -210,7 +210,7 @@ const GiftConditionsManagement = () => {
                       <div className="flex justify-end gap-2">
                         <button
                           onClick={() => openEdit(c)}
-                          className="p-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition"
+                          className="p-2 bg-brand-500 text-white rounded-lg hover:bg-brand-500 transition"
                         >
                           <Edit className="w-4 h-4" />
                         </button>
@@ -254,7 +254,7 @@ const GiftConditionsManagement = () => {
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   required
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   data-testid="condition-name-input"
                 />
               </div>
@@ -264,7 +264,7 @@ const GiftConditionsManagement = () => {
                 <select
                   value={form.categoryId}
                   onChange={(e) => setForm({ ...form, categoryId: e.target.value })}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 bg-white"
                 >
                   <option value="">— Oricare —</option>
                   {categories.map((c) => (
@@ -278,7 +278,7 @@ const GiftConditionsManagement = () => {
                 <select
                   value={form.brandId}
                   onChange={(e) => setForm({ ...form, brandId: e.target.value })}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 bg-white"
                 >
                   <option value="">— Oricare —</option>
                   {brands.map((b) => (
@@ -298,7 +298,7 @@ const GiftConditionsManagement = () => {
                     placeholder="Caută produs după nume..."
                     value={productSearch}
                     onChange={(e) => setProductSearch(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full pl-10 pr-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   />
                 </div>
                 {form.productIds.length > 0 && (
@@ -306,7 +306,7 @@ const GiftConditionsManagement = () => {
                     {form.productIds.map((id) => (
                       <span
                         key={id}
-                        className="inline-flex items-center gap-1 px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-sm"
+                        className="inline-flex items-center gap-1 px-3 py-1 bg-brand-100 text-brand-700 rounded-full text-sm"
                       >
                         {productName(id)}
                         <button
@@ -320,7 +320,7 @@ const GiftConditionsManagement = () => {
                     ))}
                   </div>
                 )}
-                <div className="max-h-40 overflow-y-auto border-2 border-gray-200 rounded-xl bg-gray-50">
+                <div className="max-h-40 overflow-y-auto border border-gray-200 rounded-xl bg-white bg-gray-50">
                   {filteredProducts.length === 0 ? (
                     <p className="p-3 text-sm text-gray-500">Niciun produs găsit</p>
                   ) : (
@@ -333,7 +333,7 @@ const GiftConditionsManagement = () => {
                           type="checkbox"
                           checked={form.productIds.includes(p.id)}
                           onChange={() => setForm({ ...form, productIds: toggleArrayValue(form.productIds, p.id) })}
-                          className="w-4 h-4 accent-teal-600"
+                          className="w-4 h-4 accent-brand-500"
                         />
                         <span className="text-sm">{p.name}</span>
                       </label>
@@ -346,10 +346,10 @@ const GiftConditionsManagement = () => {
                 <label className="block text-sm font-bold text-gray-700 mb-2">Alegeți cadouri <span className="text-red-500">*</span></label>
                 {gifts.length === 0 ? (
                   <p className="text-sm text-gray-500 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
-                    Nu ai niciun cadou creat. Creează mai întâi cadouri la <Link to="/admin/gifts" className="text-teal-600 underline">Cadouri</Link>.
+                    Nu ai niciun cadou creat. Creează mai întâi cadouri la <Link to="/admin/gifts" className="text-brand-600 underline">Cadouri</Link>.
                   </p>
                 ) : (
-                  <div className="max-h-40 overflow-y-auto border-2 border-gray-200 rounded-xl bg-gray-50">
+                  <div className="max-h-40 overflow-y-auto border border-gray-200 rounded-xl bg-white bg-gray-50">
                     {gifts.map((g) => (
                       <label
                         key={g.id}
@@ -359,7 +359,7 @@ const GiftConditionsManagement = () => {
                           type="checkbox"
                           checked={form.giftIds.includes(g.id)}
                           onChange={() => setForm({ ...form, giftIds: toggleArrayValue(form.giftIds, g.id) })}
-                          className="w-4 h-4 accent-teal-600"
+                          className="w-4 h-4 accent-brand-500"
                         />
                         {g.image && <img src={g.image} alt="" className="w-8 h-8 object-contain rounded" />}
                         <span className="text-sm font-semibold">{g.name}</span>
@@ -377,7 +377,7 @@ const GiftConditionsManagement = () => {
                     min="0"
                     value={form.minTime}
                     onChange={(e) => setForm({ ...form, minTime: e.target.value })}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   />
                 </div>
                 <div>
@@ -387,7 +387,7 @@ const GiftConditionsManagement = () => {
                     min="0"
                     value={form.maxTime}
                     onChange={(e) => setForm({ ...form, maxTime: e.target.value })}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   />
                 </div>
               </div>
@@ -398,7 +398,7 @@ const GiftConditionsManagement = () => {
                     type="checkbox"
                     checked={form.isActive}
                     onChange={(e) => setForm({ ...form, isActive: e.target.checked })}
-                    className="w-5 h-5 accent-teal-600"
+                    className="w-5 h-5 accent-brand-500"
                   />
                   <span className="text-sm font-bold text-gray-700">
                     {form.isActive ? 'Activă (se afișează popup-ul)' : 'Inactivă'}
@@ -416,7 +416,7 @@ const GiftConditionsManagement = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition font-semibold flex items-center gap-2"
+                  className="px-6 py-3 bg-brand-500 text-white rounded-xl hover:bg-brand-600 transition font-semibold flex items-center gap-2"
                   data-testid="save-condition-btn"
                 >
                   <Save className="w-5 h-5" />

@@ -338,52 +338,53 @@ for (let page = groupStart; page <= groupEnd; page++) {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-teal-600"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-brand-600"></div>
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-teal-600 to-teal-700 rounded-2xl p-6 text-white">
-        <div className="flex justify-between items-center">
+      {/* Header card */}
+      <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h2 className="text-3xl font-bold mb-2">Gestionare Produse</h2>
-            <p className="text-teal-100">Total: {totalProducts} produse</p>
+            <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">Gestionare Produse</h2>
+            <p className="text-sm text-gray-500 mt-1">Total: <span className="font-semibold text-gray-800">{totalProducts}</span> produse în catalog</p>
           </div>
           <button
             onClick={() => { setShowModal(true); setEditingProduct(null); resetForm(); }}
-            className="bg-white text-teal-700 px-6 py-3 rounded-xl flex items-center gap-2 hover:bg-teal-50 transition font-semibold"
+            data-testid="add-product-btn"
+            className="inline-flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-full font-semibold shadow-md shadow-brand-200 transition"
           >
-            <Plus className="w-5 h-5" />
+            <Plus className="w-4 h-4" />
             Adaugă Produs
           </button>
         </div>
-      </div>
 
-      {/* Search + bulk actions */}
-      <div className="bg-white rounded-2xl p-4 space-y-3">
-        <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Caută produse..."
-            value={searchTerm}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
+        <div className="mt-5 flex flex-wrap items-center gap-3">
+          <div className="relative flex-1 min-w-[240px]">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Caută produse după nume…"
+              value={searchTerm}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              className="w-full pl-11 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-brand-200 focus:bg-white transition"
+              data-testid="products-search-input"
+            />
+          </div>
         </div>
 
         {selectedIds.size > 0 && (
-          <div className="flex items-center justify-between gap-3 bg-teal-50 border-2 border-teal-200 rounded-xl p-3">
-            <span className="text-sm font-semibold text-teal-900">
+          <div className="mt-4 flex items-center justify-between gap-3 bg-brand-50 border border-brand-100 rounded-2xl px-4 py-3">
+            <span className="text-sm font-semibold text-brand-800">
               {selectedIds.size} produs{selectedIds.size === 1 ? '' : 'e'} selectat{selectedIds.size === 1 ? '' : 'e'}
             </span>
             <div className="flex gap-2">
               <button
                 onClick={clearSelection}
-                className="px-4 py-2 text-sm bg-white border border-gray-300 rounded-lg hover:bg-gray-100 transition font-semibold"
+                className="px-4 py-2 text-sm bg-white border border-gray-200 rounded-full hover:bg-gray-50 transition font-semibold"
                 data-testid="bulk-clear-selection-btn"
               >
                 Anulează selecție
@@ -391,11 +392,11 @@ for (let page = groupStart; page <= groupEnd; page++) {
               <button
                 onClick={handleBulkDelete}
                 disabled={bulkDeleting}
-                className="px-4 py-2 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition font-semibold flex items-center gap-2 disabled:opacity-50"
+                className="px-4 py-2 text-sm bg-rose-500 text-white rounded-full hover:bg-rose-600 transition font-semibold flex items-center gap-2 disabled:opacity-50"
                 data-testid="bulk-delete-btn"
               >
                 <Trash2 className="w-4 h-4" />
-                {bulkDeleting ? 'Se șterge...' : `Șterge ${selectedIds.size}`}
+                {bulkDeleting ? 'Se șterge…' : `Șterge ${selectedIds.size}`}
               </button>
             </div>
           </div>
@@ -403,75 +404,86 @@ for (let page = groupStart; page <= groupEnd; page++) {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-2xl overflow-hidden">
+      <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gradient-to-r from-teal-600 to-teal-700 text-white">
-              <tr>
-                <th className="px-4 py-4 text-left font-semibold w-10">
+            <thead className="bg-gray-50/60">
+              <tr className="text-left text-gray-500 text-[11px] uppercase tracking-wider">
+                <th className="px-4 py-4 w-10">
                   <input
                     type="checkbox"
                     checked={allOnPageSelected}
                     onChange={toggleSelectAllOnPage}
-                    className="w-5 h-5 accent-teal-400 cursor-pointer"
+                    className="w-4 h-4 accent-brand-500 cursor-pointer"
                     data-testid="select-all-page-checkbox"
                     title={allOnPageSelected ? 'Deselectează pagina' : 'Selectează toată pagina'}
                   />
                 </th>
-                <th className="px-6 py-4 text-left font-semibold">Imagine</th>
-                <th className="px-6 py-4 text-left font-semibold">Nume Produs</th>
-                <th className="px-6 py-4 text-left font-semibold">Categorie</th>
-                <th className="px-6 py-4 text-left font-semibold">Preț (MDL)</th>
-                <th className="px-6 py-4 text-left font-semibold">Stoc</th>
-                <th className="px-6 py-4 text-left font-semibold">Acțiuni</th>
+                <th className="px-4 py-4 font-semibold">Produs</th>
+                <th className="px-4 py-4 font-semibold">Categorie</th>
+                <th className="px-4 py-4 font-semibold">Preț</th>
+                <th className="px-4 py-4 font-semibold">Stoc</th>
+                <th className="px-4 py-4 font-semibold text-right pr-6">Acțiuni</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {currentProducts.map((product, index) => (
-                <tr key={product.id} className={`hover:bg-teal-50 transition ${selectedIds.has(product.id) ? 'bg-teal-50' : index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}>
+              {currentProducts.map((product) => (
+                <tr key={product.id} className={`hover:bg-brand-50/40 transition ${selectedIds.has(product.id) ? 'bg-brand-50/60' : 'bg-white'}`}>
                   <td className="px-4 py-4">
                     <input
                       type="checkbox"
                       checked={selectedIds.has(product.id)}
                       onChange={() => toggleSelect(product.id)}
-                      className="w-5 h-5 accent-teal-600 cursor-pointer"
+                      className="w-4 h-4 accent-brand-500 cursor-pointer"
                       data-testid={`select-product-${product.id}`}
                     />
                   </td>
-                  <td className="px-6 py-4">
-                    <img src={product.image} alt={product.name} className="w-16 h-16 object-cover rounded-lg" />
+                  <td className="px-4 py-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-xl bg-gray-50 overflow-hidden flex items-center justify-center flex-shrink-0">
+                        {product.image ? (
+                          <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                        ) : (
+                          <Package className="w-5 h-5 text-gray-400" />
+                        )}
+                      </div>
+                      <div className="min-w-0">
+                        <div className="font-semibold text-gray-900 truncate max-w-[280px]">{product.name}</div>
+                        <div className="text-xs text-gray-500 truncate max-w-[280px]">{product.storeName || product.sku || '—'}</div>
+                      </div>
+                    </div>
                   </td>
-                  <td className="px-6 py-4">
-                    <div className="font-semibold text-gray-900">{product.name}</div>
-                    <div className="text-sm text-gray-500">{product.storeName}</div>
-                  </td>
-                  <td className="px-6 py-4 text-gray-700">{product.category}</td>
-                  <td className="px-6 py-4">
-                    <div className="font-bold text-teal-600">{product.price} MDL</div>
+                  <td className="px-4 py-4 text-sm text-gray-700">{product.category || '—'}</td>
+                  <td className="px-4 py-4">
+                    <div className="font-bold text-gray-900">{Number(product.price).toLocaleString('ro-RO')} MDL</div>
                     {product.originalPrice && Number(product.originalPrice) > Number(product.price) && (
-                      <div className="text-sm text-gray-400 line-through">{product.originalPrice} MDL</div>
+                      <div className="text-xs text-gray-400 line-through">{Number(product.originalPrice).toLocaleString('ro-RO')} MDL</div>
                     )}
                   </td>
-                  <td className="px-6 py-4">
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      product.available > 50 ? 'bg-green-100 text-green-800' :
-                      product.available > 10 ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-red-100 text-red-800'
+                  <td className="px-4 py-4">
+                    <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ${
+                      product.available > 50 ? 'bg-brand-50 text-brand-700 ring-1 ring-brand-100' :
+                      product.available > 10 ? 'bg-amber-50 text-amber-700 ring-1 ring-amber-100' :
+                      'bg-rose-50 text-rose-700 ring-1 ring-rose-100'
                     }`}>
-                      {product.available}
+                      {product.available ?? 0}
                     </span>
                   </td>
-                  <td className="px-6 py-4">
-                    <div className="flex gap-2">
+                  <td className="px-4 py-4">
+                    <div className="flex gap-2 justify-end pr-2">
                       <button
                         onClick={() => handleEdit(product)}
-                        className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+                        data-testid={`edit-product-${product.id}`}
+                        title="Editează"
+                        className="p-2.5 rounded-full bg-brand-50 text-brand-700 hover:bg-brand-100 transition"
                       >
                         <Edit className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => handleDelete(product.id)}
-                        className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                        data-testid={`delete-product-${product.id}`}
+                        title="Șterge"
+                        className="p-2.5 rounded-full bg-rose-50 text-rose-600 hover:bg-rose-100 transition"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -484,14 +496,14 @@ for (let page = groupStart; page <= groupEnd; page++) {
         </div>
 
         {/* Pagination */}
-<div className="bg-gray-50 px-6 py-4 flex items-center justify-between border-t">
-  <div className="text-sm text-gray-700">
+<div className="bg-gray-50/60 border-t border-gray-100 px-6 py-4 flex items-center justify-between">
+  <div className="text-sm text-gray-600">
     Afișare{' '}
-    <span className="font-semibold">{totalProducts === 0 ? 0 : startIndex + 1}</span>
-    {' '} - {' '}
-    <span className="font-semibold">{Math.min(endIndex, totalProducts)}</span>
-    {' '} din {' '}
-    <span className="font-semibold">{totalProducts}</span>
+    <span className="font-semibold text-gray-800">{totalProducts === 0 ? 0 : startIndex + 1}</span>
+    {' '}–{' '}
+    <span className="font-semibold text-gray-800">{Math.min(endIndex, totalProducts)}</span>
+    {' '}din{' '}
+    <span className="font-semibold text-gray-800">{totalProducts}</span>
   </div>
 
   {totalPages > 1 && (
@@ -499,7 +511,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
       <button
         onClick={() => setCurrentPage(Math.max(1, groupStart - PAGE_GROUP_SIZE))}
         disabled={groupStart === 1}
-        className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+        className="px-3 py-2 border border-gray-200 rounded-full hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 text-sm"
       >
         <ChevronLeft className="w-4 h-4" />
         Anterior
@@ -510,10 +522,10 @@ for (let page = groupStart; page <= groupEnd; page++) {
           <button
             key={page}
             onClick={() => setCurrentPage(page)}
-            className={`px-4 py-2 rounded-lg ${
+            className={`w-9 h-9 rounded-full text-sm font-semibold transition ${
               currentPage === page
-                ? 'bg-teal-600 text-white'
-                : 'border border-gray-300 hover:bg-gray-100'
+                ? 'bg-brand-500 text-white shadow-md shadow-brand-200'
+                : 'border border-gray-200 hover:bg-white text-gray-700'
             }`}
           >
             {page}
@@ -524,7 +536,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
       <button
         onClick={() => setCurrentPage(Math.min(totalPages, groupEnd + 1))}
         disabled={groupEnd >= totalPages}
-        className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+        className="px-3 py-2 border border-gray-200 rounded-full hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 text-sm"
       >
         Următor
         <ChevronRight className="w-4 h-4" />
@@ -534,14 +546,25 @@ for (let page = groupStart; page <= groupEnd; page++) {
 </div>
       </div>
 
-      {/* Modal - Same as before */}
+      {/* Modal - product edit/create */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 z-50 bg-gradient-to-r from-teal-600 to-teal-700 text-white px-6 py-4 flex justify-between items-center rounded-t-2xl">
-              <h3 className="text-2xl font-bold">{editingProduct ? 'Editează Produs' : 'Adaugă Produs Nou'}</h3>
-              <button onClick={() => { setShowModal(false); setEditingProduct(null); resetForm(); }} className="text-white hover:text-gray-200">
-                <X className="w-6 h-6" />
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <div data-testid="product-modal" className="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-100">
+            <div className="sticky top-0 z-10 bg-white/95 backdrop-blur px-6 py-5 flex justify-between items-center border-b border-gray-100 rounded-t-3xl">
+              <div>
+                <h3 className="text-2xl font-extrabold text-gray-900 tracking-tight">
+                  {editingProduct ? 'Editează produs' : 'Adaugă produs nou'}
+                </h3>
+                <p className="text-sm text-gray-500 mt-0.5">
+                  {editingProduct ? 'Actualizează detaliile produsului' : 'Completează câmpurile pentru a adăuga un produs'}
+                </p>
+              </div>
+              <button
+                onClick={() => { setShowModal(false); setEditingProduct(null); resetForm(); }}
+                data-testid="close-product-modal-btn"
+                className="w-10 h-10 rounded-full bg-gray-50 hover:bg-gray-100 text-gray-600 flex items-center justify-center transition"
+              >
+                <X className="w-5 h-5" />
               </button>
             </div>
             
@@ -549,7 +572,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
               {/* Image Upload */}
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-2">Imagine Produs *</label>
-                <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-teal-500 transition">
+                <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-brand-500 transition">
                   {imagePreview ? (
                     <div className="relative">
                       <img src={imagePreview} alt="Preview" className="max-h-48 mx-auto rounded-lg" />
@@ -565,7 +588,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
                     <div>
                       <ImageIcon className="w-16 h-16 text-gray-400 mx-auto mb-4" />
                       <label className="cursor-pointer">
-                        <span className="bg-teal-600 text-white px-6 py-3 rounded-lg inline-flex items-center gap-2 hover:bg-teal-700 transition font-semibold">
+                        <span className="bg-brand-500 text-white px-6 py-3 rounded-lg inline-flex items-center gap-2 hover:bg-brand-600 transition font-semibold">
                           <Upload className="w-5 h-5" />
                           Încarcă Imagine
                         </span>
@@ -605,7 +628,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
                   
                   {imagePreviews.length < 5 && (
                     <label className="cursor-pointer block">
-                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-teal-500 transition">
+                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-brand-500 transition">
                         <Plus className="w-8 h-8 text-gray-400 mx-auto mb-2" />
                         <span className="text-sm text-gray-600">Adaugă imagini ({imagePreviews.length}/5)</span>
                       </div>
@@ -629,7 +652,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                     placeholder="Nume în română"
                   />
                 </div>
@@ -641,7 +664,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
                     type="text"
                     value={formData.nameRu}
                     onChange={(e) => setFormData({...formData, nameRu: e.target.value})}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                     placeholder="Название на русском"
                   />
                 </div>
@@ -659,7 +682,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
                       // Reset additional categories when parent changes
                       categories: []
                     })}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   >
                     <option value="">Selectează</option>
                     {categories
@@ -681,7 +704,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
                     return (
                       <div>
                         <label className="block text-sm font-bold text-gray-700 mb-2">Categorii Adiționale (Sub-categorii)</label>
-                        <div className="border-2 border-gray-200 rounded-xl p-4 bg-gray-50 text-sm text-gray-500 italic">
+                        <div className="border border-gray-200 rounded-xl bg-white p-4 bg-gray-50 text-sm text-gray-500 italic">
                           Selectează mai întâi o Categorie Principală pentru a vedea sub-categoriile disponibile.
                         </div>
                       </div>
@@ -692,7 +715,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
                     return (
                       <div>
                         <label className="block text-sm font-bold text-gray-700 mb-2">Categorii Adiționale (Sub-categorii)</label>
-                        <div className="border-2 border-gray-200 rounded-xl p-4 bg-gray-50 text-sm text-gray-500 italic">
+                        <div className="border border-gray-200 rounded-xl bg-white p-4 bg-gray-50 text-sm text-gray-500 italic">
                           Categoria „{formData.category}" nu are sub-categorii definite.
                         </div>
                       </div>
@@ -704,7 +727,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
                       <label className="block text-sm font-bold text-gray-700 mb-2">
                         Categorii Adiționale (Sub-categorii din „{formData.category}")
                       </label>
-                      <div className="border-2 border-gray-200 rounded-xl p-3 max-h-48 overflow-y-auto bg-gray-50">
+                      <div className="border border-gray-200 rounded-xl bg-white p-3 max-h-48 overflow-y-auto bg-gray-50">
                         {subcategories.map((cat) => (
                           <label key={cat.id} className="flex items-center gap-2 py-1.5 cursor-pointer hover:bg-white px-2 rounded">
                             <input
@@ -724,7 +747,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
                                   });
                                 }
                               }}
-                              className="w-4 h-4 text-teal-600 rounded focus:ring-teal-500"
+                              className="w-4 h-4 text-brand-600 rounded focus:ring-brand-200 focus:border-brand-400"
                             />
                             <span className="text-sm text-gray-700">{cat.name}</span>
                           </label>
@@ -742,7 +765,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
                   <select
                     value={formData.brandId}
                     onChange={(e) => setFormData({...formData, brandId: e.target.value})}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   >
                     <option value="">Fără brand</option>
                     {brands.map(brand => (
@@ -759,7 +782,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
                     value={formData.description}
                     onChange={(e) => setFormData({...formData, description: e.target.value})}
                     rows="3"
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                     placeholder="Descriere în română"
                   />
                 </div>
@@ -771,7 +794,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
                     value={formData.descriptionRu}
                     onChange={(e) => setFormData({...formData, descriptionRu: e.target.value})}
                     rows="3"
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                     placeholder="Описание на русском"
                   />
                 </div>
@@ -786,7 +809,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
                     required
                     value={formData.price}
                     onChange={(e) => setFormData({...formData, price: e.target.value})}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   />
                 </div>
                 <div>
@@ -796,7 +819,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
                     step="0.01"
                     value={formData.originalPrice}
                     onChange={(e) => setFormData({...formData, originalPrice: e.target.value})}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   />
                 </div>
                 <div>
@@ -806,7 +829,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
                     required
                     value={formData.available}
                     onChange={(e) => setFormData({...formData, available: e.target.value})}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   />
                 </div>
               </div>
@@ -818,7 +841,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
                     type="text"
                     value={formData.storeName}
                     onChange={(e) => setFormData({...formData, storeName: e.target.value})}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   />
                 </div>
                 <div>
@@ -828,7 +851,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
                     value={formData.storeNameRu}
                     onChange={(e) => setFormData({...formData, storeNameRu: e.target.value})}
                     placeholder="ex: Магазин"
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   />
                 </div>
               </div>
@@ -841,7 +864,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
                   value={formData.sku}
                   onChange={(e) => setFormData({...formData, sku: e.target.value})}
                   placeholder="ex: PROD-12345"
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                 />
                 <p className="text-xs text-gray-500 mt-1">Opțional - Codul unic al produsului</p>
               </div>
@@ -854,7 +877,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
                     value={formData.badge}
                     onChange={(e) => setFormData({...formData, badge: e.target.value})}
                     placeholder="ex: REDUCERE, 15% OFF"
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   />
                 </div>
                 <div>
@@ -864,7 +887,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
                     value={formData.badgeRu}
                     onChange={(e) => setFormData({...formData, badgeRu: e.target.value})}
                     placeholder="напр: СКИДКА, 15% OFF"
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   />
                 </div>
               </div>
@@ -877,7 +900,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
                     type="button"
                     onClick={addSpecification}
                     disabled={specifications.length >= 10}
-                    className="text-teal-600 hover:text-teal-700 font-semibold text-sm flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="text-brand-600 hover:text-brand-700 font-semibold text-sm flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Plus className="w-4 h-4" />
                     Adaugă Specificație
@@ -893,14 +916,14 @@ for (let page = groupStart; page <= groupEnd; page++) {
                           placeholder="Titlu (ex: Material)"
                           value={spec.title}
                           onChange={(e) => updateSpecification(index, 'title', e.target.value)}
-                          className="flex-1 px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                          className="flex-1 px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                         />
                         <input
                           type="text"
                           placeholder="Valoare (ex: Bumbac 100%)"
                           value={spec.value}
                           onChange={(e) => updateSpecification(index, 'value', e.target.value)}
-                          className="flex-1 px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                          className="flex-1 px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                         />
                         <button
                           type="button"
@@ -921,7 +944,7 @@ for (let page = groupStart; page <= groupEnd; page++) {
               <div className="flex gap-3 pt-4">
                 <button
                   type="submit"
-                  className="flex-1 bg-gradient-to-r from-teal-600 to-teal-700 text-white py-3 rounded-xl hover:from-teal-700 hover:to-teal-800 transition font-semibold"
+                  className="flex-1 bg-brand-500 text-white py-3 rounded-xl hover:bg-brand-600 transition font-semibold"
                 >
                   {editingProduct ? 'Actualizează' : 'Creează'}
                 </button>
