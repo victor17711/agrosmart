@@ -63,9 +63,9 @@ const DynamicPage = () => {
   const pageContent = language === 'ru' && page.contentRu ? page.contentRu : page.content;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className=" bg-gray-50">
       {/* HERO */}
-      <div className="relative bg-gradient-to-r from-teal-600 to-teal-700 text-white py-14">
+      {/* <div className="relative bg-gradient-to-r from-teal-600 to-teal-700 text-white py-14">
         <div className="w-full px-4 md:px-6">
           <div className="flex items-center gap-3 mb-3">
             <FileText className="w-10 h-10" />
@@ -75,13 +75,13 @@ const DynamicPage = () => {
             {t('dynamic.desc')}
           </p>
         </div>
-      </div>
+      </div> */}
 
       {/* BREADCRUMB */}
       <div className="relative bg-white border-b">
         <div className="w-full px-4 md:px-6 py-4">
           <div className="flex items-center gap-2 text-sm text-gray-600">
-            <Link to="/" className="hover:text-teal-600 transition">
+            <Link to="/" className="hover:text-[#a7cf26] transition">
               {t('dynamic.home')}
             </Link>
             <ChevronRight className="w-4 h-4" />

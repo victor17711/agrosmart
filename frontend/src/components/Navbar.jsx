@@ -10,7 +10,8 @@ import {
   Phone,
   Headphones,
   ChevronRight,
-  X
+  X,
+  Heart
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -19,6 +20,7 @@ import AuthModal from './AuthModal';
 import axios from 'axios';
 import { Leaf } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaTiktok } from 'react-icons/fa';
+import logo from '../assets/images/logo.png';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -45,8 +47,11 @@ const Navbar = () => {
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
 
   const dropdownRef = useRef(null);
+  const headerRef = useRef(null);
   const languageDropdownRef = useRef(null);
   const searchRef = useRef(null);
+  const closeCategoriesTimerRef = useRef(null);
+  const [dropdownTop, setDropdownTop] = useState(0);
 
   const openAuthModal = (mode) => {
     setAuthMode(mode);
@@ -60,6 +65,38 @@ const Navbar = () => {
 
   const getName = (item) => {
     return language === 'ru' && item.nameRu ? item.nameRu : item.name;
+  };
+
+  const updateDropdownPosition = () => {
+    if (headerRef.current) {
+      const rect = headerRef.current.getBoundingClientRect();
+      setDropdownTop(rect.bottom);
+    }
+  };
+
+  const openCategoriesDropdown = () => {
+    if (closeCategoriesTimerRef.current) {
+      clearTimeout(closeCategoriesTimerRef.current);
+      closeCategoriesTimerRef.current = null;
+    }
+
+    updateDropdownPosition();
+    setIsCategoriesOpen(true);
+
+    if (categoryMenuItems.length > 0 && !hoveredCategoryId) {
+      setHoveredCategoryId(categoryMenuItems[0].id);
+    }
+  };
+
+  const closeCategoriesDropdownDelayed = () => {
+    if (closeCategoriesTimerRef.current) {
+      clearTimeout(closeCategoriesTimerRef.current);
+    }
+
+    closeCategoriesTimerRef.current = setTimeout(() => {
+      setIsCategoriesOpen(false);
+      setHoveredCategoryId(null);
+    }, 160);
   };
 
   useEffect(() => {
@@ -80,7 +117,13 @@ const Navbar = () => {
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+
+      if (closeCategoriesTimerRef.current) {
+        clearTimeout(closeCategoriesTimerRef.current);
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -88,6 +131,20 @@ const Navbar = () => {
       setHoveredCategoryId(categoryMenuItems[0].id);
     }
   }, [isCategoriesOpen, categoryMenuItems, hoveredCategoryId]);
+
+  useEffect(() => {
+    if (!isCategoriesOpen) return;
+
+    const handlePositionUpdate = () => updateDropdownPosition();
+
+    window.addEventListener('scroll', handlePositionUpdate, true);
+    window.addEventListener('resize', handlePositionUpdate);
+
+    return () => {
+      window.removeEventListener('scroll', handlePositionUpdate, true);
+      window.removeEventListener('resize', handlePositionUpdate);
+    };
+  }, [isCategoriesOpen]);
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -172,114 +229,40 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Top Bar */}
-      <div className="bg-teal-700 text-white">
-        <div className="w-full px-4 md:px-6">
-          <div className="flex items-center justify-center lg:justify-between py-3 text-sm">
-            <div className="flex items-center gap-3 lg:hidden text-[15px] font-medium">
-              <div className="w-6 h-6 border-2 border-white rounded-full flex items-center justify-center">
-                <Headphones className="w-4 h-4" />
-              </div>
-              <span>{t('navbar.infoDesc')}</span>
-<a
-  href="tel:+37369119991"
-  onClick={(e) => e.stopPropagation()}
-  className="bg-yellow-400 text-black px-4 py-1.5 rounded-full font-bold text-sm inline-flex items-center justify-center hover:bg-yellow-300 transition"
->
-  (+373) 691 19 991
-</a>
-            </div>
+      <style>{`
+        @keyframes navbarOverlayFadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
 
-            <div className="hidden lg:flex items-center justify-between w-full">
-              <div className="flex items-center gap-6">
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 border-2 border-white rounded-full flex items-center justify-center">
-                    <Headphones className="w-3.5 h-3.5" />
-                  </div>
-                  <span className="text-sm font-bold">{t('navbar.infoDesc')}</span>
-<a
-  href="tel:+37369119991"
-  onClick={(e) => e.stopPropagation()}
-  className="bg-yellow-400 text-black px-4 py-1.5 rounded-full font-bold text-sm inline-flex items-center justify-center hover:bg-yellow-300 transition"
->
-  (+373) 691 19 991
-</a>
-                </div>
+        @keyframes navbarDropdownFadeUp {
+          from {
+            opacity: 0;
+            transform: translateY(14px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
 
-                <div className="flex items-center gap-2 relative" ref={languageDropdownRef}>
-                  <div
-                    className="flex items-center gap-2 cursor-pointer hover:text-yellow-400 transition"
-                    onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
-                  >
-                    <div className="w-6 h-6 border-2 border-white rounded-full flex items-center justify-center">
-                      <Globe className="w-4 h-4" />
-                    </div>
-                    <span className="text-sm font-bold">{t('navbar.language')}</span>
-                    <ChevronDown className={`w-4 h-4 transition-transform ${isLanguageDropdownOpen ? 'rotate-180' : ''}`} />
-                  </div>
+        .navbar-overlay-fade {
+          animation: navbarOverlayFadeIn 0.18s ease-out forwards;
+        }
 
-                  {isLanguageDropdownOpen && (
-                    <div className="absolute top-full right-0 mt-2 bg-white text-gray-900 rounded-lg shadow-xl py-2 min-w-[150px] z-50">
-                      <button
-                        onClick={() => {
-                          changeLanguage('ro');
-                          setIsLanguageDropdownOpen(false);
-                        }}
-                        className={`w-full px-4 py-2 text-left hover:bg-teal-50 transition flex items-center gap-2 ${language === 'ro' ? 'bg-teal-100 font-bold' : ''}`}
-                      >
-                        Română
-                      </button>
+        .navbar-dropdown-fade-up {
+          animation: navbarDropdownFadeUp 0.22s ease-out forwards;
+        }
+      `}</style>
 
-                      <button
-                        onClick={() => {
-                          changeLanguage('ru');
-                          setIsLanguageDropdownOpen(false);
-                        }}
-                        className={`w-full px-4 py-2 text-left hover:bg-teal-50 transition flex items-center gap-2 ${language === 'ru' ? 'bg-teal-100 font-bold' : ''}`}
-                      >
-                        Русский
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <a
-                  href="https://www.facebook.com/profile.php?id=61574327334921"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-7 h-7 border-2 border-white rounded-full flex items-center justify-center hover:bg-white hover:text-teal-700 transition"
-                >
-                  <FaFacebookF className="w-4 h-4" />
-                </a>
-
-                <a
-                  href="#"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-7 h-7 border-2 border-white rounded-full flex items-center justify-center hover:bg-white hover:text-teal-700 transition"
-                >
-                  <FaInstagram className="w-4 h-4" />
-                </a>
-
-                <a
-                  href="https://www.tiktok.com/@agrosmart.md"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-7 h-7 border-2 border-white rounded-full flex items-center justify-center hover:bg-white hover:text-teal-700 transition"
-                >
-                  <FaTiktok className="w-4 h-4" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+      {/* Top Bar Desktop */}
+      <div className="hidden lg:flex h-[42px] bg-[#a7cf26] text-white items-center justify-center">
+        <span className="text-[18px] font-bold tracking-wide uppercase">ACHITĂ ÎN 3 RATE 0%</span>
       </div>
 
       {/* Main Header */}
-      <div className="bg-white border-b sticky top-0 z-50 lg:static">
-        <div className="w-full px-4 md:px-6 py-4 md:py-4">
+      <div ref={headerRef} className="bg-white border-b sticky top-0 z-40">
+        <div className="w-full px-4 md:px-6 py-4 md:py-4 lg:hidden">
           <div className="lg:hidden">
             <div className="grid grid-cols-[auto_1fr_auto] items-center">
               <div className="flex justify-start">
@@ -294,9 +277,11 @@ const Navbar = () => {
               <div className="flex justify-center">
                 <Link to="/" className="flex items-center justify-center gap-2" data-testid="navbar-logo-mobile">
                   <Leaf className="w-7 h-7 text-brand-600" />
-                  <span className="text-2xl font-extrabold tracking-tight text-gray-900">
-                    Agro<span className="text-brand-600">Smart</span>
-                  </span>
+                  <img
+                    src={logo}
+                    alt="AgroSmart"
+                    className="h-14 w-auto object-contain"
+                  />
                 </Link>
               </div>
 
@@ -315,330 +300,319 @@ const Navbar = () => {
               </div>
             </div>
           </div>
+        </div>
 
-          <div className="hidden lg:flex items-center justify-between gap-8">
-            <Link to="/" className="flex-shrink-0 flex items-center gap-2" data-testid="navbar-logo-desktop">
-              <Leaf className="w-8 h-8 text-brand-600" />
-              <span className="text-3xl font-extrabold tracking-tight text-gray-900">
-                Agro<span className="text-brand-600">Smart</span>
-              </span>
-            </Link>
-
-            {/* Desktop Search */}
-            <div className="flex-1 max-w-3xl relative" ref={searchRef}>
-              <form onSubmit={handleSearch} className="relative">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onFocus={() => {
-                    if (searchQuery.trim().length >= 2) {
-                      setShowSearchDropdown(true);
-                    }
-                  }}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={t('navbar.search')}
-                  className="w-full px-7 py-4 pr-16 border-2 border-gray-200 rounded-full focus:outline-none focus:border-teal-500 text-base bg-white"
+        <div className="hidden lg:block bg-[#f4f4f4]">
+          <div className="w-full px-5 py-[18px]">
+            <div className="flex items-center gap-[18px] w-full">
+              <Link to="/" className="flex-shrink-0" data-testid="navbar-logo-desktop">
+                <img
+                  src={logo}
+                  alt="AgroSmart"
+                  className="h-14 w-auto object-contain"
                 />
+              </Link>
 
+              <div
+                className="relative flex-shrink-0"
+                ref={dropdownRef}
+                onMouseEnter={openCategoriesDropdown}
+                onMouseLeave={closeCategoriesDropdownDelayed}
+              >
                 <button
-                  type="submit"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-teal-600 text-white rounded-full flex items-center justify-center hover:bg-teal-700 transition"
+                  type="button"
+                  className="h-[48px] px-[18px] bg-[#222222] text-white rounded-full flex items-center gap-2 hover:bg-black transition font-semibold text-[15px]"
                 >
-                  <Search className="w-6 h-6" />
+                  <div className="grid grid-cols-2 gap-[2px] w-[17px] h-[17px]">
+                    <div className="border border-2 border-white rounded-[2px]" />
+                    <div className="border border-2 border-white rounded-[2px]" />
+                    <div className="border border-2 border-white rounded-[2px]" />
+                    <div className="border border-2 border-white rounded-[2px]" />
+                  </div>
+
+                  <span>Categorii</span>
+                  <ChevronDown className={`w-4 h-4 transition-transform ${isCategoriesOpen ? 'rotate-180' : ''}`} />
                 </button>
-              </form>
 
-              {showSearchDropdown && searchQuery.trim().length >= 2 && (
-                <div className="absolute left-1/2 -translate-x-1/2 top-full mt-3 w-[760px] bg-white rounded-2xl shadow-2xl border border-gray-100 z-[999] p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-5">
-                    {language === 'ru' ? 'Товары' : 'Produse'}
-                  </h3>
+                {isCategoriesOpen && categoryMenuItems.length > 0 && (
+                  <>
+                    <div
+                      className="fixed left-0 right-0 bottom-0 bg-black/55 z-[900] navbar-overlay-fade pointer-events-none"
+                      style={{ top: `${dropdownTop}px` }}
+                    />
 
-                  {searchLoading ? (
-                    <div className="py-8 text-center text-gray-500">
-                      {language === 'ru' ? 'Загрузка...' : 'Se încarcă...'}
-                    </div>
-                  ) : searchResults.length === 0 ? (
-                    <div className="py-8 text-center text-gray-500">
-                      {language === 'ru'
-                        ? 'Nu au fost găsite produse'
-                        : 'Nu au fost găsite produse'}
-                    </div>
-                  ) : (
-                    <div className="space-y-4 max-h-[520px] overflow-y-auto pr-2">
-                      {searchResults.map((product) => {
-                        const productName =
-                          language === 'ru' && product.nameRu ? product.nameRu : product.name;
-
-                        return (
-                          <Link
-                            key={product.id}
-                            to={`/product/${product.id}`}
-                            onClick={handleProductClick}
-                            className="flex items-center gap-5 p-4 border border-gray-200 rounded-xl hover:border-teal-500 hover:bg-teal-50/40 transition"
-                          >
-                            <div className="w-24 h-24 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0">
-                              <img
-                                src={product.image || product.images?.[0]}
-                                alt={productName}
-                                className="w-full h-full object-contain"
-                              />
-                            </div>
-
-                            <div className="flex-1 min-w-0">
-                              <h4 className="text-lg font-bold text-gray-900 line-clamp-2">
-                                {productName}
-                              </h4>
-
-                              <div className="mt-2 flex items-center gap-4">
-                                <span className="text-xl font-bold text-red-600">
-                                  {product.price} lei
-                                </span>
-
-                                {product.originalPrice && Number(product.originalPrice) > Number(product.price) && (
-                                  <span className="text-base text-gray-400 line-through">
-                                    {product.originalPrice} lei
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  )}
-
-                  {searchResults.length > 0 && (
-                    <button
-                      onClick={handleSearch}
-                      className="mt-5 w-full bg-teal-600 text-white py-3 rounded-xl font-bold hover:bg-teal-700 transition"
+                    <div
+                      onMouseEnter={openCategoriesDropdown}
+                      onMouseLeave={closeCategoriesDropdownDelayed}
+                      className="fixed left-[18px] right-[18px] bg-white rounded-[26px] shadow-2xl overflow-hidden z-[999] border border-gray-100 navbar-dropdown-fade-up"
+                      style={{ top: `${dropdownTop}px` }}
                     >
-                      {language === 'ru' ? 'Смотреть все результаты' : 'Vezi toate rezultatele'}
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
+                      <div className="grid grid-cols-[330px_1fr] min-h-[520px] max-h-[650px]">
+                        <div className="bg-[#a7cf26] py-4 overflow-y-auto">
+                          {categoryMenuItems.map((item) => {
+                            const itemName = getName(item);
+                            const isActive = hoveredCategoryId === item.id;
 
-            <div className="flex items-center gap-6 flex-shrink-0">
+                            return (
+                              <div
+                                key={item.id}
+                                onMouseEnter={() => setHoveredCategoryId(item.id)}
+                                className={`flex items-center justify-between gap-3 px-7 py-[17px] cursor-pointer transition-colors ${
+                                  isActive
+                                    ? 'bg-white text-gray-900'
+                                    : 'bg-[#a7cf26] text-white hover:bg-[#96bd22]'
+                                }`}
+                              >
+                                <Link
+                                  to={item.url}
+                                  onClick={() => {
+                                    setIsCategoriesOpen(false);
+                                    setHoveredCategoryId(null);
+                                  }}
+                                  className="flex items-center gap-4 flex-1 min-w-0"
+                                >
+                                  {item.icon && (
+                                    <div className="w-6 h-6 min-w-[24px] flex items-center justify-center overflow-hidden flex-shrink-0">
+                                      {typeof item.icon === 'string' && item.icon.startsWith('data:image') ? (
+                                        <img
+                                          src={item.icon}
+                                          alt={itemName}
+                                          className={`w-full h-full object-contain ${isActive ? '' : 'invert brightness-0'}`}
+                                        />
+                                      ) : (
+                                        <span className="text-lg">{item.icon}</span>
+                                      )}
+                                    </div>
+                                  )}
+
+                                  <span className="font-bold text-[17px] leading-tight truncate">
+                                    {itemName}
+                                  </span>
+                                </Link>
+
+                                <ChevronRight className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-gray-700' : 'text-white'}`} />
+                              </div>
+                            );
+                          })}
+                        </div>
+
+                        <div className="bg-white px-8 py-8 overflow-y-auto">
+                          {categoryMenuItems.map((item) => {
+                            if (hoveredCategoryId !== item.id) return null;
+
+                            const children = item.children || [];
+
+                            if (children.length === 0) {
+                              return (
+                                <div key={item.id} className="h-full flex items-center justify-center text-gray-400 text-lg">
+                                  Nu există subcategorii
+                                </div>
+                              );
+                            }
+
+                            return (
+                              <div key={item.id} className="grid grid-cols-4 gap-x-14 gap-y-10">
+                                {children.map((child) => {
+                                  const childName = getName(child);
+                                  const subChildren = child.children || [];
+
+                                  return (
+                                    <div key={child.id} className="min-w-0">
+                                      <Link
+                                        to={child.url}
+                                        onClick={() => {
+                                          setIsCategoriesOpen(false);
+                                          setHoveredCategoryId(null);
+                                        }}
+                                        className="block text-[21px] font-bold text-[#a7cf26] leading-tight mb-5 hover:text-[#8faf20]"
+                                      >
+                                        {childName}
+                                      </Link>
+
+                                      {subChildren.length > 0 ? (
+                                        <div className="space-y-[16px]">
+                                          {subChildren.map((subChild) => {
+                                            const subChildName = getName(subChild);
+
+                                            return (
+                                              <Link
+                                                key={subChild.id}
+                                                to={subChild.url}
+                                                onClick={() => {
+                                                  setIsCategoriesOpen(false);
+                                                  setHoveredCategoryId(null);
+                                                }}
+                                                className="block text-[18px] font-semibold text-gray-800 hover:text-[#a7cf26] leading-snug"
+                                              >
+                                                {subChildName}
+                                              </Link>
+                                            );
+                                          })}
+                                        </div>
+                                      ) : (
+                                        <Link
+                                          to={child.url}
+                                          onClick={() => {
+                                            setIsCategoriesOpen(false);
+                                            setHoveredCategoryId(null);
+                                          }}
+                                          className="block text-[18px] font-semibold text-gray-800 hover:text-[#a7cf26] leading-snug"
+                                        >
+                                          Vezi categoria
+                                        </Link>
+                                      )}
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              <div className="flex-1 relative min-w-[260px]" ref={searchRef}>
+                <form onSubmit={handleSearch} className="relative">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onFocus={() => {
+                      if (searchQuery.trim().length >= 2) {
+                        setShowSearchDropdown(true);
+                      }
+                    }}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Caută produse"
+                    className="w-full h-[50px] bg-white border border-gray-200 rounded-full pl-[22px] pr-[62px] text-[15px] text-gray-700 placeholder:text-gray-400 focus:outline-none focus:border-[#a7cf26] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.02)]"
+                  />
+
+                  <button
+                    type="submit"
+                    className="absolute right-[4px] top-1/2 -translate-y-1/2 w-[42px] h-[42px] rounded-full bg-[#a7cf26] flex items-center justify-center hover:bg-[#95bd22] transition"
+                  >
+                    <Search className="w-6 h-6 text-white" strokeWidth={2.2} />
+                  </button>
+                </form>
+
+                {showSearchDropdown && searchQuery.trim().length >= 2 && (
+                  <div className="absolute left-1/2 -translate-x-1/2 top-full mt-3 w-[760px] bg-white rounded-2xl shadow-2xl border border-gray-100 z-[999] p-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-5">
+                      {language === 'ru' ? 'Товары' : 'Produse'}
+                    </h3>
+
+                    {searchLoading ? (
+                      <div className="py-8 text-center text-gray-500">
+                        {language === 'ru' ? 'Загрузка...' : 'Se încarcă...'}
+                      </div>
+                    ) : searchResults.length === 0 ? (
+                      <div className="py-8 text-center text-gray-500">
+                        {language === 'ru' ? 'Товары не найдены' : 'Nu au fost găsite produse'}
+                      </div>
+                    ) : (
+                      <div className="space-y-4 max-h-[520px] overflow-y-auto pr-2">
+                        {searchResults.map((product) => {
+                          const productName =
+                            language === 'ru' && product.nameRu ? product.nameRu : product.name;
+
+                          return (
+                            <Link
+                              key={product.id}
+                              to={`/product/${product.id}`}
+                              onClick={handleProductClick}
+                              className="flex items-center gap-5 p-4 border border-gray-200 rounded-xl hover:border-[#a7cf26] hover:bg-lime-50/50 transition"
+                            >
+                              <div className="w-24 h-24 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0">
+                                <img
+                                  src={product.image || product.images?.[0]}
+                                  alt={productName}
+                                  className="w-full h-full object-contain"
+                                />
+                              </div>
+
+                              <div className="flex-1 min-w-0">
+                                <h4 className="text-lg font-bold text-gray-900 line-clamp-2">
+                                  {productName}
+                                </h4>
+
+                                <div className="mt-2 flex items-center gap-4">
+                                  <span className="text-xl font-bold text-red-600">
+                                    {product.price} lei
+                                  </span>
+
+                                  {product.originalPrice && Number(product.originalPrice) > Number(product.price) && (
+                                    <span className="text-base text-gray-400 line-through">
+                                      {product.originalPrice} lei
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    )}
+
+                    {searchResults.length > 0 && (
+                      <button
+                        onClick={handleSearch}
+                        className="mt-5 w-full bg-[#a7cf26] text-white py-3 rounded-xl font-bold hover:bg-[#93b91f] transition"
+                      >
+                        {language === 'ru' ? 'Смотреть все результаты' : 'Vezi toate rezultatele'}
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              <Link
+                to="/contact"
+                className="h-[48px] px-[23px] rounded-full border-[2px] border-[#a7cf26] text-[#a7cf26] bg-transparent flex items-center justify-center font-semibold text-[15px] hover:bg-[#a7cf26] hover:text-white transition flex-shrink-0"
+              >
+                Contact
+              </Link>
+
               {isAuthenticated ? (
                 <Link
                   to="/contul-meu"
-                  className="flex items-center gap-2 cursor-pointer group"
+                  className="w-[48px] h-[48px] rounded-full bg-white flex items-center justify-center transition flex-shrink-0"
+                  aria-label="Contul meu"
                 >
-                  <div className="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center hover:bg-yellow-500 transition">
-                    <User className="w-7 h-7 text-gray-900" strokeWidth={2.5} />
-                  </div>
-
-                  <div className="text-left leading-tight">
-                    <div className="text-sm font-bold text-gray-900">
-                      {user?.firstName} {user?.lastName}
-                    </div>
-
-                    <div className="text-sm text-gray-600 group-hover:text-gray-900 transition">
-                      {t('navbar.account')}
-                    </div>
-                  </div>
+                  <User className="w-6 h-6 text-[#1f1f1f]" strokeWidth={2} />
                 </Link>
               ) : (
                 <button
                   onClick={() => openAuthModal('login')}
-                  className="flex items-center gap-2 group"
+                  className="w-[48px] h-[48px] rounded-full bg-white flex items-center justify-center flex-shrink-0"
+                  aria-label="Login"
                 >
-                  <div className="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center hover:bg-yellow-500 transition shadow-none">
-                    <User className="w-6 h-6 text-gray-900" />
-                  </div>
-
-                  <div className="text-left">
-                    <div className="text-sm font-semibold text-gray-900">{t('navbar.account')}</div>
-                    <div className="text-sm text-gray-600">{t('navbar.loginNow')}</div>
-                  </div>
+                  <User className="w-6 h-6 text-[#1f1f1f]" strokeWidth={2} />
                 </button>
               )}
 
-              <Link to="/cart" className="flex items-center gap-2 group">
-                <div className="w-6 h-6 md:w-12 md:h-12 bg-yellow-400 rounded-full flex items-center justify-center hover:bg-yellow-500 transition shadow-none relative">
-                  <ShoppingCart className="w-6 h-6 text-gray-900" />
-                  {cartCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
-                      {cartCount}
-                    </span>
-                  )}
-                </div>
-
-                <div className="text-left">
-                  <div className="text-sm font-semibold text-gray-900">{t('navbar.cart')}</div>
-                  <div className="text-sm text-gray-600">{cartCount} {t('navbar.items')}</div>
-                </div>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Navigation Menu */}
-      <div className="hidden lg:block bg-white border-b sticky top-0 z-50 shadow-sm">
-        <div className="w-full px-6">
-          <div className="flex items-center justify-between py-3">
-            <div className="relative hidden lg:block" ref={dropdownRef}>
-              <button
-                onClick={() => {
-                  const nextState = !isCategoriesOpen;
-                  setIsCategoriesOpen(nextState);
-
-                  if (nextState && categoryMenuItems.length > 0) {
-                    setHoveredCategoryId(categoryMenuItems[0].id);
-                  }
-                }}
-                className="bg-teal-600 text-white px-8 py-4 rounded-xl flex items-center gap-3 hover:bg-teal-700 transition shadow-md font-semibold"
+              <Link
+                to="/wishlist"
+                className="relative w-[48px] h-[48px] rounded-full bg-white flex items-center justify-center transition flex-shrink-0"
+                aria-label="Favorite"
               >
-                <div className="grid grid-cols-2 gap-0.5 w-5 h-5">
-                  <div className="bg-white rounded-sm"></div>
-                  <div className="bg-white rounded-sm"></div>
-                  <div className="bg-white rounded-sm"></div>
-                  <div className="bg-white rounded-sm"></div>
-                </div>
+                <Heart className="w-6 h-6 text-[#1f1f1f]" strokeWidth={2} />
+                <span className="absolute -top-[2px] -right-[2px] w-[20px] h-[20px] rounded-full bg-white text-[#a7cf26] text-[12px] leading-none font-medium flex items-center justify-center">
+                  0
+                </span>
+              </Link>
 
-                {t('navbar.allCategories')}
-
-                <ChevronDown className={`w-5 h-5 transition-transform ${isCategoriesOpen ? 'rotate-180' : ''}`} />
-              </button>
-
-              {isCategoriesOpen && categoryMenuItems.length > 0 && (
-                <div className="absolute top-full left-0 mt-4 w-[calc(100vw-48px)] max-w-[1600px] bg-white rounded-[24px] shadow-2xl border border-gray-100 p-6 z-50">
-                  <div className="grid grid-cols-[390px_1fr] gap-6">
-                    <div className="border-r border-gray-200 pr-6 space-y-3 max-h-[680px] overflow-y-auto">
-                      {categoryMenuItems.map((item) => {
-                        const itemName = getName(item);
-                        const isActive = hoveredCategoryId === item.id;
-
-                        return (
-                          <div
-                            key={item.id}
-                            onMouseEnter={() => setHoveredCategoryId(item.id)}
-                            className={`flex items-center justify-between gap-3 px-5 py-4 rounded-xl cursor-pointer transition-colors ${
-                              isActive
-                                ? 'bg-teal-600 text-white'
-                                : 'bg-gray-100 text-gray-900'
-                            }`}
-                          >
-                            <Link
-                              to={item.url}
-                              onClick={() => {
-                                setIsCategoriesOpen(false);
-                                setHoveredCategoryId(null);
-                              }}
-                              className="flex items-center gap-3 flex-1 min-w-0"
-                            >
-                              {item.icon && (
-                                <div className="w-8 h-8 min-w-[32px] flex items-center justify-center overflow-hidden flex-shrink-0">
-                                  {typeof item.icon === 'string' && item.icon.startsWith('data:image') ? (
-                                    <img
-                                      src={item.icon}
-                                      alt={itemName}
-                                      className={`w-full h-full object-contain ${isActive ? 'invert brightness-0' : ''}`}
-                                    />
-                                  ) : (
-                                    <span className="text-lg">{item.icon}</span>
-                                  )}
-                                </div>
-                              )}
-
-                              <span className="font-bold uppercase text-sm leading-tight truncate">
-                                {itemName}
-                              </span>
-                            </Link>
-
-                            <ChevronRight className="w-5 h-5 flex-shrink-0" />
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    <div className="w-full min-h-[520px] max-h-[680px] overflow-y-auto pr-1">
-                      {categoryMenuItems.map((item) => {
-                        if (hoveredCategoryId !== item.id) return null;
-
-                        const children = item.children || [];
-
-                        return (
-                          <div key={item.id} className="w-full">
-                            {children.length > 0 ? (
-                              <div className="grid grid-cols-4 gap-5 w-full">
-                                {children.map((child) => {
-                                  const childName = getName(child);
-
-                                  return (
-                                    <Link
-                                      key={child.id}
-                                      to={child.url}
-                                      onClick={() => {
-                                        setIsCategoriesOpen(false);
-                                        setHoveredCategoryId(null);
-                                      }}
-                                      className="bg-gray-100 rounded-2xl min-h-[250px] p-5 flex flex-col items-center justify-between text-center transition-none"
-                                    >
-                                      <div className="text-lg font-medium text-gray-900 uppercase leading-tight">
-                                        {childName}
-                                      </div>
-
-                                      {child.icon && (
-                                        <div className="flex-1 flex items-center justify-center mt-4">
-                                          {typeof child.icon === 'string' && child.icon.startsWith('data:image') ? (
-                                            <img
-                                              src={child.icon}
-                                              alt={childName}
-                                              className="max-h-[145px] max-w-full object-contain"
-                                            />
-                                          ) : (
-                                            <span className="text-5xl">{child.icon}</span>
-                                          )}
-                                        </div>
-                                      )}
-                                    </Link>
-                                  );
-                                })}
-                              </div>
-                            ) : (
-                              <div className="h-full min-h-[520px] flex items-center justify-center text-gray-400">
-                                Nu există subcategorii
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <nav className="hidden lg:flex items-center gap-8 text-base font-medium">
-              {menuItems.map((item) => {
-                const displayName = getName(item);
-
-                return (
-                  <Link
-                    key={item.id}
-                    to={item.url}
-                    className="text-gray-700 hover:text-teal-600 font-bold transition flex items-center gap-1 uppercase"
-                  >
-                    {item.icon && <span className="text-lg">{item.icon}</span>}
-                    {displayName}
-                  </Link>
-                );
-              })}
-            </nav>
-
-            <div className="hidden lg:flex items-center gap-3">
-              <div className="w-12 h-12 border-2 border-gray-300 rounded-full flex items-center justify-center">
-                <Phone className="w-6 h-6 text-gray-600" />
-              </div>
-
-              <div>
-                <div className="text-sm text-gray-500">{t('navbar.support')}</div>
-                <div className="text-base text-right font-bold text-gray-900">069 119 991</div>
-              </div>
+              <Link
+                to="/cart"
+                className="relative w-[48px] h-[48px] rounded-full bg-[#222222] flex items-center justify-center hover:bg-black transition flex-shrink-0"
+                aria-label="Coș"
+              >
+                <ShoppingCart className="w-6 h-6 text-white" strokeWidth={2} />
+                <span className="absolute -top-[2px] -right-[2px] w-[20px] h-[20px] rounded-full bg-white text-[#a7cf26] text-[12px] leading-none font-medium flex items-center justify-center">
+                  {cartCount}
+                </span>
+              </Link>
             </div>
           </div>
         </div>

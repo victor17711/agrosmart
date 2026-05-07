@@ -114,7 +114,7 @@ function App() {
               <div className="App">
                 <ScrollToTop />
                 <RouteChangeHandler>
-                  <JivoChat />
+                  {/* <JivoChat /> */}
                 <Routes>
                   {/* Public Routes - with RO and RU versions */}
                   {createDualRoutes("/", (

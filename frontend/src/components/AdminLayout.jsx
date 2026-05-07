@@ -23,6 +23,7 @@ import {
   Search,
   Leaf,
 } from 'lucide-react';
+import logo from '../assets/images/logo.png';
 
 // ------- AgroSmart admin layout (light, airy, brand #A7CC32) --------
 const AdminLayout = ({ children }) => {
@@ -132,11 +133,10 @@ const AdminLayout = ({ children }) => {
         to={item.path}
         onClick={() => setSidebarOpen(false)}
         data-testid={`admin-nav-${item.path.split('/').pop()}`}
-        className={`flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-200 text-[15px] ${
-          isActive
+        className={`flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-200 text-[15px] ${isActive
             ? 'bg-brand-50 text-brand-700 font-semibold shadow-sm ring-1 ring-brand-100'
             : 'text-gray-600 hover:text-brand-700 hover:bg-gray-50 font-medium'
-        }`}
+          }`}
       >
         <Icon className={`w-[18px] h-[18px] ${isActive ? 'text-brand-600' : 'text-gray-500'}`} />
         <span>{item.label}</span>
@@ -148,35 +148,39 @@ const AdminLayout = ({ children }) => {
     <div className="min-h-screen bg-[#F4F9F7] flex">
       {/* Sidebar */}
       <aside
-        className={`bg-white w-72 fixed h-full z-50 transform transition-transform duration-300 ease-in-out lg:translate-x-0 border-r border-gray-100 shadow-[0_0_40px_rgba(167,204,50,0.08)] ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className={`bg-white w-72 fixed h-full z-50 transform transition-transform duration-300 ease-in-out lg:translate-x-0 border-r border-gray-100 shadow-[0_0_40px_rgba(167,204,50,0.08)] ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
       >
         <div className="h-full flex flex-col">
           {/* Logo */}
           <div className="px-6 pt-7 pb-4">
             <Link to="/admin/dashboard" className="flex items-center gap-3" data-testid="admin-sidebar-logo">
-              <span className="w-11 h-11 rounded-2xl bg-brand-500 flex items-center justify-center shadow-md shadow-brand-200">
+              {/* <span className="w-11 h-11 rounded-2xl bg-brand-500 flex items-center justify-center shadow-md shadow-brand-200">
                 <Leaf className="w-6 h-6 text-white" />
-              </span>
-              <span className="text-[22px] font-extrabold tracking-tight text-gray-900">
-                Agro<span className="text-brand-600">Smart</span>
-              </span>
+              </span> */}
+              <img
+                src={logo}
+                alt="AgroSmart"
+                className="h-14 w-auto object-contain"
+              />
             </Link>
           </div>
 
           {/* Scrollable nav */}
           <nav className="flex-1 overflow-y-auto px-4 pb-4">
             <div className="mt-4 mb-2 px-3 text-[11px] uppercase tracking-[0.14em] text-gray-400 font-semibold">
-              Main
+              Principale
             </div>
             <div className="space-y-1.5">{filterByRole(mainMenu).map(renderItem)}</div>
 
             <div className="mt-6 mb-2 px-3 text-[11px] uppercase tracking-[0.14em] text-gray-400 font-semibold">
-              Other
+              Altele
             </div>
             <div className="space-y-1.5">{filterByRole(otherMenu).map(renderItem)}</div>
 
+            <div className="mt-6 mb-2 px-3 text-[11px] uppercase tracking-[0.14em] text-gray-400 font-semibold">
+              Ieși din cont
+            </div>
             <button
               onClick={handleLogout}
               data-testid="admin-logout-btn"
@@ -192,14 +196,14 @@ const AdminLayout = ({ children }) => {
             <div className="relative rounded-2xl p-4 bg-gradient-to-br from-brand-100 via-brand-50 to-white overflow-hidden ring-1 ring-brand-100">
               <div className="flex items-center gap-2 text-gray-800">
                 <HelpCircle className="w-5 h-5 text-brand-600" />
-                <span className="font-bold">Need Help?</span>
+                <span className="font-bold">Vezi magazinul online</span>
               </div>
-              <p className="mt-1 text-xs text-gray-500">Contactează echipa de suport</p>
+              <p className="mt-1 text-xs text-gray-500">Deschide magazinul online.</p>
               <Link
                 to="/admin/requests"
                 className="mt-3 inline-flex w-full items-center justify-center rounded-xl bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold py-2 shadow-md shadow-brand-200 transition"
               >
-                Get Support
+                Vizitează site-ul
               </Link>
             </div>
           </div>
@@ -229,7 +233,7 @@ const AdminLayout = ({ children }) => {
 
             <div className="flex-1 min-w-0">
               <h1 className="text-[26px] lg:text-3xl font-extrabold text-gray-900 tracking-tight truncate">
-                {currentLabel === 'Dashboard' ? 'Dashboard Overview' : currentLabel}
+                {currentLabel === 'Dashboard' ? 'Panou de control' : currentLabel}
               </h1>
               <p className="text-sm text-gray-500 mt-0.5">
                 Bine ai revenit, {adminUser?.firstName}! Aruncă un ochi pe performanța magazinului.
@@ -304,7 +308,7 @@ const AdminLayout = ({ children }) => {
                             <ShoppingCart className="w-4 h-4 text-brand-700" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-gray-800 truncate">#{(o.id || '').slice(0,8).toUpperCase()} – {o.customerName}</p>
+                            <p className="text-sm font-semibold text-gray-800 truncate">#{(o.id || '').slice(0, 8).toUpperCase()} – {o.customerName}</p>
                             <p className="text-xs text-gray-500 truncate">{o.customerEmail} · {o.status}</p>
                           </div>
                           <span className="text-sm font-bold text-gray-900 whitespace-nowrap">{Number(o.totalAmount || o.total || 0).toLocaleString('ro-RO')} MDL</span>
@@ -339,10 +343,10 @@ const AdminLayout = ({ children }) => {
             </div>
 
             {/* Bell */}
-            <button className="relative p-3 bg-white rounded-full shadow-sm border border-gray-100 hover:shadow-md transition">
+            {/* <button className="relative p-3 bg-white rounded-full shadow-sm border border-gray-100 hover:shadow-md transition">
               <Bell className="w-5 h-5 text-gray-600" />
               <span className="absolute top-2 right-2 w-2 h-2 bg-brand-500 rounded-full ring-2 ring-white"></span>
-            </button>
+            </button> */}
 
             {/* Admin identity */}
             <div className="hidden md:flex items-center gap-3 bg-white rounded-full shadow-sm border border-gray-100 pl-1.5 pr-4 py-1.5">

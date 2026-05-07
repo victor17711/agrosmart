@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
 import HeroSlider from '../components/HeroSlider';
+import CategoryMenuCarousel from '../components/CategoryMenuCarousel';
 import CategoryGrid from '../components/CategoryGrid';
 import ProductCard from '../components/ProductCard';
 import BannerSection from '../components/BannerSection';
@@ -92,8 +93,14 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen">
+      {/* Bara cu categorii din meniu */}
+      <CategoryMenuCarousel />
+
       {/* Hero Slider */}
       <HeroSlider />
+
+      {/* Branduri carousel */}
+      <BrandsSection />
 
       {/* Lista categorii */}
       <CategoryGrid />
@@ -109,9 +116,6 @@ const HomePage = () => {
 
       {/* Bara informativa */}
       <InfoBar />
-
-      {/* Branduri carousel */}
-      <BrandsSection />
 
       {/* Taburi cu produse */}
       <FreshFindsSection />
