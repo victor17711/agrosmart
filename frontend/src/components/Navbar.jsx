@@ -257,7 +257,9 @@ const Navbar = () => {
 
       {/* Top Bar Desktop */}
       <div className="hidden lg:flex h-[42px] bg-[#a7cf26] text-white items-center justify-center">
-        <span className="text-[18px] font-bold tracking-wide uppercase">ACHITĂ ÎN 3 RATE 0%</span>
+        <span className="text-[18px] font-bold tracking-wide uppercase">
+          {language === 'ru' ? 'ОПЛАТА В 3 РАТЫ 0%' : 'ACHITĂ ÎN 3 RATE 0%'}
+        </span>
       </div>
 
       {/* Main Header */}
@@ -568,11 +570,59 @@ const Navbar = () => {
               </div>
 
               <Link
-                to="/contact"
+                to={language === 'ru' ? '/ru/contact' : '/contact'}
                 className="h-[48px] px-[23px] rounded-full border-[2px] border-[#a7cf26] text-[#a7cf26] bg-transparent flex items-center justify-center font-semibold text-[15px] hover:bg-[#a7cf26] hover:text-white transition flex-shrink-0"
               >
-                Contact
+                {language === 'ru' ? 'Контакты' : 'Contact'}
               </Link>
+
+
+<div
+  className="relative flex-shrink-0"
+  ref={languageDropdownRef}
+>
+  <button
+    onClick={() =>
+      setIsLanguageDropdownOpen(!isLanguageDropdownOpen)
+    }
+    className="w-[48px] h-[48px] rounded-full bg-white flex items-center justify-center transition hover:bg-gray-50"
+  >
+    <Globe className="w-5 h-5 text-[#1f1f1f]" strokeWidth={2} />
+  </button>
+
+  {isLanguageDropdownOpen && (
+    <div className="absolute top-[58px] right-0 bg-white rounded-[18px] shadow-2xl border border-gray-100 overflow-hidden min-w-[90px] z-[999]">
+      <button
+        onClick={() => {
+          changeLanguage('ro');
+          setIsLanguageDropdownOpen(false);
+        }}
+        className={`w-full px-4 py-3 text-left text-[14px] font-semibold transition ${
+          language === 'ro'
+            ? 'bg-[#a7cf26] text-white'
+            : 'text-gray-700 hover:bg-gray-50'
+        }`}
+      >
+        RO
+      </button>
+
+      <button
+        onClick={() => {
+          changeLanguage('ru');
+          setIsLanguageDropdownOpen(false);
+        }}
+        className={`w-full px-4 py-3 text-left text-[14px] font-semibold transition ${
+          language === 'ru'
+            ? 'bg-[#a7cf26] text-white'
+            : 'text-gray-700 hover:bg-gray-50'
+        }`}
+      >
+        RU
+      </button>
+    </div>
+  )}
+</div>
+
 
               {isAuthenticated ? (
                 <Link

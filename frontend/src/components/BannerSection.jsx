@@ -60,12 +60,14 @@ const BannerSection = () => {
           const c = chosen.cat;
           setCategoryInfo({
             name: c.name,
+            nameRu: c.nameRu,
             slug: c.slug || 'catalog',
             image:
               c.image ||
               c.imageUrl ||
               'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=1200&auto=format&fit=crop',
             title: c.name,
+            titleRu: c.nameRu,
           });
           setProducts(chosen.products);
         }
@@ -84,7 +86,10 @@ const BannerSection = () => {
 
   if (!products.length) return null;
 
-  const { name: categoryName, slug: categorySlug, image: bannerImage, title } = categoryInfo;
+  const { name, nameRu, slug: categorySlug, image: bannerImage, title, titleRu } = categoryInfo;
+  const categoryName = language === 'ru' && nameRu ? nameRu : name;
+  const displayTitle = language === 'ru' && titleRu ? titleRu : title;
+  const linkPrefix = language === 'ru' ? '/ru' : '';
 
   return (
     <section className="py-8 md:py-10">
@@ -93,7 +98,7 @@ const BannerSection = () => {
 
           {/* Left Banner */}
           <Link
-            to={`/category/${categorySlug}`}
+            to={`${linkPrefix}/category/${categorySlug}`}
             className="relative min-h-[460px] md:min-h-[500px] rounded-[24px] overflow-hidden group"
           >
             <img
@@ -110,11 +115,11 @@ const BannerSection = () => {
               </p>
 
               <h2 className="text-white text-[34px] md:text-[40px] leading-tight font-extrabold max-w-[260px]">
-                {title}
+                {displayTitle}
               </h2>
 
               <span className="mt-8 inline-flex items-center justify-center rounded-full bg-[#a6cf24] text-white px-7 py-3 text-[15px] font-bold">
-                Vezi Toate Produsele
+                {language === 'ru' ? 'Смотреть все товары' : 'Vezi Toate Produsele'}
               </span>
             </div>
           </Link>

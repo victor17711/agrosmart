@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper/modules';
 import { Sprout } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 import 'swiper/css';
 import 'swiper/css/free-mode';
@@ -12,6 +13,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const CategoryMenuCarousel = () => {
+  const { language } = useLanguage();
   const [items, setItems] = useState([]);
   const [categoriesById, setCategoriesById] = useState({});
 
@@ -85,14 +87,19 @@ const CategoryMenuCarousel = () => {
   if (!items.length) return null;
 
   const resolveLink = (item) => {
-    if (item.url) return item.url;
-
-    if (item.categoryId) {
+    let url;
+    if (item.url) url = item.url;
+    else if (item.categoryId) {
       const cat = categoriesById[item.categoryId];
-      return cat ? `/category/${cat.slug || cat.id}` : '#';
+      url = cat ? `/category/${cat.slug || cat.id}` : '#';
+    } else {
+      url = '#';
     }
-
-    return '#';
+    // Add /ru prefix when in Russian (LanguageContext sync also handles it but this avoids flash)
+    if (language === 'ru' && url.startsWith('/') && !url.startsWith('/ru')) {
+      return `/ru${url}`;
+    }
+    return url;
   };
 
   const getImageSrc = (src) => {
@@ -143,7 +150,7 @@ const CategoryMenuCarousel = () => {
         <img
           src={src}
           alt={item.name || ''}
-          className="w-9 h-9 object-cover rounded-full"
+          className="w-8 h-8 object-cover"
           onError={(e) => {
             e.currentTarget.style.display = 'none';
           }}
@@ -173,20 +180,27 @@ const CategoryMenuCarousel = () => {
             spaceBetween={32}
             className="!overflow-visible"
           >
-            {items.map((item) => (
-              <SwiperSlide key={item.id} style={{ width: 'auto' }}>
-                <Link
-                  to={resolveLink(item)}
-                  className="flex items-center gap-2 text-[16px] md:text-[17px] font-semibold text-[#2d2d2d] whitespace-nowrap hover:text-black transition"
-                >
-                  <span className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0">
-                    {renderIcon(item)}
-                  </span>
+            {items.map((item) => {
+              const linkedCat = item.categoryId ? categoriesById[item.categoryId] : null;
+              const displayName =
+                language === 'ru'
+                  ? (item.nameRu || linkedCat?.nameRu || item.name || linkedCat?.name)
+                  : (item.name || linkedCat?.name);
+              return (
+                <SwiperSlide key={item.id} style={{ width: 'auto' }}>
+                  <Link
+                    to={resolveLink(item)}
+                    className="flex items-center gap-2 text-[16px] md:text-[17px] font-semibold text-[#2d2d2d] whitespace-nowrap hover:text-black transition"
+                  >
+                    <span className="w-10 h-10 flex items-center justify-center shrink-0">
+                      {renderIcon(item)}
+                    </span>
 
-                  <span>{item.name}</span>
-                </Link>
-              </SwiperSlide>
-            ))}
+                    <span>{displayName}</span>
+                  </Link>
+                </SwiperSlide>
+              );
+            })}
           </Swiper>
         </div>
       </div>
