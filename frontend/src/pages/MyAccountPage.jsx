@@ -182,7 +182,7 @@ const MyAccountPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#a7cf26]"></div>
       </div>
     );
   }
@@ -200,7 +200,7 @@ const MyAccountPage = () => {
           </p>
           <Link
             to="/"
-            className="inline-block bg-teal-600 text-white px-8 py-3 rounded-xl hover:bg-teal-700 transition font-semibold"
+            className="inline-block bg-[#a7cf26] text-white px-8 py-3 rounded-xl hover:bg-[#a7cf26]/60 transition font-semibold"
           >
             {t('myAccount.authRequired.backHome')}
           </Link>
@@ -210,9 +210,9 @@ const MyAccountPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="bg-gray-50">
       {/* HERO */}
-      <div className="relative bg-gradient-to-r from-teal-600 to-teal-700 text-white py-14">
+      {/* <div className="relative bg-gradient-to-r from-teal-600 to-teal-700 text-white py-14">
         <div className="w-full px-4 md:px-6">
           <div className="flex items-center gap-3 mb-3">
             <User className="w-10 h-10" />
@@ -222,13 +222,13 @@ const MyAccountPage = () => {
             {t('myAccount.welcome')} {user.firstName}
           </p>
         </div>
-      </div>
+      </div> */}
 
       {/* BREADCRUMB */}
       <div className="relative bg-white border-b">
         <div className="w-full px-6 py-4">
           <div className="flex items-center gap-2 text-sm text-gray-600">
-            <Link to="/" className="hover:text-teal-600">
+            <Link to="/" className="hover:text-[#a7cf26]">
               {t('myAccount.breadcrumb.home')}
             </Link>
             <ChevronRight className="w-4 h-4" />
@@ -245,8 +245,8 @@ const MyAccountPage = () => {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
               <div className="p-6 border-b">
-                <div className="w-20 h-20 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <User className="w-10 h-10 text-teal-600" />
+                <div className="w-20 h-20 bg-[#a7cf26]/25 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <User className="w-10 h-10 text-[#a7cf26]" />
                 </div>
                 <h3 className="text-center font-bold text-gray-900">
                   {user.firstName} {user.lastName}
@@ -259,7 +259,7 @@ const MyAccountPage = () => {
                   onClick={() => setActiveTab('profile')}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl mb-2 transition ${
                     activeTab === 'profile'
-                      ? 'bg-teal-50 text-teal-600 font-semibold'
+                      ? 'bg-[#a7cf26]/10 text-[#a7cf26] font-semibold'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -271,14 +271,14 @@ const MyAccountPage = () => {
                   onClick={() => setActiveTab('orders')}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl mb-2 transition ${
                     activeTab === 'orders'
-                      ? 'bg-teal-50 text-teal-600 font-semibold'
+                      ? 'bg-[#a7cf26]/10 text-[#a7cf26] font-semibold'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
                   <Package className="w-5 h-5" />
                   {t('myAccount.tabs.orders')}
                   {orders.length > 0 && (
-                    <span className="ml-auto bg-teal-600 text-white text-xs px-2 py-1 rounded-full">
+                    <span className="ml-auto bg-[#a7cf26] text-white text-xs px-2 py-1 rounded-full">
                       {orders.length}
                     </span>
                   )}
@@ -288,7 +288,7 @@ const MyAccountPage = () => {
                   onClick={() => setActiveTab('favorites')}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl mb-2 transition ${
                     activeTab === 'favorites'
-                      ? 'bg-teal-50 text-teal-600 font-semibold'
+                      ? 'bg-[#a7cf26]/10 text-[#a7cf26] font-semibold'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                   data-testid="favorites-tab-btn"
@@ -306,7 +306,7 @@ const MyAccountPage = () => {
                   onClick={() => setActiveTab('addresses')}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl mb-2 transition ${
                     activeTab === 'addresses'
-                      ? 'bg-teal-50 text-teal-600 font-semibold'
+                      ? 'bg-[#a7cf26]/10 text-[#a7cf26] font-semibold'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -318,7 +318,7 @@ const MyAccountPage = () => {
                   onClick={() => setActiveTab('settings')}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl mb-2 transition ${
                     activeTab === 'settings'
-                      ? 'bg-teal-50 text-teal-600 font-semibold'
+                      ? 'bg-[#a7cf26]/10 text-[#a7cf26] font-semibold'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -350,7 +350,7 @@ const MyAccountPage = () => {
                   {!editMode ? (
                     <button
                       onClick={() => setEditMode(true)}
-                      className="flex items-center gap-2 text-teal-600 hover:text-teal-700 font-semibold"
+                      className="flex items-center gap-2 text-[#a7cf26] hover:text-[#a7cf26] font-semibold"
                     >
                       <Edit className="w-5 h-5" />
                       {t('myAccount.profile.edit')}
@@ -387,7 +387,7 @@ const MyAccountPage = () => {
                         disabled={!editMode}
                         value={profileForm.firstName}
                         onChange={(e) => setProfileForm({ ...profileForm, firstName: e.target.value })}
-                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#a7cf26]/40 disabled:bg-gray-100 disabled:cursor-not-allowed"
                       />
                     </div>
 
@@ -400,7 +400,7 @@ const MyAccountPage = () => {
                         disabled={!editMode}
                         value={profileForm.lastName}
                         onChange={(e) => setProfileForm({ ...profileForm, lastName: e.target.value })}
-                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#a7cf26]/40 disabled:bg-gray-100 disabled:cursor-not-allowed"
                       />
                     </div>
 
@@ -428,7 +428,7 @@ const MyAccountPage = () => {
                         disabled={!editMode}
                         value={profileForm.phone}
                         onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
-                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#a7cf26]/40 disabled:bg-gray-100 disabled:cursor-not-allowed"
                         placeholder={t('myAccount.profile.placeholderPhone')}
                       />
                     </div>
@@ -442,7 +442,7 @@ const MyAccountPage = () => {
                         disabled={!editMode}
                         value={profileForm.address}
                         onChange={(e) => setProfileForm({ ...profileForm, address: e.target.value })}
-                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#a7cf26]/40 disabled:bg-gray-100 disabled:cursor-not-allowed"
                         placeholder={t('myAccount.profile.placeholderAddress')}
                       />
                     </div>
@@ -456,7 +456,7 @@ const MyAccountPage = () => {
                         disabled={!editMode}
                         value={profileForm.city}
                         onChange={(e) => setProfileForm({ ...profileForm, city: e.target.value })}
-                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#a7cf26]/40 disabled:bg-gray-100 disabled:cursor-not-allowed"
                         placeholder={t('myAccount.profile.placeholderCity')}
                       />
                     </div>
@@ -470,7 +470,7 @@ const MyAccountPage = () => {
                         disabled={!editMode}
                         value={profileForm.postalCode}
                         onChange={(e) => setProfileForm({ ...profileForm, postalCode: e.target.value })}
-                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#a7cf26]/40 disabled:bg-gray-100 disabled:cursor-not-allowed"
                         placeholder={t('myAccount.profile.placeholderPostalCode')}
                       />
                     </div>
@@ -480,7 +480,7 @@ const MyAccountPage = () => {
                     <div className="flex justify-end">
                       <button
                         type="submit"
-                        className="flex items-center gap-2 bg-teal-600 text-white px-8 py-3 rounded-xl hover:bg-teal-700 transition font-semibold"
+                        className="flex items-center gap-2 bg-[#a7cf26] text-white px-8 py-3 rounded-xl focus:ring-[#a7cf26]/60 transition font-semibold"
                       >
                         <Save className="w-5 h-5" />
                         {t('myAccount.profile.save')}
@@ -509,7 +509,7 @@ const MyAccountPage = () => {
                     </p>
                     <Link
                       to="/"
-                      className="inline-block bg-teal-600 text-white px-8 py-3 rounded-xl hover:bg-teal-700 transition font-semibold"
+                      className="inline-block bg-[#a7cf26] text-white px-8 py-3 rounded-xl hover:bg-[#a7cf26]/60 transition font-semibold"
                     >
                       {t('myAccount.orders.startShopping')}
                     </Link>
@@ -517,7 +517,7 @@ const MyAccountPage = () => {
                 ) : (
                   <div className="space-y-4">
                     {orders.map((order) => (
-                      <div key={order.id} className="border-2 border-gray-200 rounded-xl p-6 hover:border-teal-500 transition">
+                      <div key={order.id} className="border-2 border-gray-200 rounded-xl p-6 hover:border-[#a7cf26] transition">
                         <div className="flex items-start justify-between mb-4">
                           <div>
                             <div className="flex items-center gap-3 mb-2">
@@ -547,7 +547,7 @@ const MyAccountPage = () => {
                           </div>
 
                           <div className="text-right">
-                            <div className="text-2xl font-bold text-teal-600">
+                            <div className="text-2xl font-bold text-[#a7cf26]">
                               {order.totalAmount.toFixed(2)} MDL
                             </div>
                             <div className="text-sm text-gray-600">
@@ -609,7 +609,7 @@ const MyAccountPage = () => {
 
                 {favoritesLoading ? (
                   <div className="flex items-center justify-center py-16">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#a7cf26]"></div>
                   </div>
                 ) : favoriteProducts.length === 0 ? (
                   <div className="text-center py-12">
@@ -622,7 +622,7 @@ const MyAccountPage = () => {
                     </p>
                     <Link
                       to="/"
-                      className="inline-block bg-teal-600 text-white px-8 py-3 rounded-xl hover:bg-teal-700 transition font-semibold"
+                      className="inline-block bg-[#a7cf26] text-white px-8 py-3 rounded-xl hover:bg-[#a7cf26]/60 transition font-semibold"
                       data-testid="favorites-empty-start-shopping-btn"
                     >
                       {t('myAccount.favorites.startShopping')}
@@ -661,7 +661,7 @@ const MyAccountPage = () => {
                   </p>
                   <button
                     onClick={() => setActiveTab('profile')}
-                    className="mt-4 text-teal-600 hover:text-teal-700 font-semibold"
+                    className="mt-4 text-[#a7cf26] hover:text-[#a7cf26]/60 font-semibold"
                   >
                     {t('myAccount.addresses.viewProfile')}
                   </button>

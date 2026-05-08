@@ -9,7 +9,7 @@ const NotFound = () => {
             {/* 404 */}
             <div className="relative mb-10">
                 <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-[320px] h-[140px] bg-[#9fe9e3] rounded-[60%]"></div>
+                    <div className="w-[320px] h-[140px] bg-[#a6cf24] rounded-[60%]"></div>
                 </div>
 
                 <h1 className="relative text-[120px] md:text-[150px] font-black italic text-black leading-none tracking-[-6px]">

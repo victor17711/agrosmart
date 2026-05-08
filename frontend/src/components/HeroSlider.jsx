@@ -115,7 +115,7 @@ const HeroSlider = () => {
   }
 
   return (
-    <div className="w-full px-4 md:px-6 py-5 md:pt-8">
+    <div className="w-full px-4 md:px-6 py-5 md:pt-2">
       <div className="grid grid-cols-1 lg:grid-cols-[2.15fr_0.65fr] gap-5">
         {/* LEFT SLIDER */}
         <div

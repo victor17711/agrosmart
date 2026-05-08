@@ -22,7 +22,7 @@ const CartPage = () => {
           </p>
           <Link
             to="/"
-            className="inline-flex items-center gap-2 bg-teal-600 text-white px-8 py-3 rounded-xl hover:bg-teal-700 transition font-semibold"
+            className="inline-flex items-center gap-2 bg-[#a7cf26] text-white px-8 py-3 rounded-xl hover:bg-[#a7cf26] transition font-semibold"
           >
             <ArrowLeft className="w-5 h-5" />
             {t('cart.continueShopping')}
@@ -75,7 +75,7 @@ const CartPage = () => {
                       {/* Info */}
                       <div className="flex-1 min-w-0">
                         <Link to={`/product/${item.id}`}>
-                          <h3 className="text-base md:text-xl font-bold text-gray-900 mb-2 hover:text-teal-600 transition leading-snug break-words">
+                          <h3 className="text-base md:text-xl font-bold text-gray-900 mb-2 hover:text-[#a7cf26] transition leading-snug break-words">
                             {productName}
                           </h3>
                         </Link>
@@ -128,7 +128,7 @@ const CartPage = () => {
 
                           {/* Price */}
                           <div className="text-left md:text-right">
-                            <div className="text-lg md:text-2xl font-bold text-teal-600 break-words">
+                            <div className="text-lg md:text-2xl font-bold text-[#a7cf26] break-words">
                               {item.price * item.quantity} MDL
                             </div>
                             <div className="text-xs md:text-sm text-gray-500 break-words">
@@ -179,21 +179,21 @@ const CartPage = () => {
                 <div className="border-t pt-4">
                   <div className="flex justify-between text-lg md:text-xl font-bold text-gray-900 gap-4">
                     <span>{t('cart.total')}</span>
-                    <span className="text-teal-600 text-right">{getCartTotal()} MDL</span>
+                    <span className="text-[#a7cf26] text-right">{getCartTotal()} MDL</span>
                   </div>
                 </div>
               </div>
 
               <button
                 onClick={() => navigate('/checkout')}
-                className="w-full bg-teal-600 text-white py-4 rounded-xl hover:bg-teal-700 transition font-bold text-base md:text-lg mb-4"
+                className="w-full bg-[#a7cf26] text-white py-4 rounded-xl hover:bg-[#a7cf26] transition font-bold text-base md:text-lg mb-4"
               >
                 {t('cart.checkout')}
               </button>
 
               <Link
                 to="/"
-                className="block text-center text-teal-600 hover:text-teal-700 font-semibold"
+                className="block text-center text-[#a7cf26] hover:text-[#a7cf26] font-semibold"
               >
                 {t('cart.continueShopping')}
               </Link>
@@ -205,12 +205,12 @@ const CartPage = () => {
                 </div> */}
 
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-teal-600 rounded-full"></div>
+                  <div className="w-2 h-2 bg-[#a7cf26] rounded-full"></div>
                   {t('cart.freeReturnNote')}
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-teal-600 rounded-full"></div>
+                  <div className="w-2 h-2 bg-[#a7cf26] rounded-full"></div>
                   {t('cart.securePaymentNote')}
                 </div>
               </div>

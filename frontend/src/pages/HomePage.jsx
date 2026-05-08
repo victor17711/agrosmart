@@ -103,7 +103,7 @@ const HomePage = () => {
       <BrandsSection />
 
       {/* Lista categorii */}
-      <CategoryGrid />
+      {/* <CategoryGrid /> */}
 
       {/* Taburi cu produse */}
       <BestSellersSection />
@@ -115,13 +115,13 @@ const HomePage = () => {
       <DiscountProductsCarousel />
 
       {/* Bara informativa */}
-      <InfoBar />
+      {/* <InfoBar /> */}
 
       {/* Taburi cu produse */}
       <FreshFindsSection />
 
       {/* Features Section */}
-      <FeaturesSection />
+      {/* <FeaturesSection /> */}
 
     </div>
   );

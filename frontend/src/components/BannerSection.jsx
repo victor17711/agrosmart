@@ -1,203 +1,158 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight } from 'lucide-react';
+import axios from 'axios';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode } from 'swiper/modules';
+import ProductCard from './ProductCard';
 import { useLanguage } from '../context/LanguageContext';
+
+import 'swiper/css';
+import 'swiper/css/free-mode';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
 
 const BannerSection = () => {
   const { language } = useLanguage();
+  const [products, setProducts] = useState([]);
+  const [categoryInfo, setCategoryInfo] = useState({
+    name: 'Unelte de grădină',
+    slug: 'unelte-gradina',
+    image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=1200&auto=format&fit=crop',
+    title: 'Unelte de grădină',
+  });
 
-  const banners =
-    language === 'ru'
-      ? [
-          {
-            id: 1,
-            image: 'https://i.postimg.cc/cHy584T7/image-Photoroom.png',
-            badge: 'Тепловые насосы',
-            title: 'Эффективность и комфорт для вашего дома',
-            desc: 'Откройте для себя тепловые насосы для экономии энергии и максимальной производительности.',
-            link: '/category/pompe-de-caldura-si-panouri-solare',
-            cardBg: 'bg-[#98df6b]',
-            outerBg: 'bg-[#c9f1f2]',
-            badgeBg: 'bg-[#f6dc62]',
-            badgeText: 'text-[#1f2937]',
-            titleText: 'text-[#172033]',
-            descText: 'text-[#172033]',
-            buttonBg: 'bg-[#0b8a83]',
-            buttonText: 'text-white',
-            layout: 'large',
-          },
-          {
-            id: 2,
-            image: 'https://i.postimg.cc/ydGxTtgw/image-Photoroom-2.png',
-            badge: 'Инструменты и оборудование',
-            title: 'Всё, что нужно для любой работы',
-            desc: 'Выбирайте профессиональные инструменты и оборудование — безопасные и эффективные.',
-            link: '/category/instrumente-si-scule',
-            cardBg: 'bg-[#f3cfe3]',
-            outerBg: 'bg-[#f3e9f0]',
-            badgeBg: 'bg-[#f6dc62]',
-            badgeText: 'text-[#1f2937]',
-            titleText: 'text-[#172033]',
-            descText: 'text-[#172033]',
-            buttonBg: 'bg-[#0b8a83]',
-            buttonText: 'text-white',
-            layout: 'small',
-          },
-          {
-            id: 3,
-            image: 'https://i.postimg.cc/bvT3dHGM/image-Photoroom-3.png',
-            badge: 'Отопление и ГВС',
-            title: 'Современные решения для комфорта',
-            desc: 'Откройте оборудование для отопления и горячего водоснабжения для вашего дома.',
-            link: '/category/incalzire-si-acm',
-            cardBg: 'bg-[#f7e55f]',
-            outerBg: 'bg-[#f6efc7]',
-            badgeBg: 'bg-[#9be06a]',
-            badgeText: 'text-[#1f2937]',
-            titleText: 'text-[#172033]',
-            descText: 'text-[#172033]',
-            buttonBg: 'bg-[#0b8a83]',
-            buttonText: 'text-white',
-            layout: 'small',
-          },
-        ]
-      : [
-          {
-            id: 1,
-            image: 'https://i.postimg.cc/cHy584T7/image-Photoroom.png',
-            badge: 'Pompe de căldură',
-            title: 'Eficiență și confort pentru casa ta',
-            desc: 'Descoperă gama noastră de pompe de căldură pentru economii și performanță maximă.',
-            link: '/category/pompe-de-caldura-si-panouri-solare',
-            cardBg: 'bg-[#98df6b]',
-            outerBg: 'bg-[#c9f1f2]',
-            badgeBg: 'bg-[#f6dc62]',
-            badgeText: 'text-[#1f2937]',
-            titleText: 'text-[#172033]',
-            descText: 'text-[#172033]',
-            buttonBg: 'bg-[#0b8a83]',
-            buttonText: 'text-white',
-            layout: 'large',
-          },
-          {
-            id: 2,
-            image: 'https://i.postimg.cc/ydGxTtgw/image-Photoroom-2.png',
-            badge: 'Instrumente și scule',
-            title: 'Tot ce ai nevoie pentru orice lucrare',
-            desc: 'Alege instrumente și scule profesionale sigure și eficiente.',
-            link: '/category/instrumente-si-scule',
-            cardBg: 'bg-[#f3cfe3]',
-            outerBg: 'bg-[#f3e9f0]',
-            badgeBg: 'bg-[#f6dc62]',
-            badgeText: 'text-[#1f2937]',
-            titleText: 'text-[#172033]',
-            descText: 'text-[#172033]',
-            buttonBg: 'bg-[#0b8a83]',
-            buttonText: 'text-white',
-            layout: 'small',
-          },
-          {
-            id: 3,
-            image: 'https://i.postimg.cc/bvT3dHGM/image-Photoroom-3.png',
-            badge: 'Încălzire și ACM',
-            title: 'Soluții moderne pentru confort',
-            desc: 'Descoperă echipamente pentru încălzire și apă caldă menajeră.',
-            link: '/category/incalzire-si-acm',
-            cardBg: 'bg-[#f7e55f]',
-            outerBg: 'bg-[#f6efc7]',
-            badgeBg: 'bg-[#9be06a]',
-            badgeText: 'text-[#1f2937]',
-            titleText: 'text-[#172033]',
-            descText: 'text-[#172033]',
-            buttonBg: 'bg-[#0b8a83]',
-            buttonText: 'text-white',
-            layout: 'small',
-          },
-        ];
+  useEffect(() => {
+    let cancelled = false;
 
-  const BannerCard = ({ banner }) => {
-    const isLarge = banner.layout === 'large';
+    const fetchProducts = async () => {
+      try {
+        // 1) try to find a category with products
+        const catRes = await axios
+          .get(`${API}/categories`)
+          .catch(() => ({ data: [] }));
+        const cats = catRes.data || [];
 
-    return (
-      <div
-        className={`relative rounded-[28px] overflow-hidden ${banner.outerBg} ${
-          isLarge ? 'min-h-[520px] md:min-h-[560px]' : 'min-h-[520px] md:min-h-[560px]'
-        }`}
-      >
-        {banner.image && (
-          <div className={`absolute inset-x-0 top-0 ${isLarge ? 'h-[58%]' : 'h-[58%]'}`}>
-            <img
-              src={banner.image}
-              alt={banner.title}
-              className="w-full h-full object-contain object-center"
-            />
-          </div>
-        )}
+        // Prefer a category that has products and a usable image
+        let chosen = null;
+        for (const c of cats) {
+          const pr = await axios
+            .get(`${API}/products?category=${encodeURIComponent(c.name)}&limit=12`)
+            .catch(() => ({ data: [] }));
+          if ((pr.data || []).length > 0) {
+            chosen = { cat: c, products: pr.data };
+            break;
+          }
+        }
 
-        <div
-          className={`absolute left-1/2 -translate-x-1/2 bottom-6 z-10 rounded-[26px] ${
-            banner.cardBg
-          } ${
-            isLarge
-              ? 'w-[calc(100%-44px)] px-6 md:px-10 py-7 md:py-8'
-              : 'w-[calc(100%-40px)] px-5 md:px-6 py-6'
-          }`}
-        >
-          <div className="flex justify-center mb-4">
-            <span
-              className={`inline-flex items-center rounded-full px-5 py-2 text-sm md:text-[15px] font-semibold ${banner.badgeBg} ${banner.badgeText}`}
-            >
-              {banner.badge}
-            </span>
-          </div>
+        // Fallback: latest products
+        if (!chosen) {
+          const all = await axios
+            .get(`${API}/products?limit=12`)
+            .catch(() => ({ data: [] }));
+          chosen = {
+            cat: { name: 'Recomandate', slug: 'catalog', image: '' },
+            products: all.data || [],
+          };
+        }
 
-          <h3
-            className={`font-bold text-center leading-tight ${
-              isLarge ? 'text-[34px] md:text-[42px]' : 'text-[28px] md:text-[34px]'
-            } ${banner.titleText}`}
-          >
-            {banner.title}
-          </h3>
+        if (!cancelled) {
+          const c = chosen.cat;
+          setCategoryInfo({
+            name: c.name,
+            slug: c.slug || 'catalog',
+            image:
+              c.image ||
+              c.imageUrl ||
+              'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=1200&auto=format&fit=crop',
+            title: c.name,
+          });
+          setProducts(chosen.products);
+        }
+      } catch (error) {
+        console.error('Error fetching banner products:', error);
+        if (!cancelled) setProducts([]);
+      }
+    };
 
-          <p
-            className={`text-center mt-4 ${
-              isLarge ? 'text-[18px] md:text-[20px]' : 'text-[16px] md:text-[18px]'
-            } ${banner.descText}`}
-          >
-            {banner.desc}
-          </p>
+    fetchProducts();
 
-          <div className="flex justify-center mt-7">
-            <Link
-              to={banner.link}
-              className={`inline-flex items-center gap-3 rounded-full pl-7 pr-2 py-2 ${banner.buttonBg} ${banner.buttonText} font-semibold text-[16px] md:text-[18px] shadow-sm hover:scale-[1.02] transition`}
-            >
-              <span>{language === 'ru' ? 'Каталог товаров' : 'Catalog produse'}</span>
-              <span className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
-                <ArrowUpRight className="w-5 h-5 text-[#0b5960]" />
-              </span>
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  };
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (!products.length) return null;
+
+  const { name: categoryName, slug: categorySlug, image: bannerImage, title } = categoryInfo;
 
   return (
     <section className="py-8 md:py-10">
-      <div className="w-full px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-2">
-            <BannerCard banner={banners[0]} />
+      <div className="w-full px-6 md:px-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] xl:grid-cols-[360px_1fr] gap-5">
+
+          {/* Left Banner */}
+          <Link
+            to={`/category/${categorySlug}`}
+            className="relative min-h-[460px] md:min-h-[500px] rounded-[24px] overflow-hidden group"
+          >
+            <img
+              src={bannerImage}
+              alt={categoryName}
+              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500"
+            />
+
+            <div className="absolute inset-0 bg-black/45" />
+
+            <div className="relative z-10 h-full flex flex-col items-center justify-start text-center px-8 pt-12">
+              <p className="text-white/80 text-[16px] font-semibold mb-4">
+                {categoryName}
+              </p>
+
+              <h2 className="text-white text-[34px] md:text-[40px] leading-tight font-extrabold max-w-[260px]">
+                {title}
+              </h2>
+
+              <span className="mt-8 inline-flex items-center justify-center rounded-full bg-[#a6cf24] text-white px-7 py-3 text-[15px] font-bold">
+                Vezi Toate Produsele
+              </span>
+            </div>
+          </Link>
+
+          {/* Products Carousel */}
+          <div className="min-w-0">
+            <Swiper
+              modules={[FreeMode]}
+              freeMode
+              grabCursor
+              slidesPerView={1.15}
+              spaceBetween={16}
+              breakpoints={{
+                480: {
+                  slidesPerView: 1.4,
+                },
+                640: {
+                  slidesPerView: 2,
+                },
+                1024: {
+                  slidesPerView: 3,
+                },
+                1280: {
+                  slidesPerView: 3,
+                },
+              }}
+              className="!pb-1"
+            >
+              {products.map((product) => (
+                <SwiperSlide key={product.id} className="!h-auto">
+                  <div className="h-full">
+                    <ProductCard product={product} />
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
 
-          <div className="lg:col-span-1">
-            <BannerCard banner={banners[1]} />
-          </div>
-
-          <div className="lg:col-span-1">
-            <BannerCard banner={banners[2]} />
-          </div>
         </div>
       </div>
     </section>

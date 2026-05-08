@@ -129,7 +129,7 @@ const Footer = () => {
           {/* RIGHT BOX */}
           <div className="bg-[#a7cf26] rounded-[28px] p-7 xl:p-8 min-h-[320px] flex flex-col justify-between">
             <div>
-              <h2 className="text-white text-[30px] xl:text-[42px] leading-none font-extrabold mb-8">
+              <h2 className="text-white text-[30px] xl:text-[30px] leading-none font-extrabold mb-8">
                 Contactează-ne!
               </h2>
 

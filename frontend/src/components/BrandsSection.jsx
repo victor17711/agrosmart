@@ -83,7 +83,7 @@ const BrandsSection = () => {
               <SwiperSlide key={brand.id}>
                 <Link
                   to={`/brand/${brandSlug}`}
-                  className="group h-[125px] bg-[#f4f4f4] rounded-[28px] flex items-center justify-center px-6 transition-all duration-300 hover:bg-[#eeeeee]"
+                  className="group h-[95px] bg-[#f4f4f4] rounded-[28px] flex items-center justify-center px-6 transition-all duration-300 hover:bg-[#eeeeee]"
                 >
                   {brand.logo ? (
                     <img
