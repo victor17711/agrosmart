@@ -90,9 +90,9 @@ const ProductCard = ({ product, showProgress = false }) => {
             </p>
           )}
 
-          <h3 className="text-[16px] leading-[1.35] font-semibold text-[#333333] line-clamp-2">
-            {productName}
-          </h3>
+          <h3 className="h-[44px] md:h-[52px] text-[16px] leading-[1.35] font-semibold text-[#333333] line-clamp-2 overflow-hidden">
+  {productName}
+</h3>
         </div>
 
         {/* Bottom Price Row */}

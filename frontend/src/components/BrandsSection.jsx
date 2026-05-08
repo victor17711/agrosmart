@@ -48,7 +48,7 @@ const BrandsSection = () => {
 
   return (
     <section className="bg-white py-8">
-      <div className="w-full px-6">
+      <div className="w-full px-4">
         <Swiper
           modules={[Navigation, Autoplay]}
           spaceBetween={28}

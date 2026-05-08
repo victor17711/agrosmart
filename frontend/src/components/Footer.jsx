@@ -199,21 +199,15 @@ const Footer = () => {
             />
 
             <img
-              src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg"
-              alt="Stripe"
+              src="https://upload.wikimedia.org/wikipedia/commons/9/98/Visa_Inc._logo_%282005%E2%80%932014%29.svg"
+              alt="Visa"
               className="h-5 object-contain"
             />
 
             <img
-              src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
-              alt="Paypal"
+              src="https://upload.wikimedia.org/wikipedia/commons/d/d2/Maib_ID_new_artwork_colour.png"
+              alt="Maib"
               className="h-5 object-contain"
-            />
-
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
-              alt="Apple Pay"
-              className="h-6 object-contain"
             />
           </div>
         </div>

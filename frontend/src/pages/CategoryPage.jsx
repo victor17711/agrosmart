@@ -20,6 +20,8 @@ const CategoryPage = () => {
   const { slug } = useParams();
 
   const [category, setCategory] = useState(null);
+  const [subcategories, setSubcategories] = useState([]);
+  const [allCategories, setAllCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [totalProducts, setTotalProducts] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -57,11 +59,12 @@ const CategoryPage = () => {
   }, [slug]);
 
   useEffect(() => {
-    if (category) {
+    if (category && subcategories.length === 0) {
+      // Only fetch products when there are no subcategories to show
       fetchProducts();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category, currentPage, priceRange.min, priceRange.max, selectedBrands.join(','), sortOrder]);
+  }, [category, subcategories, currentPage, priceRange.min, priceRange.max, selectedBrands.join(','), sortOrder]);
 
   const fetchCategoryAndBrands = async () => {
     try {
@@ -79,7 +82,14 @@ const CategoryPage = () => {
         return;
       }
 
+      // Find direct subcategories (parentId === foundCategory.id)
+      const directSubs = (catRes.data || []).filter(
+        (c) => c.parentId === foundCategory.id
+      );
+
       setCategory(foundCategory);
+      setSubcategories(directSubs);
+      setAllCategories(catRes.data || []);
       setBrands(brRes.data);
       setError(null);
     } catch (err) {
@@ -258,7 +268,46 @@ const CategoryPage = () => {
         </div>
       </div>
 
-      {/* Main Content */}
+      {/* Subcategories grid (shown when category has children) */}
+      {subcategories.length > 0 ? (
+        <div className="w-full px-6 py-10">
+          <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-gray-900 mb-6">
+            {language === 'ru' ? 'Подкатегории' : 'Subcategorii'}
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-5">
+            {subcategories.map((sub) => {
+              const subName = language === 'ru' && sub.nameRu ? sub.nameRu : sub.name;
+              const linkPrefix = language === 'ru' ? '/ru' : '';
+              return (
+                <Link
+                  key={sub.id}
+                  to={`${linkPrefix}/category/${sub.slug || sub.id}`}
+                  data-testid={`subcategory-card-${sub.id}`}
+                  className="group bg-white rounded-2xl border border-gray-100 p-4 flex flex-col items-center text-center transition hover:shadow-lg hover:border-brand-200 hover:-translate-y-0.5"
+                >
+                  <div className="w-full aspect-square rounded-xl bg-gray-50 overflow-hidden flex items-center justify-center mb-3">
+                    {sub.image ? (
+                      <img
+                        src={sub.image}
+                        alt={subName}
+                        className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center text-lg font-bold">
+                        {subName?.[0] || '?'}
+                      </div>
+                    )}
+                  </div>
+                  <span className="text-sm md:text-[15px] font-semibold text-gray-800 group-hover:text-brand-700 transition leading-tight line-clamp-2">
+                    {subName}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+      /* Main Content */
       <div className="w-full px-6 py-8">
         <div className="flex gap-8">
           {/* Sidebar Filter - Desktop */}
@@ -681,6 +730,7 @@ const CategoryPage = () => {
           </div>
         </div>
       </div>
+      )}
     </div>
   );
 };

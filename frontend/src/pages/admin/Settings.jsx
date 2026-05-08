@@ -15,6 +15,7 @@ const Settings = () => {
   const [categories, setCategories] = useState([]);
   const [pages, setPages] = useState([]);
   const [featuredCategoryId, setFeaturedCategoryId] = useState('');
+  const [secondaryFeaturedCategoryId, setSecondaryFeaturedCategoryId] = useState('');
   const [websiteName, setWebsiteName] = useState('AgroSmart');
   const [favicon, setFavicon] = useState('');
   const [importFile, setImportFile] = useState(null);
@@ -45,6 +46,7 @@ const Settings = () => {
       setMenuItems(settingsRes.data.menuItems || []);
       setCategoryItems(settingsRes.data.categoryMenuItems || []);
       setFeaturedCategoryId(settingsRes.data.featuredCategoryId || '');
+      setSecondaryFeaturedCategoryId(settingsRes.data.secondaryFeaturedCategoryId || '');
       setWebsiteName(settingsRes.data.websiteName || 'AgroSmart');
       setFavicon(settingsRes.data.favicon || '');
       setCategories(categoriesRes.data);
@@ -188,6 +190,7 @@ const Settings = () => {
         menuItems,
         categoryMenuItems: categoryItems,
         featuredCategoryId,
+        secondaryFeaturedCategoryId,
         websiteName,
         favicon
       }, getAuthHeaders());
@@ -632,6 +635,37 @@ const Settings = () => {
           </select>
           <p className="text-xs text-gray-500 mt-2">
             Produsele din această categorie vor apărea în carousel pe homepage
+          </p>
+        </div>
+      </div>
+
+      {/* Secondary Featured Category for Homepage */}
+      <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
+        <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <Folder className="w-6 h-6 text-brand-600" />
+          Al doilea carousel cu produse (Other Products)
+        </h3>
+        <p className="text-sm text-gray-600 mb-4">
+          Selectează categoria pentru carouselul „Other Products" afișat mai jos pe homepage, deasupra footerului
+        </p>
+
+        <div className="max-w-md">
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Categorie
+          </label>
+          <select
+            data-testid="secondary-featured-category-select"
+            value={secondaryFeaturedCategoryId}
+            onChange={(e) => setSecondaryFeaturedCategoryId(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
+          >
+            <option value="">Fără categorie (produse aleatorii)</option>
+            {getParentCategories().map((cat) => (
+              <option key={cat.id} value={cat.id}>{cat.name}</option>
+            ))}
+          </select>
+          <p className="text-xs text-gray-500 mt-2">
+            Lasă gol pentru a ascunde carouselul al doilea
           </p>
         </div>
       </div>

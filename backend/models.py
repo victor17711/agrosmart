@@ -254,6 +254,7 @@ class SettingsCreate(BaseModel):
     menuItems: List[MenuItem] = []
     categoryMenuItems: List[MenuItem] = []
     featuredCategoryId: Optional[str] = None
+    secondaryFeaturedCategoryId: Optional[str] = None
     heroBanners: Optional[List[HeroBanner]] = []
     albums: Optional[List[ServiceAlbum]] = []
     faqs: Optional[List[FAQ]] = []

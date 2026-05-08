@@ -8,6 +8,7 @@ import CategoryGrid from '../components/CategoryGrid';
 import ProductCard from '../components/ProductCard';
 import BannerSection from '../components/BannerSection';
 import DiscountProductsCarousel from '../components/DiscountProductsCarousel';
+import OtherProductsCarousel from '../components/OtherProductsCarousel';
 import BestSellersSection from '../components/BestSellersSection';
 import FreshFindsSection from '../components/FreshFindsSection';
 import InfoBar from '../components/InfoBar';
@@ -108,17 +109,23 @@ const HomePage = () => {
       {/* Taburi cu produse */}
       <BestSellersSection />
 
-      {/* Bannere */}
-      <BannerSection />
-
       {/* Carousel cu produse */}
       <DiscountProductsCarousel />
+
+      {/* Timer */}
+      <CountdownTimer targetDate="2026-05-15T23:59:59+03:00" />
+
+      {/* Bannere */}
+      <BannerSection />
 
       {/* Bara informativa */}
       {/* <InfoBar /> */}
 
       {/* Taburi cu produse */}
       <FreshFindsSection />
+
+      {/* Al doilea carousel cu produse — deasupra footerului */}
+      <OtherProductsCarousel />
 
       {/* Features Section */}
       {/* <FeaturesSection /> */}

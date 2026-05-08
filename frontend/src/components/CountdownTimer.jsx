@@ -1,54 +1,85 @@
-import React, { useState, useEffect } from 'react';
-import { useLanguage } from '../context/LanguageContext';
+import React, { useEffect, useState } from 'react';
 
-const CountdownTimer = ({ targetDate }) => {
-  const { language } = useLanguage();
-
+const CountdownTimer = ({
+  targetDate = '2026-05-15T23:59:59+03:00',
+  title = 'Ofertă Limitată!',
+  subtitle = 'Grăbește-te să cumperi aceste produse',
+}) => {
   const calculateTimeLeft = () => {
-    const difference = +new Date(targetDate) - +new Date();
-    let timeLeft = {};
+    const difference = new Date(targetDate).getTime() - new Date().getTime();
 
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60)
+    if (difference <= 0) {
+      return {
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
       };
     }
 
-    return timeLeft;
+    return {
+      days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((difference / (1000 * 60)) % 60),
+      seconds: Math.floor((difference / 1000) % 60),
+    };
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
 
-    return () => clearTimeout(timer);
-  });
+    return () => clearInterval(timer);
+  }, [targetDate]);
 
-  const formatNumber = (num) => String(num).padStart(2, '0');
+  const items = [
+    { value: timeLeft.days, label: 'Zile' },
+    { value: timeLeft.hours, label: 'Ore' },
+    { value: timeLeft.minutes, label: 'Min' },
+    { value: timeLeft.seconds, label: 'Sec' },
+  ];
 
   return (
-    <div className="inline-flex items-center gap-2 bg-red-100 text-red-600 px-4 py-2 rounded-full">
-      
-      <span className="font-semibold">
-        {language === 'ru' ? 'Истекает:' : 'Expiră:'}
-      </span>
+    <section className="w-full px-4 md:px-4 py-2">
+      <div className="w-full bg-[#f4f4f4] rounded-[22px] px-5 md:px-7 py-6 md:py-10">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          
+          {/* Text */}
+          <div>
+            <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-[#242424] leading-tight">
+              <span className="text-[#bd4b35]">Ofertă</span>{' '}
+              Limitată!
+            </h2>
 
-      <div className="flex items-center gap-1">
-        <span className="font-bold">{formatNumber(timeLeft.days || 259)}</span>
-        <span>:</span>
-        <span className="font-bold">{formatNumber(timeLeft.hours || 1)}</span>
-        <span>:</span>
-        <span className="font-bold">{formatNumber(timeLeft.minutes || 33)}</span>
-        <span>:</span>
-        <span className="font-bold">{formatNumber(timeLeft.seconds || 50)}</span>
+            <p className="mt-3 text-base md:text-lg text-[#777] font-medium">
+              {subtitle}
+            </p>
+          </div>
+
+          {/* Timer */}
+          <div className="flex items-center gap-2.5 md:gap-3">
+            {items.map((item) => (
+              <div
+                key={item.label}
+                className="w-[66px] h-[78px] md:w-[88px] md:h-[88px] bg-white rounded-[20px] shadow-[0_6px_18px_rgba(0,0,0,0.08)] flex flex-col items-center justify-center"
+              >
+                <div className="text-2xl md:text-3xl font-extrabold text-[#2b2b2b] leading-none">
+                  {String(item.value).padStart(2, '0')}
+                </div>
+
+                <div className="mt-1.5 text-sm md:text-base text-[#777] font-medium">
+                  {item.label}
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -257,7 +257,7 @@ const Navbar = () => {
 
       {/* Top Bar Desktop */}
       <div className="hidden lg:flex h-[42px] bg-[#a7cf26] text-white items-center justify-center">
-        <span className="text-[18px] font-bold tracking-wide uppercase">
+        <span className="text-[20px] font-bold tracking-wide uppercase">
           {language === 'ru' ? 'ОПЛАТА В 3 РАТЫ 0%' : 'ACHITĂ ÎN 3 RATE 0%'}
         </span>
       </div>
@@ -305,7 +305,7 @@ const Navbar = () => {
         </div>
 
         <div className="hidden lg:block bg-[#f4f4f4]">
-          <div className="w-full px-5 py-[18px]">
+          <div className="w-full px-4 py-[18px]">
             <div className="flex items-center gap-[18px] w-full">
               <Link to="/" className="flex-shrink-0" data-testid="navbar-logo-desktop">
                 <img
@@ -643,7 +643,7 @@ const Navbar = () => {
               )}
 
               <Link
-                to="/wishlist"
+                to="/contul-meu"
                 className="relative w-[48px] h-[48px] rounded-full bg-white flex items-center justify-center transition flex-shrink-0"
                 aria-label="Favorite"
               >

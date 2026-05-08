@@ -93,7 +93,7 @@ const BannerSection = () => {
 
   return (
     <section className="py-8 md:py-10">
-      <div className="w-full px-6 md:px-10">
+      <div className="w-full px-6 md:px-4">
         <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] xl:grid-cols-[360px_1fr] gap-5">
 
           {/* Left Banner */}
@@ -143,7 +143,7 @@ const BannerSection = () => {
                   slidesPerView: 3,
                 },
                 1280: {
-                  slidesPerView: 3,
+                  slidesPerView: 4,
                 },
               }}
               className="!pb-1"

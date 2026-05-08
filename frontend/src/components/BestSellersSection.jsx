@@ -9,6 +9,8 @@ const API = `${BACKEND_URL}/api`;
 const BestSellersSection = () => {
   const { language } = useLanguage();
 
+  const isRu = language === 'ru';
+
   const [tabs, setTabs] = useState([]);
   const [activeTabId, setActiveTabId] = useState(null);
   const [tabProducts, setTabProducts] = useState([]);
@@ -43,7 +45,9 @@ const BestSellersSection = () => {
 
             return {
               id: cat.id,
+              slug: cat.slug,
               categoryName: cat.name,
+              categoryNameRu: cat.nameRu || cat.name,
               label: cfg.label || cat.name,
               labelRu: cfg.labelRu || cat.nameRu || cat.name,
             };
@@ -112,11 +116,11 @@ const BestSellersSection = () => {
 
   return (
     <section className="py-5" data-testid="best-sellers-section">
-      <div className="w-full px-6 md:px-8">
+      <div className="w-full px-6 md:px-8 lg:px-4">
         <div className="mb-7">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <h2 className="text-[28px] md:text-[35px] leading-tight font-extrabold text-[#282828] text-left">
-              {language === 'ru' ? (
+              {isRu ? (
                 <>
                   Самые продаваемые{' '}
                   <span className="text-[#b05a8d]">товары</span>
@@ -125,8 +129,8 @@ const BestSellersSection = () => {
                 <>
                   Cele mai vândute{' '}
                   <span className="bg-gradient-to-r from-[#c86a9d] to-[#8f57d8] bg-clip-text text-transparent">
-  Produse
-</span>
+                    Produse
+                  </span>
                 </>
               )}
             </h2>
@@ -143,7 +147,7 @@ const BestSellersSection = () => {
                       : 'bg-[#f3f3f3] text-[#303030] hover:bg-[#a6cf24] hover:text-white'
                   }`}
                 >
-                  {language === 'ru' ? tab.labelRu : tab.label}
+                  {isRu ? tab.labelRu : tab.label}
                 </button>
               ))}
             </div>
@@ -152,7 +156,7 @@ const BestSellersSection = () => {
 
         {visibleProducts.length === 0 && !isProductsLoading ? (
           <div className="text-center py-10 text-gray-500">
-            {language === 'ru'
+            {isRu
               ? 'В этой категории пока нет товаров'
               : 'Nu există produse în această categorie'}
           </div>

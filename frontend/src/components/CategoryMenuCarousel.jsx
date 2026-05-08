@@ -170,11 +170,12 @@ const CategoryMenuCarousel = () => {
       data-testid="category-menu-carousel"
       className="bg-white"
     >
-      <div className="w-full px-5 py-2 pt-4">
+      <div className="w-full px-4 py-2 pt-4">
         <div className="bg-[#f4f4f4] rounded-[26px] px-7 py-4 overflow-hidden">
           <Swiper
             modules={[FreeMode]}
             freeMode
+            loop
             grabCursor
             slidesPerView="auto"
             spaceBetween={32}
