@@ -169,9 +169,60 @@ const Navbar = () => {
 
   const fetchMenus = async () => {
     try {
-      const response = await axios.get(`${API}/settings`);
-      setMenuItems(response.data.menuItems || []);
-      setCategoryMenuItems(response.data.categoryMenuItems || []);
+      const [settingsRes, catsRes] = await Promise.all([
+        axios.get(`${API}/settings`),
+        axios.get(`${API}/categories`).catch(() => ({ data: [] })),
+      ]);
+
+      setMenuItems(settingsRes.data.menuItems || []);
+
+      const rawMenu = settingsRes.data.categoryMenuItems || [];
+      const cats = catsRes.data || [];
+
+      // Index categories by id and parent
+      const catById = {};
+      const childrenByParent = {};
+      cats.forEach((c) => {
+        catById[c.id] = c;
+        const pid = c.parentId || '__ROOT__';
+        if (!childrenByParent[pid]) childrenByParent[pid] = [];
+        childrenByParent[pid].push(c);
+      });
+
+      // Build a fully nested tree from a category id (recursive)
+      const buildCategoryTree = (catId, depth = 0) => {
+        if (depth > 5) return []; // safety
+        const kids = childrenByParent[catId] || [];
+        return kids.map((c) => ({
+          id: `auto-${c.id}`,
+          name: c.name,
+          nameRu: c.nameRu,
+          icon: c.icon,
+          image: c.image,
+          url: `/category/${c.slug || c.id}`,
+          categoryId: c.id,
+          children: buildCategoryTree(c.id, depth + 1),
+        }));
+      };
+
+      // Enrich the manually-configured menu with auto-generated subtrees from real categories
+      const enrich = (item) => {
+        const manualChildren = (item.children || []).map(enrich);
+        // If this item is linked to a category, append the auto subtree (children/grandchildren by parentId).
+        let autoChildren = [];
+        if (item.categoryId) {
+          autoChildren = buildCategoryTree(item.categoryId);
+        }
+        // De-duplicate by categoryId — manual entries take precedence
+        const usedCatIds = new Set(manualChildren.map((c) => c.categoryId).filter(Boolean));
+        const merged = [
+          ...manualChildren,
+          ...autoChildren.filter((c) => !usedCatIds.has(c.categoryId)),
+        ];
+        return { ...item, children: merged };
+      };
+
+      setCategoryMenuItems(rawMenu.map(enrich));
     } catch (error) {
       console.error('Error fetching menus:', error);
       setMenuItems([
