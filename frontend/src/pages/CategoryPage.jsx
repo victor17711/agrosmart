@@ -185,7 +185,7 @@ const CategoryPage = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#a7cf26] mx-auto mb-4"></div>
           <p className="text-gray-600">{t('categoryPage.loading')}</p>
         </div>
       </div>
@@ -202,7 +202,7 @@ const CategoryPage = () => {
           </p>
           <Link
             to="/"
-            className="bg-teal-600 text-white px-6 py-3 rounded-xl hover:bg-teal-700 transition font-semibold inline-block"
+            className="bg-[#a7cf26] text-white px-6 py-3 rounded-xl transition font-semibold inline-block"
           >
             {t('categoryPage.backHome')}
           </Link>
@@ -220,7 +220,7 @@ const CategoryPage = () => {
       <div className="bg-white border-b">
         <div className="w-full px-6 py-4">
           <div className="flex items-center gap-2 text-sm text-gray-600">
-            <Link to="/" className="hover:text-teal-600">
+            <Link to="/" className="hover:text-[#a7cf26]">
               {t('categoryPage.breadcrumb.home')}
             </Link>
 
@@ -243,7 +243,7 @@ const CategoryPage = () => {
       </div>
 
       {/* Header */}
-      <div className="bg-gradient-to-r from-teal-600 to-teal-700 text-white">
+      <div className="bg-gradient-to-r from-[#a7cf26]/90 to-[#a7cf26] text-white">
         <div className="w-full px-6 py-8">
           <div className="flex items-center gap-4">
             {category.image && (
@@ -260,7 +260,7 @@ const CategoryPage = () => {
               <h1 className="text-3xl md:text-5xl font-bold">
                 {categoryName}
               </h1>
-              <p className="text-teal-100 mt-2">
+              <p className="text-[#a7cf26]/10 mt-2">
                 {totalProducts} {t('categoryPage.productsAvailable')}
               </p>
             </div>
@@ -315,13 +315,13 @@ const CategoryPage = () => {
             <div className="bg-white rounded-2xl p-6 border-2 border-gray-100 sticky top-24">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                  <SlidersHorizontal className="w-5 h-5 text-teal-600" />
+                  <SlidersHorizontal className="w-5 h-5 text-[#a7cf26]" />
                   {t('categoryPage.filters')}
                 </h3>
 
                 <button
                   onClick={resetFilters}
-                  className="text-sm text-teal-600 hover:text-teal-700 font-semibold"
+                  className="text-sm text-[#a7cf26]/90 hover:text-[#a7cf26] font-semibold"
                 >
                   {t('categoryPage.reset')}
                 </button>
@@ -335,7 +335,7 @@ const CategoryPage = () => {
                   <button
                     type="button"
                     onClick={() => setSortDropdownOpen((prev) => !prev)}
-                    className="w-full bg-white border-2 border-gray-200 rounded-xl px-4 py-3 flex items-center justify-between gap-3 text-left hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
+                    className="w-full bg-white border-2 border-gray-200 rounded-xl px-4 py-3 flex items-center justify-between gap-3 text-left hover:border-[#a7cf26]/90 focus:outline-none focus:ring-2 focus:ring-[#a7cf26]/90 transition"
                   >
                     <span className="font-semibold text-gray-700">
                       {currentSortLabel}
@@ -360,8 +360,8 @@ const CategoryPage = () => {
                           }}
                           className={`w-full px-4 py-3 text-left font-medium transition ${
                             sortOrder === option.value
-                              ? 'bg-teal-600 text-white'
-                              : 'text-gray-700 hover:bg-teal-50 hover:text-teal-700'
+                              ? 'bg-[#a7cf26] text-white'
+                              : 'text-gray-700 hover:bg-[#a7cf26]/10 hover:text-[#a7cf26]'
                           }`}
                         >
                           {option.label}
@@ -390,7 +390,7 @@ const CategoryPage = () => {
                           min: Number(e.target.value)
                         })
                       }
-                      className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#a7cf26]/90"
                     />
 
                     <input
@@ -403,13 +403,13 @@ const CategoryPage = () => {
                           max: Number(e.target.value)
                         })
                       }
-                      className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#a7cf26]"
                     />
                   </div>
 
                   <button
                     onClick={handlePriceRangeApply}
-                    className="w-full bg-teal-600 text-white py-2 rounded-lg hover:bg-teal-700 transition font-semibold"
+                    className="w-full bg-[#a7cf26] text-white py-2 rounded-lg hover:bg-[#a7cf26] transition font-semibold"
                   >
                     {t('categoryPage.apply')}
                   </button>
@@ -433,7 +433,7 @@ const CategoryPage = () => {
                           type="checkbox"
                           checked={selectedBrands.includes(brand.id)}
                           onChange={() => handleBrandToggle(brand.id)}
-                          className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+                          className="w-4 h-4 text-[#a7cf26] border-gray-300 rounded focus:ring-[#a7cf26]/90"
                         />
 
                         <div className="flex items-center gap-2 flex-1">
@@ -445,7 +445,7 @@ const CategoryPage = () => {
                             />
                           )}
 
-                          <span className="text-gray-700 group-hover:text-teal-600 transition">
+                          <span className="text-gray-700 group-hover:text-[#a7cf26] transition">
                             {brand.name}
                           </span>
                         </div>
@@ -460,7 +460,7 @@ const CategoryPage = () => {
           {/* Mobile Filter Button */}
           <button
             onClick={() => setFilterOpen(true)}
-            className="lg:hidden fixed bottom-6 left-6 bg-teal-600 text-white p-4 rounded-full shadow-lg hover:bg-teal-700 transition z-40"
+            className="lg:hidden fixed bottom-6 left-6 bg-[#a7cf26]/90 text-white p-4 rounded-full shadow-lg hover:bg-[#a7cf26] transition z-40"
           >
             <SlidersHorizontal className="w-6 h-6" />
           </button>
@@ -490,7 +490,7 @@ const CategoryPage = () => {
                       <button
                         type="button"
                         onClick={() => setMobileSortDropdownOpen((prev) => !prev)}
-                        className="w-full bg-white border-2 border-gray-200 rounded-xl px-4 py-3 flex items-center justify-between gap-3 text-left hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
+                        className="w-full bg-white border-2 border-gray-200 rounded-xl px-4 py-3 flex items-center justify-between gap-3 text-left hover:border-[#a7cf26]/90 focus:outline-none focus:ring-2 focus:ring-[#a7cf26]/90 transition"
                       >
                         <span className="font-semibold text-gray-700">
                           {currentSortLabel}
@@ -515,8 +515,8 @@ const CategoryPage = () => {
                               }}
                               className={`w-full px-4 py-3 text-left font-medium transition ${
                                 sortOrder === option.value
-                                  ? 'bg-teal-600 text-white'
-                                  : 'text-gray-700 hover:bg-teal-50 hover:text-teal-700'
+                                  ? 'bg-[#a7cf26] text-white'
+                                  : 'text-gray-700 hover:bg-[#a7cf26]/10 hover:text-[#a7cf26]'
                               }`}
                             >
                               {option.label}
@@ -545,7 +545,7 @@ const CategoryPage = () => {
                               min: Number(e.target.value)
                             })
                           }
-                          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#a7cf26]/90"
                         />
 
                         <input
@@ -558,7 +558,7 @@ const CategoryPage = () => {
                               max: Number(e.target.value)
                             })
                           }
-                          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#a7cf26]/90"
                         />
                       </div>
 
@@ -567,7 +567,7 @@ const CategoryPage = () => {
                           handlePriceRangeApply();
                           setFilterOpen(false);
                         }}
-                        className="w-full bg-teal-600 text-white py-2 rounded-lg hover:bg-teal-700 transition font-semibold"
+                        className="w-full bg-[#a7cf26]/90 text-white py-2 rounded-lg hover:bg-[#a7cf26] transition font-semibold"
                       >
                         Aplică
                       </button>
@@ -590,7 +590,7 @@ const CategoryPage = () => {
                               type="checkbox"
                               checked={selectedBrands.includes(brand.id)}
                               onChange={() => handleBrandToggle(brand.id)}
-                              className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+                              className="w-4 h-4 text-[#a7cf26] border-gray-300 rounded focus:ring-[#a7cf26]/90"
                             />
 
                             <div className="flex items-center gap-2">
@@ -636,7 +636,7 @@ const CategoryPage = () => {
 
                 <button
                   onClick={resetFilters}
-                  className="mt-4 text-teal-600 hover:text-teal-700 font-semibold"
+                  className="mt-4 text-[#a7cf26]/90 hover:text-[#a7cf26] font-semibold"
                 >
                   {t('categoryPage.resetFilters')}
                 </button>
@@ -704,7 +704,7 @@ const CategoryPage = () => {
                               onClick={() => goTo(p)}
                               className={`w-10 h-10 rounded-lg font-semibold transition ${
                                 currentPage === p
-                                  ? 'bg-teal-600 text-white'
+                                  ? 'bg-[#a7cf26] text-white'
                                   : 'border border-gray-300 hover:bg-gray-100'
                               }`}
                             >

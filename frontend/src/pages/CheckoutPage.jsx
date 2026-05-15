@@ -117,8 +117,8 @@ const CheckoutPage = () => {
                 {/* Contact Information */}
                 <div className="bg-white rounded-2xl p-6 border-2 border-gray-100">
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
-                      <MapPin className="w-5 h-5 text-teal-600" />
+                    <div className="w-10 h-10 bg-[#a7cf26]/20 rounded-full flex items-center justify-center">
+                      <MapPin className="w-5 h-5 text-[#a7cf26]" />
                     </div>
                     <h2 className="text-xl font-bold text-gray-900">
                       {t('checkout.contactInfo')}
@@ -176,8 +176,8 @@ const CheckoutPage = () => {
                 {/* Shipping Address */}
                 <div className="bg-white rounded-2xl p-6 border-2 border-gray-100">
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
-                      <Package className="w-5 h-5 text-teal-600" />
+                    <div className="w-10 h-10 bg-[#a7cf26]/20 rounded-full flex items-center justify-center">
+                      <Package className="w-5 h-5 text-[#a7cf26]" />
                     </div>
                     <h2 className="text-xl font-bold text-gray-900">
                       {t('checkout.shippingAddress')}
@@ -250,8 +250,8 @@ const CheckoutPage = () => {
                 {/* Payment Method */}
                 <div className="bg-white rounded-2xl p-6 border-2 border-gray-100">
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
-                      <CreditCard className="w-5 h-5 text-teal-600" />
+                    <div className="w-10 h-10 bg-[#a7cf26]/20 rounded-full flex items-center justify-center">
+                      <CreditCard className="w-5 h-5 text-[#a7cf26]" />
                     </div>
                     <h2 className="text-xl font-bold text-gray-900">
                       {t('checkout.paymentMethod')}
@@ -282,7 +282,7 @@ const CheckoutPage = () => {
                           key={opt.id}
                           className={`flex items-center gap-4 p-4 border-2 rounded-xl cursor-pointer transition ${
                             checked
-                              ? 'border-teal-600 bg-teal-50'
+                              ? 'border-[#a7cf26] bg-[#a7cf26]/10'
                               : 'border-gray-200 hover:border-gray-300'
                           }`}
                           data-testid={`payment-option-${opt.id}`}
@@ -299,7 +299,7 @@ const CheckoutPage = () => {
                             <div className="font-semibold text-gray-900">{opt.label}</div>
                             <div className="text-sm text-gray-600">{opt.desc}</div>
                           </div>
-                          {checked && <Check className="w-6 h-6 text-teal-600" />}
+                          {checked && <Check className="w-6 h-6 text-[#a7cf26]" />}
                         </label>
                       );
                     })}
@@ -335,7 +335,7 @@ const CheckoutPage = () => {
                             <div className="text-xs text-gray-600">
                               {item.selectedSize && `${t('checkout.size')}: ${item.selectedSize}`}
                             </div>
-                            <div className="text-sm font-semibold text-teal-600">
+                            <div className="text-sm font-semibold text-[#a7cf26]">
                               {item.price} MDL x {item.quantity}
                             </div>
                           </div>
@@ -357,21 +357,21 @@ const CheckoutPage = () => {
                     </div>
                     <div className="flex justify-between text-xl font-bold text-gray-900 pt-3 border-t">
                       <span>{t('checkout.total')}</span>
-                      <span className="text-teal-600">{getCartTotal()} MDL</span>
+                      <span className="text-[#a7cf26]">{getCartTotal()} MDL</span>
                     </div>
                   </div>
 
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-teal-600 text-white py-4 rounded-xl hover:bg-teal-700 transition font-bold text-lg mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-[#a7cf26] text-white py-4 rounded-xl hover:bg-[#a7cf26] transition font-bold text-lg mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {loading ? t('checkout.processing') : t('checkout.placeOrder')}
                   </button>
 
                   <p className="text-xs text-gray-500 text-center mt-4">
                     {t('checkout.termsText')}{' '}
-                    <a href="/termeni-si-conditii" className="text-teal-600 hover:underline">
+                    <a href="/page/politica-de-confidentialitate" className="text-[#a7cf26] hover:underline">
                       {t('checkout.termsLink')}
                     </a>{' '}
                     {t('checkout.termsSuffix')}

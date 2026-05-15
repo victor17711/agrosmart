@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import { ChevronRight, Minus, Plus, ShoppingCart, Heart, Star, Truck, RefreshCw, Shield, X, ChevronLeft } from 'lucide-react';
+import { ChevronRight, Minus, Plus, ShoppingCart, Heart, Star, Truck, RefreshCw, Shield, X, ChevronLeft, Store } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import { toast } from '../hooks/use-toast';
@@ -55,14 +55,14 @@ const ProductDetailPage = () => {
 
 
   const nextMainImage = (e) => {
-  e.stopPropagation();
-  setSelectedImage((prev) => (prev + 1) % images.length);
-};
+    e.stopPropagation();
+    setSelectedImage((prev) => (prev + 1) % images.length);
+  };
 
-const prevMainImage = (e) => {
-  e.stopPropagation();
-  setSelectedImage((prev) => (prev - 1 + images.length) % images.length);
-};
+  const prevMainImage = (e) => {
+    e.stopPropagation();
+    setSelectedImage((prev) => (prev - 1 + images.length) % images.length);
+  };
 
 
 
@@ -221,7 +221,7 @@ const prevMainImage = (e) => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#a7cf26]"></div>
       </div>
     );
   }
@@ -233,7 +233,7 @@ const prevMainImage = (e) => {
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
             {t('productDetail.notFound')}
           </h2>
-          <Link to="/" className="text-teal-600 hover:text-teal-700">
+          <Link to="/" className="text-[#a7cf26]/90 hover:text-[#a7cf26]">
             {t('productDetail.backHome')}
           </Link>
         </div>
@@ -254,11 +254,11 @@ const prevMainImage = (e) => {
       <div className="bg-white border-b">
         <div className="w-full px-6 py-4">
           <div className="flex items-center gap-2 text-sm text-gray-600">
-            <Link to="/" className="hover:text-teal-600">
+            <Link to="/" className="hover:text-[#a7cf26]">
               {t('catalogCategory.breadcrumb.home')}
             </Link>
             <ChevronRight className="w-4 h-4" />
-            <Link to={`/category/${product.category}`} className="hover:text-teal-600">
+            <Link to={`/category/${product.category}`} className="hover:text-[#a7cf26]">
               {language === 'ru' && categoryInfo?.nameRu ? categoryInfo.nameRu : product.category}
             </Link>
             <ChevronRight className="w-4 h-4" />
@@ -273,62 +273,61 @@ const prevMainImage = (e) => {
       <div className="w-full px-6 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
           {/* Images */}
-<div>
-  <div
-    className="relative bg-white rounded-2xl overflow-hidden mb-4 border-2 border-gray-100 cursor-pointer hover:border-teal-500 transition group"
-    onClick={() => openGallery(selectedImage)}
-  >
-    <img
-      src={images[selectedImage]}
-      alt={product.name}
-      className="w-full h-[300px] md:h-[600px] object-contain"
-    />
+          <div>
+            <div
+              className="relative bg-white rounded-2xl overflow-hidden mb-4 border-2 border-gray-100 cursor-pointer hover:border-[#a7cf26]/90 transition group"
+              onClick={() => openGallery(selectedImage)}
+            >
+              <img
+                src={images[selectedImage]}
+                alt={product.name}
+                className="w-full h-[300px] md:h-[600px] object-contain"
+              />
 
-    {images.length > 1 && (
-      <>
-        <button
-          type="button"
-          onClick={prevMainImage}
-          className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 hover:bg-white border border-teal-600 flex items-center justify-center transition"
-        >
-          <ChevronLeft className="w-6 h-6 text-gray-900" />
-        </button>
+              {images.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={prevMainImage}
+                    className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 hover:bg-white border border-[#a7cf26] flex items-center justify-center transition"
+                  >
+                    <ChevronLeft className="w-6 h-6 text-gray-900" />
+                  </button>
 
-        <button
-          type="button"
-          onClick={nextMainImage}
-          className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 hover:bg-white border border-teal-600 flex items-center justify-center transition"
-        >
-          <ChevronRight className="w-6 h-6 text-gray-900" />
-        </button>
+                  <button
+                    type="button"
+                    onClick={nextMainImage}
+                    className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 hover:bg-white border border-[#a7cf26] flex items-center justify-center transition"
+                  >
+                    <ChevronRight className="w-6 h-6 text-gray-900" />
+                  </button>
 
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 px-3 py-1 rounded-full bg-black/60 text-white text-sm font-semibold">
-          {selectedImage + 1} / {images.length}
-        </div>
-      </>
-    )}
-  </div>
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 px-3 py-1 rounded-full bg-black/60 text-white text-sm font-semibold">
+                    {selectedImage + 1} / {images.length}
+                  </div>
+                </>
+              )}
+            </div>
 
-  {images.length > 1 && (
-    <div className="grid grid-cols-5 gap-2">
-      {images.map((img, idx) => (
-        <button
-          key={idx}
-          onClick={() => setSelectedImage(idx)}
-          className={`bg-white rounded-lg overflow-hidden border-2 transition cursor-pointer hover:border-teal-400 ${
-            selectedImage === idx ? 'border-teal-600' : 'border-gray-200'
-          }`}
-        >
-          <img
-            src={img}
-            alt=""
-            className="w-full h-[60px] md:h-[140px] object-cover"
-          />
-        </button>
-      ))}
-    </div>
-  )}
-</div>
+            {images.length > 1 && (
+              <div className="grid grid-cols-5 gap-2">
+                {images.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setSelectedImage(idx)}
+                    className={`bg-white rounded-lg overflow-hidden border-2 transition cursor-pointer hover:border-[#a7cf26]/70 ${selectedImage === idx ? 'border-[#a7cf26]' : 'border-gray-200'
+                      }`}
+                  >
+                    <img
+                      src={img}
+                      alt=""
+                      className="w-full h-[60px] md:h-[140px] object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
 
           {/* Info */}
           <div>
@@ -340,11 +339,11 @@ const prevMainImage = (e) => {
 
               return (
                 <>
-                  {productBadge && (
+                  {/* {productBadge && (
                     <span className="inline-block bg-red-500 text-white text-sm px-3 py-1 rounded-full mb-3">
                       {productBadge}
                     </span>
-                  )}
+                  )} */}
 
                   <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
                     <h1 className="text-3xl md:text-4xl font-bold text-gray-900 flex-1 min-w-0 break-words">
@@ -353,7 +352,7 @@ const prevMainImage = (e) => {
 
                     <div className="hidden md:flex items-center gap-3 flex-shrink-0">
                       {brand && brand.logo && (
-                        <div className="bg-white border-2 border-teal-500 rounded-xl w-[160px] h-[64px] flex-shrink-0 flex items-center justify-center px-4">
+                        <div className="bg-white border-2 border-[#a7cf26]/90 rounded-xl w-[160px] h-[64px] flex-shrink-0 flex items-center justify-center px-4">
                           <img
                             src={brand.logo}
                             alt={brand.name}
@@ -376,13 +375,13 @@ const prevMainImage = (e) => {
                   </div>
 
                   {product.sku && (
-                    <div className="mb-4 flex items-center gap-2 text-gray-600">
+                    <div className="mb-2 flex items-center gap-2 text-gray-600">
                       <span className="font-semibold">{t('productDetail.sku')}:</span>
                       <span className="text-gray-800">{product.sku}</span>
                     </div>
                   )}
 
-                  <div className="flex items-center gap-4 mb-6">
+                  <div className="flex items-center gap-4 mb-2">
                     {reviews.length > 0 && (
                       <>
                         <div className="flex items-center">
@@ -403,103 +402,178 @@ const prevMainImage = (e) => {
                       </>
                     )}
 
-                    <span className="text-teal-600 font-semibold">
+                    <span className="text-[#a7cf26] font-semibold">
                       {product.sold ?? 0} {t('productDetail.sold')}
                     </span>
                   </div>
 
-                  {/* Price */}
-                  <div className="mb-6">
-                    <div className="flex items-baseline gap-4">
-                      <span className="text-2xl md:text-4xl font-bold text-teal-600">
-                        {product.price * quantity} MDL
-                      </span>
-                      {product.originalPrice && (
-                        <>
-                          <span className="text-xl md:text-2xl text-gray-400 line-through">
-                            {product.originalPrice * quantity} MDL
-                          </span>
-                          <span className="text-l md:text-xl font-semibold text-green-600">
-                            -
-                            {Math.round(
-                              ((product.originalPrice - product.price) / product.originalPrice) *
-                              100
+                  {/* Price + Installment */}
+                  <div className="mb-2">
+                    <div className="flex flex-col xl:flex-row xl:items-start gap-5">
+
+                      {/* Price */}
+                      <div className="flex-1">
+
+                        <div className="flex flex-col gap-4">
+
+                          {/* Price Row */}
+                          <div className="flex items-baseline gap-4 flex-wrap mt-3">
+
+                            <span className="text-2xl md:text-4xl font-bold text-[#a7cf26]">
+                              {product.price * quantity} MDL
+                            </span>
+
+                            {product.originalPrice && (
+                              <>
+                                <span className="text-xl md:text-2xl text-gray-400 line-through">
+                                  {product.originalPrice * quantity} MDL
+                                </span>
+
+                                <span className="text-l md:text-xl font-semibold text-green-600">
+                                  -
+                                  {Math.round(
+                                    ((product.originalPrice - product.price) /
+                                      product.originalPrice) *
+                                    100
+                                  )}
+                                  %
+                                </span>
+                              </>
                             )}
-                            %
-                          </span>
-                        </>
-                      )}
+
+                          </div>
+
+                          {/* Phone Button */}
+                          <a
+                            href="tel:+37367818180"
+                            className="w-fit flex items-center justify-center gap-3 border-2 border-[#a7cf26] rounded-2xl px-4 md:px-6 py-3 md:py-4 md:mt-[20px] transition"
+                          >
+                            <span className="text-base md:text-lg font-semibold text-[#a7cf26]">
+                              {t('productDetail.orderByPhone')}
+                            </span>
+
+                            <span className="text-[#a7cf26] text-xl">📞</span>
+
+                            <span className="text-base md:text-lg font-bold text-red-600">
+                              +373 678 181 80
+                            </span>
+                          </a>
+
+                        </div>
+
+                      </div>
+
+                      {/* Installment Plan Box */}
+                      <div className="xl:w-[325px] flex-shrink-0">
+                        <div className="bg-gradient-to-br from-lime-50 to-lime-100 border-2 border-lime-300 rounded-3xl p-5 shadow-sm">
+
+                          <div className="flex flex-col gap-4">
+
+                            {/* Top Row */}
+                            <div className="flex items-center justify-between gap-4">
+
+                              {/* Left */}
+                              <div>
+                                <p className="text-sm font-semibold uppercase tracking-wide text-lime-700 mb-1">
+                                  Achită în 3 rate
+                                </p>
+
+                                <p className="text-sm text-gray-600">
+                                  fără dobândă • 0%
+                                </p>
+                              </div>
+
+                              {/* Right */}
+                              <div className="text-right">
+                                <div className="flex items-center justify-end gap-2">
+
+                                  <span className="text-4xl font-black text-gray-900 leading-none">
+                                    {(product.price / 3).toFixed(0)}
+                                  </span>
+
+                                  <div className="flex flex-col justify-center leading-none">
+                                    <span className="text-lg font-bold text-gray-700 leading-none">
+                                      MDL
+                                    </span>
+
+                                    <span className="text-xs text-left font-medium text-gray-500 mt-[2px]">
+                                      / lună
+                                    </span>
+                                  </div>
+
+                                </div>
+                              </div>
+
+                            </div>
+
+                            {/* Button */}
+                            <button
+                              onClick={() => setShowInstallmentModal(true)}
+                              className="w-full bg-lime-500 hover:bg-lime-600 text-white py-3 rounded-2xl font-bold transition"
+                            >
+                              Vezi detalii
+                            </button>
+
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
-{/* Quantity */}
-<div className="mb-6">
-  <label className="block text-sm font-bold text-gray-900 mb-3">
-    {t('productDetail.quantity')}
-  </label>
+                  {/* Quantity */}
+                  <div className="mb-6 mt-4">
+                    <label className="block text-sm font-bold text-gray-900 mb-3">
+                      {t('productDetail.quantity')}
+                    </label>
 
-  <div className="flex items-center gap-4">
-    <div
-      className={`flex items-center border-2 rounded-lg ${
-        product.available
-          ? 'border-gray-300'
-          : 'border-gray-200 opacity-50 cursor-not-allowed'
-      }`}
-    >
-      <button
-        onClick={() => setQuantity(Math.max(1, quantity - 1))}
-        disabled={!product.available}
-        className="p-3 hover:bg-gray-100 transition disabled:cursor-not-allowed"
-      >
-        <Minus className="w-4 h-4 md:w-5 md:h-5" />
-      </button>
+                    <div className="flex items-center gap-4">
+                      <div
+                        className={`flex items-center border-2 rounded-lg ${product.available
+                          ? 'border-gray-300'
+                          : 'border-gray-200 opacity-50 cursor-not-allowed'
+                          }`}
+                      >
+                        <button
+                          onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                          disabled={!product.available}
+                          className="p-3 hover:bg-gray-100 transition disabled:cursor-not-allowed"
+                        >
+                          <Minus className="w-4 h-4 md:w-5 md:h-5" />
+                        </button>
 
-      <span className="px-2 md:px-6 py-2 font-bold text-lg">
-        {quantity}
-      </span>
+                        <span className="px-2 md:px-6 py-2 font-bold text-lg">
+                          {quantity}
+                        </span>
 
-      <button
-        onClick={() => setQuantity(quantity + 1)}
-        disabled={!product.available}
-        className="p-3 hover:bg-gray-100 transition disabled:cursor-not-allowed"
-      >
-        <Plus className="w-4 h-4 md:w-5 md:h-5" />
-      </button>
-    </div>
+                        <button
+                          onClick={() => setQuantity(quantity + 1)}
+                          disabled={!product.available}
+                          className="p-3 hover:bg-gray-100 transition disabled:cursor-not-allowed"
+                        >
+                          <Plus className="w-4 h-4 md:w-5 md:h-5" />
+                        </button>
+                      </div>
 
-    <span
-      className={`font-medium ${
-        product.available ? 'text-gray-600' : 'text-red-600'
-      }`}
-    >
-      {product.available
-        ? `${product.available} ${t('productDetail.available')}`
-        : language === 'ru'
-        ? 'Нет в наличии'
-        : 'Nu este în stoc'}
-    </span>
-  </div>
-</div>
+                      <span
+                        className={`font-medium ${product.available ? 'text-gray-600' : 'text-red-600'
+                          }`}
+                      >
+                        {product.available
+                          ? `${product.available} ${t('productDetail.available')}`
+                          : language === 'ru'
+                            ? 'Нет в наличии'
+                            : 'Nu este în stoc'}
+                      </span>
+                    </div>
+                  </div>
 
                   {/* Actions */}
-                  <div className="flex flex-col gap-3 mb-4">
-                    <a
-                      href="tel:+37369119991"
-                      className="flex items-center justify-center gap-3 border-2 border-indigo-500 rounded-2xl px-4 md:px-6 py-3 md:py-4 transition hover:shadow-md order-2 md:order-1"
-                    >
-                      <span className="text-base md:text-lg font-semibold text-indigo-500">
-                        {t('productDetail.orderByPhone')}
-                      </span>
-                      <span className="text-indigo-500 text-xl">📞</span>
-                      <span className="text-base md:text-lg font-bold text-pink-600 underline">
-                        +373 691 19 991
-                      </span>
-                    </a>
+                  <div className="flex flex-col gap-3 mb-6">
 
-                    <div className="grid grid-cols-2 gap-3 order-1 md:order-2">
+                    <div className="grid grid-cols-2 gap-3">
                       <button
                         onClick={handleAddToCart}
-                        className="bg-white border-2 border-teal-600 text-teal-600 py-4 rounded-xl hover:bg-teal-50 transition font-bold text-l md:text-lg flex items-center justify-center gap-2"
+                        className="bg-white border-2 border-[#a7cf26] text-[#a7cf26] py-4 rounded-xl hover:bg-[#a7cf26]/10 transition font-bold text-l md:text-lg flex items-center justify-center gap-2"
                       >
                         <ShoppingCart className="w-4 h-4 md:w-6 md:h-6" />
                         {t('productDetail.addToCart')}
@@ -507,15 +581,119 @@ const prevMainImage = (e) => {
 
                       <button
                         onClick={handleBuyNow}
-                        className="bg-teal-600 text-white py-4 rounded-xl hover:bg-teal-700 transition font-bold text-l md:text-lg"
+                        className="bg-[#a7cf26]/90 text-white py-4 rounded-xl hover:bg-[#a7cf26] transition font-bold text-l md:text-lg"
                       >
                         {t('productDetail.buyNow')}
                       </button>
                     </div>
                   </div>
 
+                  {/* Delivery Methods */}
+                  <div className="bg-white border border-gray-200 rounded-[28px] p-5 md:p-7 mb-8">
+                    <div className="space-y-5">
+
+                      {/* Ridicare personala */}
+                      <div className="flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-4">
+                          <div className="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center flex-shrink-0">
+                            <Store className="w-5 h-5 text-indigo-600" />
+                          </div>
+
+                          <div>
+                            <h4 className="text-base md:text-[16px] font-bold text-gray-900">
+                              Ridicare personală
+                            </h4>
+                          </div>
+                        </div>
+
+                        <span className="text-lime-500 font-bold text-base md:text-[16px]">
+                          Gratuit
+                        </span>
+                      </div>
+
+                      {/* Livrare prin curier */}
+                      <div className="flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-4">
+                          <div className="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center flex-shrink-0">
+                            <Truck className="w-5 h-5 text-indigo-600" />
+                          </div>
+
+                          <div>
+                            <h4 className="text-base md:text-[16px] font-bold text-gray-900">
+                              Livrare prin curier
+                            </h4>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-5 md:gap-10">
+                          <span className="text-gray-500 text-sm md:text-[16px]">
+                            2–3 zile
+                          </span>
+
+                          <span className="font-bold text-gray-900 text-base md:text-[16px]">
+                            de la 70 Lei
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* EVS */}
+                      <div className="flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-4">
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHkDGeP0RKmhUlh-XSDaPnc9bBhVdH7wLZXA&s"
+                            alt="EVS"
+                            className="w-8 h-8 object-contain rounded-[10px]"
+                          />
+
+                          <div>
+                            <h4 className="text-base md:text-[16px] font-bold text-gray-900">
+                              Livrare cu EVS Curier
+                            </h4>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-5 md:gap-10">
+                          <span className="text-gray-500 text-sm md:text-[16px]">
+                            1–3 zile
+                          </span>
+
+                          <span className="font-bold text-gray-900 text-base md:text-[16px]">
+                            de la 70 Lei
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* FAN */}
+                      <div className="flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-4">
+                          <img
+                            src="https://play-lh.googleusercontent.com/GpEvB5v4rCW5SCxvMwI9MmChv5rPyxtit9eqFtUvHk03DZlJAuDlfQ4vaEk0w3ZPBI8"
+                            alt="FAN Courier"
+                            className="w-8 h-8 object-contain rounded-[10px]"
+                          />
+
+                          <div>
+                            <h4 className="text-base md:text-[16px] font-bold text-gray-900">
+                              Livrare cu FAN Curier
+                            </h4>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-5 md:gap-10">
+                          <span className="text-gray-500 text-sm md:text-[16px]">
+                            2–3 zile
+                          </span>
+
+                          <span className="font-bold text-gray-900 text-base md:text-[16px]">
+                            de la 70 Lei
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Installment Plan Box */}
-                  <div className="bg-gradient-to-r from-orange-50 to-orange-100 border-2 border-orange-300 rounded-2xl px-4 md:px-6 py-3 mb-8">
+                  {/* <div className="bg-gradient-to-r from-orange-50 to-orange-100 border-2 border-orange-300 rounded-2xl px-4 md:px-6 py-3 mb-8">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                       <div className="flex items-center gap-4">
                         <div className="bg-orange-500 text-white p-2 md:p-3 rounded-xl">
@@ -557,10 +735,10 @@ const prevMainImage = (e) => {
                         <ChevronRight className="w-4 h-4" />
                       </button>
                     </div>
-                  </div>
+                  </div> */}
 
                   {/* Features */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 border-t">
+                  {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 border-t">
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-12 bg-teal-50 rounded-full flex items-center justify-center">
                         <Truck className="w-6 h-6 text-teal-600" />
@@ -602,7 +780,7 @@ const prevMainImage = (e) => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </>
               );
             })()}
@@ -617,7 +795,7 @@ const prevMainImage = (e) => {
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`pb-4 font-semibold transition border-b-2 ${activeTab === tab
-                  ? 'border-teal-600 text-teal-600'
+                  ? 'border-[#a7cf26] text-[#a7cf26]'
                   : 'border-transparent text-gray-600 hover:text-gray-900'
                   }`}
               >
@@ -684,7 +862,7 @@ const prevMainImage = (e) => {
                           onChange={(e) =>
                             setReviewForm({ ...reviewForm, userName: e.target.value })
                           }
-                          className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                          className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#a7cf26]/90"
                           placeholder="Ion Popescu"
                         />
                       </div>
@@ -700,7 +878,7 @@ const prevMainImage = (e) => {
                           onChange={(e) =>
                             setReviewForm({ ...reviewForm, userEmail: e.target.value })
                           }
-                          className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                          className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#a7cf26]/90"
                           placeholder="email@exemplu.com"
                         />
                       </div>
@@ -740,7 +918,7 @@ const prevMainImage = (e) => {
                           setReviewForm({ ...reviewForm, comment: e.target.value })
                         }
                         rows="4"
-                        className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                        className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#a7cf26]/90"
                         placeholder={t('productDetail.commentPlaceholder')}
                       />
                     </div>
@@ -748,7 +926,7 @@ const prevMainImage = (e) => {
                     <button
                       type="submit"
                       disabled={submittingReview}
-                      className="bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 transition font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="bg-[#a7cf26]/90 text-white px-6 py-3 rounded-lg hover:bg-[#a7cf26] transition font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {submittingReview
                         ? t('productDetail.submitting')
@@ -817,7 +995,7 @@ const prevMainImage = (e) => {
                 <div className="flex gap-2">
                   <button
                     onClick={() => scrollRelatedProducts('left')}
-                    className="p-2 rounded-full bg-teal-100 hover:bg-gray-200 border border-teal-600 transition"
+                    className="p-2 rounded-full bg-[#a7cf26]/10 hover:bg-gray-200 border border-[#a7cf26] transition"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -825,7 +1003,7 @@ const prevMainImage = (e) => {
                   </button>
                   <button
                     onClick={() => scrollRelatedProducts('right')}
-                    className="p-2 rounded-full bg-teal-100 hover:bg-gray-200 border border-teal-600 transition"
+                    className="p-2 rounded-full bg-[#a7cf26]/10 hover:bg-gray-200 border border-[#a7cf26] transition"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -891,7 +1069,7 @@ const prevMainImage = (e) => {
                     <span className="font-semibold text-gray-900">
                       {t('productDetail.installmentModal.monthly')}:
                     </span>
-                    <span className="text-xl font-bold text-teal-600">
+                    <span className="text-xl font-bold text-[#a7cf26]">
                       {(product.price / 3).toFixed(2)} MDL
                     </span>
                   </div>
@@ -931,7 +1109,7 @@ const prevMainImage = (e) => {
                       <p className="font-bold text-gray-900 mb-1 text-sm md:text-base">
                         {t('productDetail.installmentModal.month')} {month}
                       </p>
-                      <p className="text-sm md:text-lg font-bold text-teal-600">
+                      <p className="text-sm md:text-lg font-bold text-[#a7cf26]">
                         {(product.price / 3).toFixed(2)} MDL
                       </p>
                       <p className="text-[11px] md:text-xs text-gray-500 mt-1">
@@ -948,7 +1126,7 @@ const prevMainImage = (e) => {
               </div>
 
               {/* Application Form */}
-              <div className="bg-teal-50 border-2 border-teal-200 rounded-xl p-6 mb-4">
+              <div className="bg-[#a7cf26]/5 border-2 border-[#a7cf26]/20 rounded-xl p-6 mb-4">
                 <h4 className="text-lg font-bold text-gray-900 mb-4">
                   {t('productDetail.installmentModal.request')}
                 </h4>
@@ -993,7 +1171,7 @@ const prevMainImage = (e) => {
                       onChange={(e) =>
                         setInstallmentForm({ ...installmentForm, name: e.target.value })
                       }
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#a7cf26]/90"
                       placeholder="Ion Popescu"
                     />
                   </div>
@@ -1009,14 +1187,14 @@ const prevMainImage = (e) => {
                       onChange={(e) =>
                         setInstallmentForm({ ...installmentForm, phone: e.target.value })
                       }
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#a7cf26]/90"
                       placeholder="+373 69 123 456"
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full bg-teal-600 text-white py-3 rounded-xl hover:bg-teal-700 transition font-bold text-lg"
+                    className="w-full bg-[#a7cf26]/90 text-white py-3 rounded-xl hover:bg-[#a7cf26] transition font-bold text-lg"
                   >
                     {t('productDetail.installmentModal.send')}
                   </button>
@@ -1111,7 +1289,7 @@ const prevMainImage = (e) => {
                   key={idx}
                   onClick={() => setGalleryIndex(idx)}
                   className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition ${galleryIndex === idx
-                    ? 'border-teal-500'
+                    ? 'border-[#a7cf26]/90'
                     : 'border-white border-opacity-30 hover:border-opacity-60'
                     }`}
                 >
