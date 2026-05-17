@@ -116,7 +116,7 @@ const BestSellersSection = () => {
 
   return (
     <section className="py-5" data-testid="best-sellers-section">
-      <div className="w-full px-6 md:px-8 lg:px-4">
+      <div className="w-full px-3 md:px-8 lg:px-4">
         <div className="mb-7">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <h2 className="text-[28px] md:text-[35px] leading-tight font-extrabold text-[#282828] text-left">
@@ -163,7 +163,7 @@ const BestSellersSection = () => {
         ) : (
           <div
             key={activeTabId}
-            className={`grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 transition-all duration-500 ease-out ${
+            className={`grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 md:gap-6 transition-all duration-500 ease-out ${
               isProductsLoading
                 ? 'opacity-0 translate-y-4'
                 : 'opacity-100 translate-y-0'

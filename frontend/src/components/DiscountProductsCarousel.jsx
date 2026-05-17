@@ -84,7 +84,7 @@ const DiscountProductsCarousel = () => {
   if (loading) {
     return (
       <section className="py-12 bg-white">
-        <div className="w-full px-6 md:px-10 lg:px-16">
+        <div className="w-full px-3 md:px-10 lg:px-16">
           <div className="flex items-center justify-center py-10">
             <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-teal-600"></div>
           </div>
@@ -112,7 +112,7 @@ const DiscountProductsCarousel = () => {
 
   return (
     <section className="pt-2 pb-10 md:pb-8 bg-white">
-      <div className="w-full px-6 md:px-10 lg:px-4">
+      <div className="w-full px-3 md:px-10 lg:px-4">
         {/* Header */}
         <div className="flex items-center justify-between gap-4 mb-7 md:mb-8">
           <h2 className="text-[28px] md:text-[35px] font-extrabold tracking-tight text-[#222] leading-tight">
@@ -132,8 +132,8 @@ const DiscountProductsCarousel = () => {
         <div className="relative">
           <Swiper
             modules={[Navigation, Autoplay]}
-            spaceBetween={24}
-            slidesPerView={1.15}
+            spaceBetween={12}
+            slidesPerView={1.5}
             navigation={{
               prevEl: prevRef.current,
               nextEl: nextRef.current,

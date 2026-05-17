@@ -50,7 +50,7 @@ const BrandsManagement = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       if (editingBrand) {
         await axios.put(`${API}/brands/${editingBrand.id}`, formData, getAuthHeaders());
@@ -59,14 +59,14 @@ const BrandsManagement = () => {
         await axios.post(`${API}/brands`, formData, getAuthHeaders());
         toast({ title: 'Succes', description: 'Brand creat cu succes!' });
       }
-      
+
       fetchBrands();
       handleCloseModal();
     } catch (error) {
-      toast({ 
-        title: 'Eroare', 
+      toast({
+        title: 'Eroare',
         description: error.response?.data?.detail || 'Eroare la salvarea brandului',
-        variant: 'destructive' 
+        variant: 'destructive'
       });
     }
   };
@@ -101,121 +101,173 @@ const BrandsManagement = () => {
     setImagePreview(null);
   };
 
-  const filteredBrands = brands.filter(brand =>
+  const filteredBrands = brands.filter((brand) =>
     brand.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (loading) {
-    return <div className="text-center py-12">Se încarcă...</div>;
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-brand-600"></div>
+      </div>
+    );
   }
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm text-gray-900">
-        <h2 className="text-2xl font-extrabold tracking-tight">Gestionare Branduri</h2>
-        <p className="text-gray-500 text-sm mt-1">Administrează brandurile produselor tale</p>
-      </div>
-
-      {/* Actions Bar */}
+      {/* Header card */}
       <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
-        <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
-          <div className="relative flex-1 w-full md:max-w-md">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">
+              Gestionare Branduri
+            </h2>
+            <p className="text-sm text-gray-500 mt-1">
+              Total: <span className="font-semibold text-gray-800">{brands.length}</span> branduri în catalog
+            </p>
+          </div>
+
+          <button
+            onClick={() => setShowModal(true)}
+            className="inline-flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-full font-semibold shadow-md shadow-brand-200 transition"
+          >
+            <Plus className="w-4 h-4" />
+            Adaugă Brand
+          </button>
+        </div>
+
+        <div className="mt-5 flex flex-wrap items-center gap-3">
+          <div className="relative flex-1 min-w-[240px]">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text"
-              placeholder="Caută brand..."
+              placeholder="Caută brand după nume..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
+              className="w-full pl-11 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-brand-200 focus:bg-white transition"
             />
           </div>
-          <button
-            onClick={() => setShowModal(true)}
-            className="w-full md:w-auto bg-brand-500 text-white px-6 py-2 rounded-xl hover:bg-brand-600 transition font-semibold flex items-center justify-center gap-2"
-          >
-            <Plus className="w-5 h-5" />
-            Adaugă Brand Nou
-          </button>
         </div>
       </div>
 
-      {/* Brands Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {filteredBrands.map((brand) => (
-          <div
-            key={brand.id}
-            className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:border-brand-500 transition group"
-          >
-            <div className="flex flex-col items-center text-center">
-              {brand.logo ? (
-                <div className="w-24 h-24 rounded-xl overflow-hidden bg-gray-100 mb-4 flex items-center justify-center">
-                  <img src={brand.logo} alt={brand.name} className="w-full h-full object-contain" />
-                </div>
-              ) : (
-                <div className="w-24 h-24 rounded-xl bg-gradient-to-br from-brand-500 to-brand-600 mb-4 flex items-center justify-center">
-                  <ImageIcon className="w-12 h-12 text-brand-600" />
-                </div>
-              )}
-              
-              <h3 className="font-bold text-lg text-gray-900 mb-2">{brand.name}</h3>
-              {brand.description && (
-                <p className="text-sm text-gray-600 mb-4 line-clamp-2">{brand.description}</p>
-              )}
-              
-              <div className="flex gap-2 mt-auto pt-4 w-full">
-                <button
-                  onClick={() => handleEdit(brand)}
-                  className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition flex items-center justify-center gap-2"
-                >
-                  <Edit className="w-4 h-4" />
-                  Editează
-                </button>
-                <button
-                  onClick={() => handleDelete(brand.id)}
-                  className="flex-1 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition flex items-center justify-center gap-2"
-                >
-                  <Trash2 className="w-4 h-4" />
-                  Șterge
-                </button>
-              </div>
+      {/* Table */}
+      <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-gray-50/60">
+              <tr className="text-left text-gray-500 text-[11px] uppercase tracking-wider">
+                <th className="px-4 py-4 font-semibold">Brand</th>
+                <th className="px-4 py-4 font-semibold">Descriere</th>
+                <th className="px-4 py-4 font-semibold text-right pr-6">Acțiuni</th>
+              </tr>
+            </thead>
+
+            <tbody className="divide-y divide-gray-100">
+              {filteredBrands.map((brand) => (
+                <tr key={brand.id} className="bg-white hover:bg-brand-50/40 transition">
+                  <td className="px-4 py-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-xl bg-gray-50 border border-gray-100 overflow-hidden flex items-center justify-center flex-shrink-0">
+                        {brand.logo ? (
+                          <img
+                            src={brand.logo}
+                            alt={brand.name}
+                            className="w-full h-full object-contain p-1"
+                          />
+                        ) : (
+                          <ImageIcon className="w-5 h-5 text-gray-400" />
+                        )}
+                      </div>
+
+                      <div className="min-w-0">
+                        <div className="font-semibold text-gray-900 truncate max-w-[280px]">
+                          {brand.name}
+                        </div>
+                        <div className="text-xs text-gray-500 truncate max-w-[280px]">
+                          ID: {brand.id}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td className="px-4 py-4 text-sm text-gray-600">
+                    <div className="max-w-[420px] truncate">
+                      {brand.description || '—'}
+                    </div>
+                  </td>
+
+                  <td className="px-4 py-4">
+                    <div className="flex gap-2 justify-end pr-2">
+                      <button
+                        onClick={() => handleEdit(brand)}
+                        title="Editează"
+                        className="p-2.5 rounded-full bg-brand-50 text-brand-700 hover:bg-brand-100 transition"
+                      >
+                        <Edit className="w-4 h-4" />
+                      </button>
+
+                      <button
+                        onClick={() => handleDelete(brand.id)}
+                        title="Șterge"
+                        className="p-2.5 rounded-full bg-rose-50 text-rose-600 hover:bg-rose-100 transition"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {filteredBrands.length === 0 && (
+          <div className="px-6 py-14 text-center border-t border-gray-100">
+            <div className="mx-auto w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center mb-4">
+              <ImageIcon className="w-7 h-7 text-gray-400" />
             </div>
-          </div>
-        ))}
-      </div>
+            <p className="text-lg font-semibold text-gray-800">Nu există branduri</p>
+            <p className="text-sm text-gray-500 mt-1">
+              Adaugă primul brand sau schimbă termenul de căutare.
+            </p>
 
-      {filteredBrands.length === 0 && (
-        <div className="bg-white rounded-2xl p-12 text-center border-2 border-gray-100">
-          <p className="text-xl text-gray-600">Nu există branduri</p>
-          <button
-            onClick={() => setShowModal(true)}
-            className="mt-4 bg-brand-500 text-white px-6 py-2 rounded-xl hover:bg-brand-600 transition"
-          >
-            Adaugă primul brand
-          </button>
-        </div>
-      )}
+            <button
+              onClick={() => setShowModal(true)}
+              className="mt-5 inline-flex items-center gap-2 bg-brand-500 text-white px-5 py-2.5 rounded-full hover:bg-brand-600 transition font-semibold"
+            >
+              <Plus className="w-4 h-4" />
+              Adaugă primul brand
+            </button>
+          </div>
+        )}
+      </div>
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b p-6 flex justify-between items-center">
-              <h3 className="text-2xl font-bold text-gray-900">
-                {editingBrand ? 'Editează Brand' : 'Adaugă Brand Nou'}
-              </h3>
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-100">
+            <div className="sticky top-0 z-10 bg-white/95 backdrop-blur px-6 py-5 flex justify-between items-center border-b border-gray-100 rounded-t-3xl">
+              <div>
+                <h3 className="text-2xl font-extrabold text-gray-900 tracking-tight">
+                  {editingBrand ? 'Editează brand' : 'Adaugă brand nou'}
+                </h3>
+                <p className="text-sm text-gray-500 mt-0.5">
+                  {editingBrand ? 'Actualizează detaliile brandului' : 'Completează câmpurile pentru a adăuga un brand'}
+                </p>
+              </div>
+
               <button
                 onClick={handleCloseModal}
-                className="text-gray-500 hover:text-gray-700 transition"
+                className="w-10 h-10 rounded-full bg-gray-50 hover:bg-gray-100 text-gray-600 flex items-center justify-center transition"
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
             <form onSubmit={handleSubmit} className="p-6 space-y-6">
               {/* Brand Name */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-bold text-gray-700 mb-2">
                   Nume Brand *
                 </label>
                 <input
@@ -223,51 +275,62 @@ const BrandsManagement = () => {
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                   placeholder="Ex: Nike, Adidas, Zara..."
                 />
               </div>
 
               {/* Logo Upload */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-bold text-gray-700 mb-2">
                   Logo Brand
                 </label>
-                <div className="flex items-center gap-4">
-                  {imagePreview ? (
-                    <div className="w-32 h-32 rounded-xl overflow-hidden bg-gray-100 flex items-center justify-center">
-                      <img src={imagePreview} alt="Preview" className="w-full h-full object-contain" />
+
+                <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 hover:border-brand-500 transition">
+                  <div className="flex flex-col sm:flex-row items-center gap-5">
+                    {imagePreview ? (
+                      <div className="w-32 h-32 rounded-xl overflow-hidden bg-gray-50 border border-gray-100 flex items-center justify-center">
+                        <img
+                          src={imagePreview}
+                          alt="Preview"
+                          className="w-full h-full object-contain p-2"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-32 h-32 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center">
+                        <ImageIcon className="w-12 h-12 text-gray-400" />
+                      </div>
+                    )}
+
+                    <div className="flex-1 text-center sm:text-left">
+                      <label className="cursor-pointer bg-brand-500 text-white px-5 py-2.5 rounded-xl hover:bg-brand-600 transition inline-flex items-center gap-2 font-semibold">
+                        <Upload className="w-4 h-4" />
+                        Încarcă Logo
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageUpload}
+                          className="hidden"
+                        />
+                      </label>
+
+                      <p className="text-xs text-gray-500 mt-2">
+                        PNG, JPG, WEBP. Recomandat: 500x500px
+                      </p>
                     </div>
-                  ) : (
-                    <div className="w-32 h-32 rounded-xl bg-gray-100 flex items-center justify-center">
-                      <ImageIcon className="w-12 h-12 text-gray-400" />
-                    </div>
-                  )}
-                  <div className="flex-1">
-                    <label className="cursor-pointer bg-gray-100 text-gray-700 px-4 py-2 rounded-xl hover:bg-gray-200 transition inline-flex items-center gap-2">
-                      <Upload className="w-4 h-4" />
-                      Încarcă Logo
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                        className="hidden"
-                      />
-                    </label>
-                    <p className="text-xs text-gray-500 mt-2">PNG, JPG, WEBP (Recomandat: 500x500px)</p>
                   </div>
                 </div>
               </div>
 
               {/* Description */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Descriere (Opțional)
+                <label className="block text-sm font-bold text-gray-700 mb-2">
+                  Descriere opțională
                 </label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 min-h-[100px]"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 min-h-[110px]"
                   placeholder="Descriere scurtă despre brand..."
                 />
               </div>
@@ -275,17 +338,18 @@ const BrandsManagement = () => {
               {/* Actions */}
               <div className="flex gap-3 pt-4">
                 <button
-                  type="button"
-                  onClick={handleCloseModal}
-                  className="flex-1 bg-gray-200 text-gray-700 py-3 rounded-xl hover:bg-gray-300 transition font-semibold"
-                >
-                  Anulează
-                </button>
-                <button
                   type="submit"
                   className="flex-1 bg-brand-500 text-white py-3 rounded-xl hover:bg-brand-600 transition font-semibold"
                 >
-                  {editingBrand ? 'Actualizează' : 'Creează'} Brand
+                  {editingBrand ? 'Actualizează' : 'Creează'}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleCloseModal}
+                  className="flex-1 bg-gray-300 text-gray-700 py-3 rounded-xl hover:bg-gray-400 transition font-semibold"
+                >
+                  Anulează
                 </button>
               </div>
             </form>

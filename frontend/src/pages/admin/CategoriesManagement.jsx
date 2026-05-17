@@ -193,35 +193,46 @@ const CategoriesManagement = () => {
             </span>
           </td>
           <td className="px-6 py-3">
-            <div className="flex gap-2">
-              <button
-                onClick={() => {
-                  setShowModal(true);
-                  setEditingCategory(null);
-                  setImagePreview(null);
-                  setFormData({ name: '', nameRu: '', slug: '', icon: '', image: '', parentId: cat.id });
-                }}
-                title="Adaugă subcategorie"
-                data-testid={`add-sub-${cat.id}`}
-                className="p-2 bg-brand-500 text-white rounded-lg hover:bg-brand-600 transition"
-              >
-                <Plus className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => handleEdit(cat)}
-                data-testid={`edit-cat-${cat.id}`}
-                className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-              >
-                <Edit className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => handleDelete(cat.id)}
-                data-testid={`delete-cat-${cat.id}`}
-                className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-            </div>
+            <div className="flex gap-2 justify-end pr-2">
+  <button
+    onClick={() => {
+      setShowModal(true);
+      setEditingCategory(null);
+      setImagePreview(null);
+      setFormData({
+        name: '',
+        nameRu: '',
+        slug: '',
+        icon: '',
+        image: '',
+        parentId: cat.id
+      });
+    }}
+    title="Adaugă subcategorie"
+    data-testid={`add-sub-${cat.id}`}
+    className="p-2.5 rounded-full bg-brand-50 text-brand-700 hover:bg-brand-100 transition"
+  >
+    <Plus className="w-4 h-4" />
+  </button>
+
+  <button
+    onClick={() => handleEdit(cat)}
+    data-testid={`edit-cat-${cat.id}`}
+    title="Editează"
+    className="p-2.5 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 transition"
+  >
+    <Edit className="w-4 h-4" />
+  </button>
+
+  <button
+    onClick={() => handleDelete(cat.id)}
+    data-testid={`delete-cat-${cat.id}`}
+    title="Șterge"
+    className="p-2.5 rounded-full bg-rose-50 text-rose-600 hover:bg-rose-100 transition"
+  >
+    <Trash2 className="w-4 h-4" />
+  </button>
+</div>
           </td>
         </tr>
         {subs.map((s) => renderCategoryRow(s, depth + 1))}
@@ -248,7 +259,7 @@ const CategoriesManagement = () => {
           </div>
           <button
             onClick={() => { setShowModal(true); setEditingCategory(null); setFormData({ name: '', nameRu: '', slug: '', icon: '', parentId: null, image: '' }); }}
-            className="bg-white text-brand-700 px-6 py-3 rounded-xl flex items-center gap-2 hover:bg-brand-50 transition font-semibold"
+            className="inline-flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-full font-semibold shadow-md shadow-brand-200 transition"
           >
             <Plus className="w-5 h-5" />
             Adaugă Categorie
@@ -267,7 +278,7 @@ const CategoriesManagement = () => {
                 <th className="px-6 py-4 text-left font-semibold">Slug</th>
                 <th className="px-6 py-4 text-left font-semibold">Categorie Părinte</th>
                 <th className="px-6 py-4 text-left font-semibold">Produse</th>
-                <th className="px-6 py-4 text-left font-semibold">Acțiuni</th>
+                <th className="px-6 py-4 text-right font-semibold pr-8">Acțiuni</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">

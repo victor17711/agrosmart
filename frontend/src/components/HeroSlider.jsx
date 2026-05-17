@@ -115,7 +115,7 @@ const HeroSlider = () => {
   }
 
   return (
-    <div className="w-full px-4 md:px-4 py-5 md:pt-2">
+    <div className="w-full px-3 md:px-4 py-5 md:pt-2">
       <div className="grid grid-cols-1 lg:grid-cols-[2.15fr_0.65fr] gap-5">
         {/* LEFT SLIDER */}
         <div
@@ -203,7 +203,7 @@ const HeroSlider = () => {
         </div>
 
         {/* RIGHT CUSTOM CARD */}
-        <div className="relative rounded-[28px] overflow-hidden h-[220px] md:h-[360px] lg:h-[550px] bg-[#a7cf26] group">
+        <div className="hidden lg:block relative rounded-[28px] overflow-hidden h-[220px] md:h-[360px] lg:h-[550px] bg-[#a7cf26] group">
           <img
             src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=900&auto=format&fit=crop"
             alt="AgroSmart promo"

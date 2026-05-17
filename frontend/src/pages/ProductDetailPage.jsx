@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ChevronRight, Minus, Plus, ShoppingCart, Heart, Star, Truck, RefreshCw, Shield, X, ChevronLeft, Store } from 'lucide-react';
 import { useCart } from '../context/CartContext';
@@ -15,7 +15,7 @@ const ProductDetailPage = () => {
   const { id } = useParams();
   const { addToCart, addToWishlist, removeFromWishlist, isInWishlist } = useCart();
   const { language, t } = useLanguage();
-
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [brand, setBrand] = useState(null);
   const [categoryInfo, setCategoryInfo] = useState(null);
@@ -177,7 +177,7 @@ const ProductDetailPage = () => {
       ...product,
       quantity
     });
-    window.location.href = '/checkout';
+    navigate(language === 'ru' ? '/ru/checkout' : '/checkout');
   };
 
   const handleAddToWishlist = () => {
@@ -258,7 +258,7 @@ const ProductDetailPage = () => {
               {t('catalogCategory.breadcrumb.home')}
             </Link>
             <ChevronRight className="w-4 h-4" />
-            <Link to={`/category/${product.category}`} className="hover:text-[#a7cf26]">
+            <Link to={`/category/${categoryInfo?.slug || categoryInfo?.id || encodeURIComponent(product.category)}`} className="hover:text-[#a7cf26]">
               {language === 'ru' && categoryInfo?.nameRu ? categoryInfo.nameRu : product.category}
             </Link>
             <ChevronRight className="w-4 h-4" />

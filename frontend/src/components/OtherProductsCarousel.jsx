@@ -12,8 +12,6 @@ import 'swiper/css/navigation';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
-// Second category-driven products carousel placed above the footer.
-// Driven by `settings.secondaryFeaturedCategoryId` (configured in admin Settings).
 const OtherProductsCarousel = () => {
   const { language } = useLanguage();
   const [settings, setSettings] = useState(null);
@@ -26,13 +24,16 @@ const OtherProductsCarousel = () => {
 
   useEffect(() => {
     let cancelled = false;
+
     (async () => {
       try {
         const settingsRes = await axios.get(`${API}/settings`);
         if (cancelled) return;
+
         setSettings(settingsRes.data);
 
         const id = settingsRes.data?.secondaryFeaturedCategoryId;
+
         if (!id) {
           setLoading(false);
           return;
@@ -40,17 +41,22 @@ const OtherProductsCarousel = () => {
 
         const catsRes = await axios.get(`${API}/categories`);
         const cat = (catsRes.data || []).find((c) => c.id === id);
+
         if (!cat) {
           setLoading(false);
           return;
         }
+
         if (cancelled) return;
+
         setCategory(cat);
 
         const prodRes = await axios.get(
           `${API}/products?category=${encodeURIComponent(cat.name)}&limit=24`
         );
+
         if (cancelled) return;
+
         setProducts(prodRes.data || []);
       } catch (e) {
         console.error('OtherProductsCarousel error:', e);
@@ -58,10 +64,12 @@ const OtherProductsCarousel = () => {
         if (!cancelled) setLoading(false);
       }
     })();
-    return () => { cancelled = true; };
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  // Hide while loading or when admin hasn't configured a category / no products
   if (loading) return null;
   if (!settings?.secondaryFeaturedCategoryId) return null;
   if (!products.length) return null;
@@ -77,7 +85,7 @@ const OtherProductsCarousel = () => {
 
   return (
     <section data-testid="other-products-carousel" className="pt-2 pb-10 md:pb-12 bg-white">
-      <div className="w-full px-6 md:px-10 lg:px-4">
+      <div className="w-full px-3 md:px-10 lg:px-4">
         {/* Header */}
         <div className="flex items-center justify-between gap-4 mb-7 md:mb-8">
           <h2 className="text-[28px] md:text-[35px] font-extrabold tracking-tight text-[#222] leading-tight">
@@ -98,8 +106,8 @@ const OtherProductsCarousel = () => {
         <div className="relative">
           <Swiper
             modules={[Navigation, Autoplay]}
-            spaceBetween={24}
-            slidesPerView={1.15}
+            spaceBetween={12}
+            slidesPerView={1.5}
             navigation={{
               prevEl: prevRef.current,
               nextEl: nextRef.current,
@@ -131,7 +139,6 @@ const OtherProductsCarousel = () => {
             ))}
           </Swiper>
 
-          {/* Navigation Buttons */}
           <button
             ref={prevRef}
             data-testid="other-products-prev"
@@ -149,7 +156,6 @@ const OtherProductsCarousel = () => {
           </button>
         </div>
 
-        {/* Mobile button */}
         <div className="mt-7 flex md:hidden justify-center">
           <Link
             to={categoryLink}

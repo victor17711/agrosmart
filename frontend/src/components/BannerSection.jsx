@@ -27,29 +27,30 @@ const BannerSection = () => {
 
     const fetchProducts = async () => {
       try {
-        // 1) try to find a category with products
         const catRes = await axios
           .get(`${API}/categories`)
           .catch(() => ({ data: [] }));
+
         const cats = catRes.data || [];
 
-        // Prefer a category that has products and a usable image
         let chosen = null;
+
         for (const c of cats) {
           const pr = await axios
             .get(`${API}/products?category=${encodeURIComponent(c.name)}&limit=12`)
             .catch(() => ({ data: [] }));
+
           if ((pr.data || []).length > 0) {
             chosen = { cat: c, products: pr.data };
             break;
           }
         }
 
-        // Fallback: latest products
         if (!chosen) {
           const all = await axios
             .get(`${API}/products?limit=12`)
             .catch(() => ({ data: [] }));
+
           chosen = {
             cat: { name: 'Recomandate', slug: 'catalog', image: '' },
             products: all.data || [],
@@ -58,6 +59,7 @@ const BannerSection = () => {
 
         if (!cancelled) {
           const c = chosen.cat;
+
           setCategoryInfo({
             name: c.name,
             nameRu: c.nameRu,
@@ -69,11 +71,15 @@ const BannerSection = () => {
             title: c.name,
             titleRu: c.nameRu,
           });
+
           setProducts(chosen.products);
         }
       } catch (error) {
         console.error('Error fetching banner products:', error);
-        if (!cancelled) setProducts([]);
+
+        if (!cancelled) {
+          setProducts([]);
+        }
       }
     };
 
@@ -86,16 +92,23 @@ const BannerSection = () => {
 
   if (!products.length) return null;
 
-  const { name, nameRu, slug: categorySlug, image: bannerImage, title, titleRu } = categoryInfo;
+  const {
+    name,
+    nameRu,
+    slug: categorySlug,
+    image: bannerImage,
+    title,
+    titleRu,
+  } = categoryInfo;
+
   const categoryName = language === 'ru' && nameRu ? nameRu : name;
   const displayTitle = language === 'ru' && titleRu ? titleRu : title;
   const linkPrefix = language === 'ru' ? '/ru' : '';
 
   return (
     <section className="py-8 md:py-10">
-      <div className="w-full px-6 md:px-4">
+      <div className="w-full px-3 md:px-4">
         <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] xl:grid-cols-[360px_1fr] gap-5">
-
           {/* Left Banner */}
           <Link
             to={`${linkPrefix}/category/${categorySlug}`}
@@ -130,20 +143,24 @@ const BannerSection = () => {
               modules={[FreeMode]}
               freeMode
               grabCursor
-              slidesPerView={1.15}
-              spaceBetween={16}
+              slidesPerView={1.5}
+              spaceBetween={12}
               breakpoints={{
                 480: {
-                  slidesPerView: 1.4,
+                  slidesPerView: 1.5,
+                  spaceBetween: 12,
                 },
                 640: {
                   slidesPerView: 2,
+                  spaceBetween: 16,
                 },
                 1024: {
                   slidesPerView: 3,
+                  spaceBetween: 18,
                 },
                 1280: {
                   slidesPerView: 4,
+                  spaceBetween: 20,
                 },
               }}
               className="!pb-1"
@@ -157,7 +174,6 @@ const BannerSection = () => {
               ))}
             </Swiper>
           </div>
-
         </div>
       </div>
     </section>

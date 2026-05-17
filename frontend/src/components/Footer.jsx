@@ -145,7 +145,7 @@ const Footer = () => {
             </div>
 
             {/* NEWSLETTER */}
-            <div className="mt-8">
+            {/* <div className="mt-8">
               <div className="text-white text-[17px] font-bold mb-4">
                 Abonează-te la newsletter
               </div>
@@ -172,7 +172,7 @@ const Footer = () => {
                   </button>
                 </div>
               </form>
-            </div>
+            </div> */}
           </div>
         </div>
 

@@ -78,14 +78,14 @@ const HomePage = () => {
     }
   };
 
-  if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto"></div>
-        <p className="mt-4 text-gray-600">Loading products...</p>
-      </div>
-    </div>;
-  }
+  // if (loading) {
+  //   return <div className="min-h-screen flex items-center justify-center">
+  //     <div className="text-center">
+  //       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto"></div>
+  //       <p className="mt-4 text-gray-600">Se încarcă...</p>
+  //     </div>
+  //   </div>;
+  // }
 
   // Product sections
   const hotPicksProducts = products.slice(0, 6);
@@ -113,7 +113,7 @@ const HomePage = () => {
       <DiscountProductsCarousel />
 
       {/* Timer */}
-      <CountdownTimer targetDate="2026-05-15T23:59:59+03:00" />
+      <CountdownTimer targetDate="2026-06-15T23:59:59+03:00" />
 
       {/* Bannere */}
       <BannerSection />
@@ -122,7 +122,7 @@ const HomePage = () => {
       {/* <InfoBar /> */}
 
       {/* Taburi cu produse */}
-      <FreshFindsSection />
+      {/* <FreshFindsSection /> */}
 
       {/* Al doilea carousel cu produse — deasupra footerului */}
       <OtherProductsCarousel />

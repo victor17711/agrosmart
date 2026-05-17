@@ -88,17 +88,21 @@ const CategoryMenuCarousel = () => {
 
   const resolveLink = (item) => {
     let url;
-    if (item.url) url = item.url;
-    else if (item.categoryId) {
+
+    if (item.url) {
+      url = item.url;
+    } else if (item.categoryId) {
       const cat = categoriesById[item.categoryId];
       url = cat ? `/category/${cat.slug || cat.id}` : '#';
     } else {
       url = '#';
     }
-    // Add /ru prefix when in Russian (LanguageContext sync also handles it but this avoids flash)
+
+    // Add /ru prefix when in Russian
     if (language === 'ru' && url.startsWith('/') && !url.startsWith('/ru')) {
       return `/ru${url}`;
     }
+
     return url;
   };
 
@@ -124,6 +128,7 @@ const CategoryMenuCarousel = () => {
   const renderIcon = (item) => {
     // Look up the linked category to get its uploaded image
     const linkedCat = item.categoryId ? categoriesById[item.categoryId] : null;
+
     const rawSrc =
       item.icon ||
       item.image ||
@@ -138,6 +143,7 @@ const CategoryMenuCarousel = () => {
       '';
 
     const src = getImageSrc(rawSrc);
+
     const isImagePath =
       rawSrc &&
       (rawSrc.startsWith('data:') ||
@@ -150,7 +156,7 @@ const CategoryMenuCarousel = () => {
         <img
           src={src}
           alt={item.name || ''}
-          className="w-8 h-8 object-cover"
+          className="w-6 h-6 md:w-8 md:h-8 object-cover"
           onError={(e) => {
             e.currentTarget.style.display = 'none';
           }}
@@ -159,10 +165,14 @@ const CategoryMenuCarousel = () => {
     }
 
     if (rawSrc && rawSrc.length <= 4) {
-      return <span className="text-base leading-none">{rawSrc}</span>;
+      return (
+        <span className="text-[13px] md:text-base leading-none">
+          {rawSrc}
+        </span>
+      );
     }
 
-    return <Sprout className="w-6 h-6 text-black" />;
+    return <Sprout className="w-5 h-5 md:w-6 md:h-6 text-black" />;
   };
 
   return (
@@ -170,30 +180,42 @@ const CategoryMenuCarousel = () => {
       data-testid="category-menu-carousel"
       className="bg-white"
     >
-      <div className="w-full px-4 py-2 pt-4">
-        <div className="bg-[#f4f4f4] rounded-[26px] px-7 py-4 overflow-hidden">
+      <div className="w-full px-2 py-1 pt-4 md:px-4 md:py-2 md:pt-4">
+        <div className="bg-[#f4f4f4] rounded-[18px] md:rounded-[26px] px-3 py-2 md:px-7 md:py-4 overflow-hidden">
           <Swiper
             modules={[FreeMode]}
             freeMode
             loop
             grabCursor
             slidesPerView="auto"
-            spaceBetween={32}
+            spaceBetween={18}
+            breakpoints={{
+              768: {
+                spaceBetween: 32,
+              },
+            }}
             className="!overflow-visible"
           >
             {items.map((item) => {
-              const linkedCat = item.categoryId ? categoriesById[item.categoryId] : null;
+              const linkedCat = item.categoryId
+                ? categoriesById[item.categoryId]
+                : null;
+
               const displayName =
                 language === 'ru'
-                  ? (item.nameRu || linkedCat?.nameRu || item.name || linkedCat?.name)
-                  : (item.name || linkedCat?.name);
+                  ? item.nameRu ||
+                    linkedCat?.nameRu ||
+                    item.name ||
+                    linkedCat?.name
+                  : item.name || linkedCat?.name;
+
               return (
                 <SwiperSlide key={item.id} style={{ width: 'auto' }}>
                   <Link
                     to={resolveLink(item)}
-                    className="flex items-center gap-2 text-[16px] md:text-[17px] font-semibold text-[#2d2d2d] whitespace-nowrap hover:text-black transition"
+                    className="flex items-center gap-1.5 md:gap-2 text-[13px] md:text-[17px] font-semibold text-[#2d2d2d] whitespace-nowrap hover:text-black transition"
                   >
-                    <span className="w-10 h-10 flex items-center justify-center shrink-0">
+                    <span className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center shrink-0">
                       {renderIcon(item)}
                     </span>
 

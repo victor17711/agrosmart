@@ -7,8 +7,6 @@ import {
   Menu,
   Globe,
   ChevronDown,
-  Phone,
-  Headphones,
   ChevronRight,
   X,
   Heart
@@ -18,8 +16,6 @@ import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import AuthModal from './AuthModal';
 import axios from 'axios';
-import { Leaf } from "lucide-react";
-import { FaFacebookF, FaInstagram, FaTiktok } from 'react-icons/fa';
 import logo from '../assets/images/logo.png';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -39,7 +35,7 @@ const Navbar = () => {
   const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
   const [menuItems, setMenuItems] = useState([]);
   const [categoryMenuItems, setCategoryMenuItems] = useState([]);
-  const [mobileMenuTab, setMobileMenuTab] = useState('menu');
+  const [expandedMobileCategoryId, setExpandedMobileCategoryId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   const [searchResults, setSearchResults] = useState([]);
@@ -60,7 +56,7 @@ const Navbar = () => {
 
   const closeMobileMenu = () => {
     setIsMenuOpen(false);
-    setMobileMenuTab('menu');
+    setExpandedMobileCategoryId(null);
   };
 
   const getName = (item) => {
@@ -107,7 +103,10 @@ const Navbar = () => {
         setIsCategoriesOpen(false);
       }
 
-      if (languageDropdownRef.current && !languageDropdownRef.current.contains(event.target)) {
+      if (
+        languageDropdownRef.current &&
+        !languageDropdownRef.current.contains(event.target)
+      ) {
         setIsLanguageDropdownOpen(false);
       }
 
@@ -117,6 +116,7 @@ const Navbar = () => {
     };
 
     document.addEventListener('mousedown', handleClickOutside);
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
 
@@ -171,7 +171,7 @@ const Navbar = () => {
     try {
       const [settingsRes, catsRes] = await Promise.all([
         axios.get(`${API}/settings`),
-        axios.get(`${API}/categories`).catch(() => ({ data: [] })),
+        axios.get(`${API}/categories`).catch(() => ({ data: [] }))
       ]);
 
       setMenuItems(settingsRes.data.menuItems || []);
@@ -179,20 +179,21 @@ const Navbar = () => {
       const rawMenu = settingsRes.data.categoryMenuItems || [];
       const cats = catsRes.data || [];
 
-      // Index categories by id and parent
-      const catById = {};
       const childrenByParent = {};
+
       cats.forEach((c) => {
-        catById[c.id] = c;
         const pid = c.parentId || '__ROOT__';
+
         if (!childrenByParent[pid]) childrenByParent[pid] = [];
+
         childrenByParent[pid].push(c);
       });
 
-      // Build a fully nested tree from a category id (recursive)
       const buildCategoryTree = (catId, depth = 0) => {
-        if (depth > 5) return []; // safety
+        if (depth > 5) return [];
+
         const kids = childrenByParent[catId] || [];
+
         return kids.map((c) => ({
           id: `auto-${c.id}`,
           name: c.name,
@@ -201,33 +202,36 @@ const Navbar = () => {
           image: c.image,
           url: `/category/${c.slug || c.id}`,
           categoryId: c.id,
-          children: buildCategoryTree(c.id, depth + 1),
+          children: buildCategoryTree(c.id, depth + 1)
         }));
       };
 
-      // Enrich the manually-configured menu with auto-generated subtrees from real categories
       const enrich = (item) => {
         const manualChildren = (item.children || []).map(enrich);
-        // If this item is linked to a category, append the auto subtree (children/grandchildren by parentId).
+
         let autoChildren = [];
+
         if (item.categoryId) {
           autoChildren = buildCategoryTree(item.categoryId);
         }
-        // De-duplicate by categoryId — manual entries take precedence
-        const usedCatIds = new Set(manualChildren.map((c) => c.categoryId).filter(Boolean));
+
+        const usedCatIds = new Set(
+          manualChildren.map((c) => c.categoryId).filter(Boolean)
+        );
+
         const merged = [
           ...manualChildren,
-          ...autoChildren.filter((c) => !usedCatIds.has(c.categoryId)),
+          ...autoChildren.filter((c) => !usedCatIds.has(c.categoryId))
         ];
+
         return { ...item, children: merged };
       };
 
       setCategoryMenuItems(rawMenu.map(enrich));
     } catch (error) {
       console.error('Error fetching menus:', error);
-      setMenuItems([
-        { id: '1', name: 'Acasă', url: '/', type: 'link' }
-      ]);
+
+      setMenuItems([{ id: '1', name: 'Acasă', url: '/', type: 'link' }]);
     }
   };
 
@@ -249,6 +253,7 @@ const Navbar = () => {
       });
 
       const data = res.data.products || res.data.items || res.data || [];
+
       setSearchResults(Array.isArray(data) ? data : []);
       setShowSearchDropdown(true);
     } catch (error) {
@@ -268,7 +273,7 @@ const Navbar = () => {
       setSearchQuery('');
       setSearchResults([]);
       setShowSearchDropdown(false);
-      setIsMenuOpen(false);
+      closeMobileMenu();
     }
   };
 
@@ -315,46 +320,50 @@ const Navbar = () => {
 
       {/* Main Header */}
       <div ref={headerRef} className="bg-white border-b sticky top-0 z-40">
-        <div className="w-full px-4 md:px-6 py-4 md:py-4 lg:hidden">
-          <div className="lg:hidden">
-            <div className="grid grid-cols-[auto_1fr_auto] items-center">
-              <div className="flex justify-start">
-                <button
-                  onClick={() => setIsMenuOpen(true)}
-                  className="w-[52px] h-[52px] md:w-[72px] md:h-[72px] rounded-full border-2 border-gray-200 flex items-center justify-center bg-white"
-                >
-                  <Menu className="w-5 h-5 text-gray-700" />
-                </button>
-              </div>
+        {/* Mobile Header */}
+<div className="lg:hidden bg-white">
+  <div className="h-[76px] px-2 grid grid-cols-[38px_1fr_38px] items-center">
+    <button
+      onClick={() => setIsMenuOpen(true)}
+      className="flex h-[38px] w-[38px] items-center justify-center bg-transparent p-0"
+      aria-label="Deschide meniul"
+    >
+      <Menu className="h-7 w-7 text-[#2f2f2f]" strokeWidth={2.2} />
+    </button>
 
-              <div className="flex justify-center">
-                <Link to="/" className="flex items-center justify-center gap-2" data-testid="navbar-logo-mobile">
-                  <Leaf className="w-7 h-7 text-brand-600" />
-                  <img
-                    src={logo}
-                    alt="AgroSmart"
-                    className="h-14 w-auto object-contain"
-                  />
-                </Link>
-              </div>
+    <Link
+      to="/"
+      className="flex items-center justify-center"
+      data-testid="navbar-logo-mobile"
+    >
+      <img
+        src={logo}
+        alt="AgroSmart"
+        className="h-[50px] w-auto max-w-[205px] object-contain"
+      />
+    </Link>
 
-              <div className="flex justify-end">
-                <Link
-                  to="/cart"
-                  className="w-[52px] h-[52px] md:w-[72px] md:h-[72px] bg-yellow-400 rounded-full flex items-center justify-center relative"
-                >
-                  <ShoppingCart className="w-5 h-5 text-gray-900" />
-                  {cartCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
-                      {cartCount}
-                    </span>
-                  )}
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
+    {isAuthenticated ? (
+      <Link
+        to="/contul-meu"
+        className="flex h-[38px] w-[38px] items-center justify-center bg-transparent p-0"
+        aria-label="Contul meu"
+      >
+        <User className="h-6 w-6 text-[#2f2f2f]" strokeWidth={2} />
+      </Link>
+    ) : (
+      <button
+        onClick={() => openAuthModal('login')}
+        className="flex h-[38px] w-[38px] items-center justify-center bg-transparent p-0"
+        aria-label="Login"
+      >
+        <User className="h-7 w-7 text-[#2f2f2f]" strokeWidth={2} />
+      </button>
+    )}
+  </div>
+</div>
 
+        {/* Desktop Header */}
         <div className="hidden lg:block bg-[#f4f4f4]">
           <div className="w-full px-4 py-[18px]">
             <div className="flex items-center gap-[18px] w-full">
@@ -384,7 +393,11 @@ const Navbar = () => {
                   </div>
 
                   <span>Categorii</span>
-                  <ChevronDown className={`w-4 h-4 transition-transform ${isCategoriesOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform ${
+                      isCategoriesOpen ? 'rotate-180' : ''
+                    }`}
+                  />
                 </button>
 
                 {isCategoriesOpen && categoryMenuItems.length > 0 && (
@@ -426,11 +439,14 @@ const Navbar = () => {
                                 >
                                   {item.icon && (
                                     <div className="w-6 h-6 min-w-[24px] flex items-center justify-center overflow-hidden flex-shrink-0">
-                                      {typeof item.icon === 'string' && item.icon.startsWith('data:image') ? (
+                                      {typeof item.icon === 'string' &&
+                                      item.icon.startsWith('data:image') ? (
                                         <img
                                           src={item.icon}
                                           alt={itemName}
-                                          className={`w-full h-full object-contain ${isActive ? '' : 'invert brightness-0'}`}
+                                          className={`w-full h-full object-contain ${
+                                            isActive ? '' : 'invert brightness-0'
+                                          }`}
                                         />
                                       ) : (
                                         <span className="text-lg">{item.icon}</span>
@@ -443,7 +459,11 @@ const Navbar = () => {
                                   </span>
                                 </Link>
 
-                                <ChevronRight className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-gray-700' : 'text-white'}`} />
+                                <ChevronRight
+                                  className={`w-5 h-5 flex-shrink-0 ${
+                                    isActive ? 'text-gray-700' : 'text-white'
+                                  }`}
+                                />
                               </div>
                             );
                           })}
@@ -457,7 +477,10 @@ const Navbar = () => {
 
                             if (children.length === 0) {
                               return (
-                                <div key={item.id} className="h-full flex items-center justify-center text-gray-400 text-lg">
+                                <div
+                                  key={item.id}
+                                  className="h-full flex items-center justify-center text-gray-400 text-lg"
+                                >
                                   Nu există subcategorii
                                 </div>
                               );
@@ -562,13 +585,17 @@ const Navbar = () => {
                       </div>
                     ) : searchResults.length === 0 ? (
                       <div className="py-8 text-center text-gray-500">
-                        {language === 'ru' ? 'Товары не найдены' : 'Nu au fost găsite produse'}
+                        {language === 'ru'
+                          ? 'Товары не найдены'
+                          : 'Nu au fost găsite produse'}
                       </div>
                     ) : (
                       <div className="space-y-4 max-h-[520px] overflow-y-auto pr-2">
                         {searchResults.map((product) => {
                           const productName =
-                            language === 'ru' && product.nameRu ? product.nameRu : product.name;
+                            language === 'ru' && product.nameRu
+                              ? product.nameRu
+                              : product.name;
 
                           return (
                             <Link
@@ -595,11 +622,12 @@ const Navbar = () => {
                                     {product.price} lei
                                   </span>
 
-                                  {product.originalPrice && Number(product.originalPrice) > Number(product.price) && (
-                                    <span className="text-base text-gray-400 line-through">
-                                      {product.originalPrice} lei
-                                    </span>
-                                  )}
+                                  {product.originalPrice &&
+                                    Number(product.originalPrice) > Number(product.price) && (
+                                      <span className="text-base text-gray-400 line-through">
+                                        {product.originalPrice} lei
+                                      </span>
+                                    )}
                                 </div>
                               </div>
                             </Link>
@@ -613,7 +641,9 @@ const Navbar = () => {
                         onClick={handleSearch}
                         className="mt-5 w-full bg-[#a7cf26] text-white py-3 rounded-xl font-bold hover:bg-[#93b91f] transition"
                       >
-                        {language === 'ru' ? 'Смотреть все результаты' : 'Vezi toate rezultatele'}
+                        {language === 'ru'
+                          ? 'Смотреть все результаты'
+                          : 'Vezi toate rezultatele'}
                       </button>
                     )}
                   </div>
@@ -627,53 +657,46 @@ const Navbar = () => {
                 {language === 'ru' ? 'Контакты' : 'Contact'}
               </Link>
 
+              <div className="relative flex-shrink-0" ref={languageDropdownRef}>
+                <button
+                  onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
+                  className="w-[48px] h-[48px] rounded-full bg-white flex items-center justify-center transition hover:bg-gray-50"
+                >
+                  <Globe className="w-5 h-5 text-[#1f1f1f]" strokeWidth={2} />
+                </button>
 
-<div
-  className="relative flex-shrink-0"
-  ref={languageDropdownRef}
->
-  <button
-    onClick={() =>
-      setIsLanguageDropdownOpen(!isLanguageDropdownOpen)
-    }
-    className="w-[48px] h-[48px] rounded-full bg-white flex items-center justify-center transition hover:bg-gray-50"
-  >
-    <Globe className="w-5 h-5 text-[#1f1f1f]" strokeWidth={2} />
-  </button>
+                {isLanguageDropdownOpen && (
+                  <div className="absolute top-[58px] right-0 bg-white rounded-[18px] shadow-2xl border border-gray-100 overflow-hidden min-w-[90px] z-[999]">
+                    <button
+                      onClick={() => {
+                        changeLanguage('ro');
+                        setIsLanguageDropdownOpen(false);
+                      }}
+                      className={`w-full px-4 py-3 text-left text-[14px] font-semibold transition ${
+                        language === 'ro'
+                          ? 'bg-[#a7cf26] text-white'
+                          : 'text-gray-700 hover:bg-gray-50'
+                      }`}
+                    >
+                      RO
+                    </button>
 
-  {isLanguageDropdownOpen && (
-    <div className="absolute top-[58px] right-0 bg-white rounded-[18px] shadow-2xl border border-gray-100 overflow-hidden min-w-[90px] z-[999]">
-      <button
-        onClick={() => {
-          changeLanguage('ro');
-          setIsLanguageDropdownOpen(false);
-        }}
-        className={`w-full px-4 py-3 text-left text-[14px] font-semibold transition ${
-          language === 'ro'
-            ? 'bg-[#a7cf26] text-white'
-            : 'text-gray-700 hover:bg-gray-50'
-        }`}
-      >
-        RO
-      </button>
-
-      <button
-        onClick={() => {
-          changeLanguage('ru');
-          setIsLanguageDropdownOpen(false);
-        }}
-        className={`w-full px-4 py-3 text-left text-[14px] font-semibold transition ${
-          language === 'ru'
-            ? 'bg-[#a7cf26] text-white'
-            : 'text-gray-700 hover:bg-gray-50'
-        }`}
-      >
-        RU
-      </button>
-    </div>
-  )}
-</div>
-
+                    <button
+                      onClick={() => {
+                        changeLanguage('ru');
+                        setIsLanguageDropdownOpen(false);
+                      }}
+                      className={`w-full px-4 py-3 text-left text-[14px] font-semibold transition ${
+                        language === 'ru'
+                          ? 'bg-[#a7cf26] text-white'
+                          : 'text-gray-700 hover:bg-gray-50'
+                      }`}
+                    >
+                      RU
+                    </button>
+                  </div>
+                )}
+              </div>
 
               {isAuthenticated ? (
                 <Link
@@ -722,235 +745,155 @@ const Navbar = () => {
       {/* Mobile Overlay */}
       <div
         onClick={closeMobileMenu}
-        className={`fixed inset-0 bg-black/45 backdrop-blur-[2px] z-[90] lg:hidden transition-all duration-300 ${
-          isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
+        className={`fixed inset-0 bg-black/55 z-[90] lg:hidden transition-all duration-300 ${
+          isMenuOpen
+            ? 'opacity-100 visible'
+            : 'opacity-0 invisible pointer-events-none'
         }`}
       />
 
-      {/* Mobile Side Menu */}
-      <div
-        className={`fixed top-0 left-0 h-full w-[86%] max-w-[360px] bg-white z-[100] lg:hidden shadow-[0_20px_60px_rgba(0,0,0,0.18)] transition-transform duration-300 ease-out ${
-          isMenuOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+{/* Mobile Side Menu */}
+<div
+  className={`fixed top-0 left-0 h-full w-[75%] max-w-[370px] bg-white z-[100] lg:hidden shadow-[18px_0_60px_rgba(0,0,0,0.22)] transition-transform duration-300 ease-out ${
+    isMenuOpen ? 'translate-x-0' : '-translate-x-full'
+  }`}
+>
+  <div className="flex h-full flex-col bg-white">
+    {/* Close */}
+    <div className="h-[62px] px-4 flex items-center justify-end border-b border-gray-200 bg-white">
+      <button
+        onClick={closeMobileMenu}
+        className="flex items-center gap-1.5 text-[#2f2f2f] text-[16px] font-semibold"
       >
-        <div className="flex h-full flex-col">
-          <div className="bg-gradient-to-r from-teal-600 to-teal-700 text-white px-5 py-5">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-xs uppercase tracking-[0.2em] text-white/70">
-                  Navigare
-                </div>
-                <div className="text-2xl font-bold mt-1">Meniu</div>
-              </div>
+        <X className="w-5 h-5" strokeWidth={2} />
+        <span>Închide</span>
+      </button>
+    </div>
 
+    {/* Search */}
+    <div className="px-4 py-3 border-b border-gray-200 bg-white">
+      <form onSubmit={handleSearch} className="relative">
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Caută produse"
+          className="w-full h-[46px] rounded-none border-0 bg-white pl-0 pr-10 text-[16px] font-semibold text-gray-800 placeholder:text-gray-500 outline-none"
+        />
+
+        <button
+          type="submit"
+          className="absolute right-0 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center"
+        >
+          <Search className="w-6 h-6 text-gray-500" strokeWidth={2} />
+        </button>
+      </form>
+    </div>
+
+    {/* Categories */}
+    <div className="flex-1 overflow-y-auto bg-white">
+      <div className="divide-y divide-gray-200 border-b border-gray-200">
+        {categoryMenuItems.map((item) => {
+          const itemDisplayName = getName(item);
+          const children = item.children || [];
+          const isExpanded = expandedMobileCategoryId === item.id;
+
+          return (
+            <div key={item.id} className="bg-white">
               <button
-                onClick={closeMobileMenu}
-                className="w-11 h-11 rounded-xl bg-white/15 hover:bg-white/20 flex items-center justify-center transition"
+                type="button"
+                onClick={() => {
+                  if (children.length > 0) {
+                    setExpandedMobileCategoryId(isExpanded ? null : item.id);
+                  } else {
+                    navigate(item.url);
+                    closeMobileMenu();
+                  }
+                }}
+                className="w-full min-h-[48px] px-4 grid grid-cols-[1fr_42px] items-center text-left bg-white"
               >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
+                <span className="text-[14px] leading-tight font-bold uppercase tracking-[-0.01em] text-[#333333]">
+                  {itemDisplayName}
+                </span>
 
-            <div className="pt-4">
-              <form onSubmit={handleSearch} className="relative">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={t('navbar.search')}
-                  className="w-full h-[45px] px-7 pr-16 border-2 border-white/20 bg-white text-gray-500 rounded-[10px] focus:outline-none focus:border-white"
-                />
-
-                <button type="submit" className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-400 hover:text-teal-600">
-                  <Search className="w-6 h-6" />
-                </button>
-              </form>
-            </div>
-
-            <div className="mt-4 rounded-2xl bg-white/10 p-1 flex items-center gap-1">
-              <button
-                onClick={() => setMobileMenuTab('menu')}
-                className={`flex-1 rounded-xl px-4 py-3 text-[15px] font-semibold transition ${
-                  mobileMenuTab === 'menu'
-                    ? 'bg-white text-teal-700 shadow-sm'
-                    : 'text-white/85'
-                }`}
-              >
-                Menu
+                <span className="h-full min-h-[48px] border-l border-gray-200 flex items-center justify-center">
+                  <ChevronRight
+                    className={`w-5 h-5 text-[#111] transition-transform duration-200 ${
+                      isExpanded ? 'rotate-90' : ''
+                    }`}
+                    strokeWidth={1.8}
+                  />
+                </span>
               </button>
 
-              <button
-                onClick={() => setMobileMenuTab('categories')}
-                className={`flex-1 rounded-xl px-3 py-3 text-[15px] font-semibold whitespace-nowrap transition ${
-                  mobileMenuTab === 'categories'
-                    ? 'bg-white text-teal-700 shadow-sm'
-                    : 'text-white/85'
-                }`}
-              >
-                {t('navbar.allCategories')}
-              </button>
-            </div>
-          </div>
+              {isExpanded && children.length > 0 && (
+                <div className="bg-white border-t border-gray-200">
+                  {children.map((child) => {
+                    const childDisplayName = getName(child);
 
-          <div className="flex-1 overflow-y-auto px-4 py-4">
-            {mobileMenuTab === 'menu' ? (
-              <nav className="space-y-2">
-                {menuItems.map((item) => {
-                  const displayName = getName(item);
-
-                  return (
-                    <Link
-                      key={item.id}
-                      to={item.url}
-                      onClick={closeMobileMenu}
-                      className="flex items-center justify-between gap-3 rounded-2xl px-4 py-3 text-gray-800 hover:bg-gray-100 transition"
-                    >
-                      <div className="flex items-center gap-3">
-                        {item.icon && <span className="text-lg">{item.icon}</span>}
-                        <span className="font-semibold">{displayName}</span>
-                      </div>
-
-                      <ChevronRight className="w-4 h-4 text-gray-400" />
-                    </Link>
-                  );
-                })}
-
-                <div className="pt-4 mt-4 border-t border-gray-200">
-                  {!isAuthenticated ? (
-                    <button
-                      onClick={() => {
-                        openAuthModal('login');
-                        closeMobileMenu();
-                      }}
-                      className="w-full rounded-2xl bg-yellow-400 text-gray-900 font-bold px-4 py-3 text-left"
-                    >
-                      {t('navbar.loginNow')}
-                    </button>
-                  ) : (
-                    <div className="space-y-3">
-                      <div className="rounded-2xl bg-gray-100 px-4 py-3">
-                        <div className="text-sm text-gray-500">{t('navbar.account')}</div>
-
-                        <Link
-                          to="/contul-meu"
-                          onClick={closeMobileMenu}
-                          className="block rounded-2xl bg-gray-100 px-4 py-3"
-                        >
-                          <div className="font-semibold text-gray-900 w-full text-left">
-                            {user?.firstName} {user?.lastName}
-                          </div>
-                        </Link>
-                      </div>
-
-                      <button
-                        onClick={() => {
-                          logout();
-                          closeMobileMenu();
-                        }}
-                        className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-left font-semibold text-gray-700"
-                      >
-                        {t('navbar.logout')}
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </nav>
-            ) : (
-              <div className="space-y-3">
-                {categoryMenuItems.map((item) => {
-                  const itemDisplayName = getName(item);
-
-                  return (
-                    <div
-                      key={item.id}
-                      className="rounded-2xl border border-gray-100 bg-gray-50 px-3 py-2"
-                    >
+                    return (
                       <Link
-                        to={item.url}
+                        key={child.id}
+                        to={child.url}
                         onClick={closeMobileMenu}
-                        className="flex items-center gap-3 py-2"
+                        className="min-h-[46px] px-6 grid grid-cols-[1fr_42px] items-center border-b border-gray-200 bg-[#fafafa]"
                       >
-                        {item.icon && (
-                          <div className="w-10 h-10 min-w-[40px] rounded-xl flex items-center justify-center shadow-sm overflow-hidden bg-white flex-shrink-0">
-                            {typeof item.icon === 'string' && item.icon.startsWith('data:image') ? (
-                              <img src={item.icon} alt={itemDisplayName} className="w-full h-full object-cover" />
-                            ) : (
-                              <span className="text-lg">{item.icon}</span>
-                            )}
-                          </div>
-                        )}
+                        <span className="text-[13px] leading-tight font-bold uppercase tracking-[-0.01em] text-gray-700">
+                          {childDisplayName}
+                        </span>
 
-                        <div className="flex-1">
-                          <div className="font-semibold text-gray-900">{itemDisplayName}</div>
-                        </div>
+                        <span className="h-full min-h-[48px] border-l border-gray-200 flex items-center justify-center">
+                          <ChevronRight
+                            className="w-4.2 h-4.2 text-gray-500"
+                            strokeWidth={1.8}
+                          />
+                        </span>
                       </Link>
-
-                      {item.hasChildren && item.children && item.children.length > 0 && (
-                        <div className="ml-13 mt-1 space-y-1 pb-2">
-                          {item.children.map((child) => {
-                            const childDisplayName = getName(child);
-
-                            return (
-                              <Link
-                                key={child.id}
-                                to={child.url}
-                                onClick={closeMobileMenu}
-                                className="block rounded-xl px-3 py-2 text-sm text-gray-600 hover:text-teal-600 hover:bg-white transition"
-                              >
-                                {childDisplayName}
-                              </Link>
-                            );
-                          })}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-
-          <div className="border-t border-gray-200 px-4 py-3 bg-white space-y-2">
-            <div className="flex items-center justify-between bg-gray-50 rounded-xl px-3 py-2">
-              <div className="flex items-center gap-2 text-xs text-gray-500">
-                <Globe className="w-4 h-4" />
-                <span className="font-medium">RO / RU</span>
-              </div>
-
-              <div className="flex items-center gap-1">
-                <button
-                  onClick={() => changeLanguage('ro')}
-                  className={`px-2 py-1 rounded-md text-xs font-semibold transition ${
-                    language === 'ro'
-                      ? 'bg-teal-600 text-white'
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
-                >
-                  RO
-                </button>
-
-                <button
-                  onClick={() => changeLanguage('ru')}
-                  className={`px-2 py-1 rounded-md text-xs font-semibold transition ${
-                    language === 'ru'
-                      ? 'bg-teal-600 text-white'
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
-                >
-                  RU
-                </button>
-              </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
+          );
+        })}
+      </div>
+    </div>
 
-            <div className="flex items-center justify-between bg-gray-50 rounded-xl px-3 py-2">
-              <span className="text-xs text-gray-500">{t('navbar.support')}</span>
-              <a href="tel:069119991" className="text-sm font-semibold text-gray-900">
-                069 119 991
-              </a>
-            </div>
-          </div>
+    {/* Compact Language */}
+    <div className="border-t border-gray-200 px-4 py-2.5 bg-white">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1.5 text-[12px] font-semibold text-gray-500">
+          <Globe className="w-3.5 h-3.5" />
+          <span>Limbă</span>
+        </div>
+
+        <div className="flex items-center gap-1 rounded-full bg-gray-100 p-1">
+          <button
+            onClick={() => changeLanguage('ro')}
+            className={`px-2.5 py-1 rounded-full text-[11px] font-bold transition ${
+              language === 'ro'
+                ? 'bg-[#a7cf26] text-white'
+                : 'text-gray-600'
+            }`}
+          >
+            RO
+          </button>
+
+          <button
+            onClick={() => changeLanguage('ru')}
+            className={`px-2.5 py-1 rounded-full text-[11px] font-bold transition ${
+              language === 'ru'
+                ? 'bg-[#a7cf26] text-white'
+                : 'text-gray-600'
+            }`}
+          >
+            RU
+          </button>
         </div>
       </div>
+    </div>
+  </div>
+</div>
 
       <AuthModal
         isOpen={authModalOpen}

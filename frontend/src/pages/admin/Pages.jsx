@@ -1,7 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useAdmin } from '../../context/AdminContext';
 import axios from 'axios';
-import { FileText, Plus, Edit, Trash2, Eye, EyeOff, X } from 'lucide-react';
+import {
+  FileText,
+  Plus,
+  Edit,
+  Trash2,
+  Eye,
+  EyeOff,
+  X,
+  Save,
+  Link as LinkIcon,
+  CalendarDays,
+  MapPin,
+  Phone,
+  Mail,
+  Clock
+} from 'lucide-react';
 import { toast } from '../../hooks/use-toast';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -9,10 +24,12 @@ const API = `${BACKEND_URL}/api`;
 
 const Pages = () => {
   const { getAuthHeaders } = useAdmin();
+
   const [pages, setPages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingPage, setEditingPage] = useState(null);
+
   const [formData, setFormData] = useState({
     title: '',
     titleRu: '',
@@ -21,7 +38,9 @@ const Pages = () => {
     contentRu: '',
     isPublished: true
   });
+
   const [isContactPage, setIsContactPage] = useState(false);
+
   const [contactData, setContactData] = useState({
     address: '',
     phone: '',
@@ -39,65 +58,112 @@ const Pages = () => {
       const response = await axios.get(`${API}/pages`);
       setPages(response.data);
     } catch (error) {
-      toast({ title: 'Eroare', description: 'Nu s-au putut încărca paginile', variant: 'destructive' });
+      toast({
+        title: 'Eroare',
+        description: 'Nu s-au putut încărca paginile',
+        variant: 'destructive'
+      });
     } finally {
       setLoading(false);
     }
   };
 
+  const resetForm = () => {
+    setEditingPage(null);
+    setIsContactPage(false);
+    setFormData({
+      title: '',
+      titleRu: '',
+      slug: '',
+      content: '',
+      contentRu: '',
+      isPublished: true
+    });
+    setContactData({
+      address: '',
+      phone: '',
+      email: '',
+      hours: '',
+      mapUrl: ''
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!formData.title || !formData.slug) {
-      toast({ title: 'Eroare', description: 'Completează toate câmpurile obligatorii', variant: 'destructive' });
+      toast({
+        title: 'Eroare',
+        description: 'Completează toate câmpurile obligatorii',
+        variant: 'destructive'
+      });
       return;
     }
 
     try {
       let dataToSend = { ...formData };
-      
-      // If editing contact page, convert contactData to JSON string
+
       if (isContactPage) {
         dataToSend.content = JSON.stringify(contactData);
       }
 
       if (editingPage) {
-        await axios.put(`${API}/pages/${editingPage.id}`, dataToSend, getAuthHeaders());
-        toast({ title: 'Succes', description: 'Pagina a fost actualizată!' });
+        await axios.put(
+          `${API}/pages/${editingPage.id}`,
+          dataToSend,
+          getAuthHeaders()
+        );
+
+        toast({
+          title: 'Succes',
+          description: 'Pagina a fost actualizată!'
+        });
       } else {
         await axios.post(`${API}/pages`, dataToSend, getAuthHeaders());
-        toast({ title: 'Succes', description: 'Pagina a fost creată!' });
+
+        toast({
+          title: 'Succes',
+          description: 'Pagina a fost creată!'
+        });
       }
-      
+
       setShowModal(false);
-      setEditingPage(null);
-      setIsContactPage(false);
-      setFormData({ title: '', titleRu: '', slug: '', content: '', contentRu: '', isPublished: true });
-      setContactData({ address: '', phone: '', email: '', hours: '', mapUrl: '' });
+      resetForm();
       fetchPages();
     } catch (error) {
-      toast({ 
-        title: 'Eroare', 
-        description: error.response?.data?.detail || 'Nu s-a putut salva pagina', 
-        variant: 'destructive' 
+      toast({
+        title: 'Eroare',
+        description:
+          error.response?.data?.detail || 'Nu s-a putut salva pagina',
+        variant: 'destructive'
       });
     }
   };
 
   const handleDelete = async (id) => {
     if (!window.confirm('Sigur doriți să ștergeți această pagină?')) return;
-    
+
     try {
       await axios.delete(`${API}/pages/${id}`, getAuthHeaders());
-      toast({ title: 'Succes', description: 'Pagina a fost ștearsă!' });
+
+      toast({
+        title: 'Succes',
+        description: 'Pagina a fost ștearsă!'
+      });
+
       fetchPages();
     } catch (error) {
-      toast({ title: 'Eroare', description: 'Nu s-a putut șterge pagina', variant: 'destructive' });
+      toast({
+        title: 'Eroare',
+        description: 'Nu s-a putut șterge pagina',
+        variant: 'destructive'
+      });
     }
   };
 
   const handleEdit = (page) => {
     setEditingPage(page);
+
     setFormData({
       title: page.title,
       titleRu: page.titleRu || '',
@@ -106,12 +172,13 @@ const Pages = () => {
       contentRu: page.contentRu || '',
       isPublished: page.isPublished
     });
-    
-    // Check if this is the contact page
+
     if (page.slug === 'contact') {
       setIsContactPage(true);
+
       try {
         const parsed = JSON.parse(page.content);
+
         setContactData({
           address: parsed.address || '',
           phone: parsed.phone || '',
@@ -120,12 +187,18 @@ const Pages = () => {
           mapUrl: parsed.mapUrl || ''
         });
       } catch {
-        setContactData({ address: '', phone: '', email: '', hours: '', mapUrl: '' });
+        setContactData({
+          address: '',
+          phone: '',
+          email: '',
+          hours: '',
+          mapUrl: ''
+        });
       }
     } else {
       setIsContactPage(false);
     }
-    
+
     setShowModal(true);
   };
 
@@ -140,33 +213,57 @@ const Pages = () => {
 
   const handleTitleChange = (e) => {
     const title = e.target.value;
+
     setFormData({
       ...formData,
-      title: title,
+      title,
       slug: generateSlug(title)
     });
   };
 
+  const formatDate = (date) => {
+    if (!date) return '—';
+
+    return new Date(date).toLocaleDateString('ro-RO', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  };
+
   if (loading) {
-    return <div className="text-center py-12">Se încarcă...</div>;
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-brand-600"></div>
+      </div>
+    );
   }
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm text-gray-900">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-extrabold tracking-tight">Gestionare Pagini</h2>
-            <p className="text-gray-500 text-sm mt-1">Creează și editează paginile site-ului</p>
+            <h2 className="text-2xl font-extrabold tracking-tight">
+              Gestionare Pagini
+            </h2>
+
+            <p className="text-gray-500 text-sm mt-1">
+              Total:{' '}
+              <span className="font-semibold text-gray-800">
+                {pages.length}
+              </span>{' '}
+              pagini create în site
+            </p>
           </div>
+
           <button
             onClick={() => {
-              setEditingPage(null);
-              setFormData({ title: '', titleRu: '', slug: '', content: '', contentRu: '', isPublished: true });
+              resetForm();
               setShowModal(true);
             }}
-            className="bg-white text-brand-600 px-6 py-3 rounded-xl hover:bg-brand-50 transition font-semibold flex items-center gap-2 shadow-lg"
+            className="inline-flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-full font-semibold shadow-md shadow-brand-200 transition"
           >
             <Plus className="w-5 h-5" />
             Pagină Nouă
@@ -174,253 +271,426 @@ const Pages = () => {
         </div>
       </div>
 
-      {/* Pages List */}
-      {pages.length === 0 ? (
-        <div className="bg-white rounded-2xl p-12 text-center border-2 border-gray-100">
-          <FileText className="w-24 h-24 text-gray-300 mx-auto mb-6" />
-          <h3 className="text-2xl font-bold text-gray-900 mb-3">Nicio pagină încă</h3>
-          <p className="text-gray-600 mb-6">Creează prima ta pagină pentru site.</p>
-          <button
-            onClick={() => setShowModal(true)}
-            className="bg-brand-500 text-white px-6 py-3 rounded-xl hover:bg-brand-600 transition font-semibold inline-flex items-center gap-2"
-          >
-            <Plus className="w-5 h-5" />
-            Creează Pagină
-          </button>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 gap-4">
-          {pages.map((page) => (
-            <div
-              key={page.id}
-              className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:border-brand-200 transition"
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-xl font-bold text-gray-900">{page.title}</h3>
-                    {page.isPublished ? (
-                      <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
-                        <Eye className="w-3 h-3" />
-                        Publicată
-                      </span>
-                    ) : (
-                      <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
-                        <EyeOff className="w-3 h-3" />
-                        Draft
-                      </span>
-                    )}
-                  </div>
-                  <div className="text-sm text-gray-600 mb-2">
-                    <span className="font-mono bg-gray-100 px-2 py-1 rounded">/page/{page.slug}</span>
-                  </div>
-                  <p className="text-gray-700 line-clamp-2">{page.content}</p>
-                  <div className="text-xs text-gray-500 mt-3">
-                    Creat: {new Date(page.createdAt).toLocaleDateString('ro-RO')}
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 ml-4">
-                  <button
-                    onClick={() => handleEdit(page)}
-                    className="p-3 bg-brand-500 text-white rounded-xl hover:bg-brand-500 transition"
-                  >
-                    <Edit className="w-5 h-5" />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(page.id)}
-                    className="p-3 bg-red-500 text-white rounded-xl hover:bg-red-600 transition"
-                  >
-                    <Trash2 className="w-5 h-5" />
-                  </button>
-                </div>
-              </div>
+      {/* Pages Table */}
+      <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+        {pages.length === 0 ? (
+          <div className="px-6 py-16 text-center">
+            <div className="mx-auto w-16 h-16 rounded-2xl bg-gray-50 flex items-center justify-center mb-4">
+              <FileText className="w-8 h-8 text-gray-300" />
             </div>
-          ))}
-        </div>
-      )}
+
+            <h3 className="text-xl font-bold text-gray-900 mb-2">
+              Nicio pagină încă
+            </h3>
+
+            <p className="text-gray-500 mb-6">
+              Creează prima pagină pentru site.
+            </p>
+
+            <button
+              onClick={() => {
+                resetForm();
+                setShowModal(true);
+              }}
+              className="inline-flex items-center gap-2 bg-brand-500 text-white px-5 py-2.5 rounded-full hover:bg-brand-600 transition font-semibold shadow-md shadow-brand-200"
+            >
+              <Plus className="w-5 h-5" />
+              Creează Pagină
+            </button>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-50/60">
+                <tr className="text-left text-gray-500 text-[11px] uppercase tracking-wider">
+                  <th className="px-6 py-4 font-semibold">Pagină</th>
+                  <th className="px-6 py-4 font-semibold">URL</th>
+                  <th className="px-6 py-4 font-semibold">Status</th>
+                  <th className="px-6 py-4 font-semibold">Creată</th>
+                  <th className="px-6 py-4 font-semibold text-right pr-8">
+                    Acțiuni
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody className="divide-y divide-gray-100">
+                {pages.map((page) => (
+                  <tr
+                    key={page.id}
+                    className="bg-white hover:bg-brand-50/40 transition"
+                  >
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 rounded-2xl bg-brand-50 text-brand-700 flex items-center justify-center ring-1 ring-brand-100 flex-shrink-0">
+                          <FileText className="w-5 h-5" />
+                        </div>
+
+                        <div className="min-w-0">
+                          <div className="font-semibold text-gray-900 truncate max-w-[280px]">
+                            {page.title || 'Fără titlu'}
+                          </div>
+
+                          <div className="text-xs text-gray-500 truncate max-w-[280px]">
+                            {page.titleRu || 'Fără titlu RU'}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td className="px-6 py-4">
+                      <div className="inline-flex items-center gap-2 rounded-full bg-gray-50 ring-1 ring-gray-100 px-3 py-1.5 text-xs font-semibold text-gray-700">
+                        <LinkIcon className="w-3.5 h-3.5 text-gray-400" />
+                        /page/{page.slug}
+                      </div>
+                    </td>
+
+                    <td className="px-6 py-4">
+                      {page.isPublished ? (
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-green-50 text-green-700 ring-1 ring-green-100 px-3 py-1 text-xs font-bold">
+                          <Eye className="w-3.5 h-3.5" />
+                          Publicată
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-50 text-gray-700 ring-1 ring-gray-100 px-3 py-1 text-xs font-bold">
+                          <EyeOff className="w-3.5 h-3.5" />
+                          Draft
+                        </span>
+                      )}
+                    </td>
+
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="inline-flex items-center gap-2 text-sm text-gray-600">
+                        <CalendarDays className="w-4 h-4 text-gray-400" />
+                        {formatDate(page.createdAt)}
+                      </div>
+                    </td>
+
+                    <td className="px-6 py-4">
+                      <div className="flex gap-2 justify-end pr-2">
+                        <button
+                          onClick={() => handleEdit(page)}
+                          title="Editează"
+                          className="p-2.5 rounded-full bg-brand-50 text-brand-700 hover:bg-brand-100 transition"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </button>
+
+                        <button
+                          onClick={() => handleDelete(page.id)}
+                          title="Șterge"
+                          className="p-2.5 rounded-full bg-rose-50 text-rose-600 hover:bg-rose-100 transition"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200 flex items-center justify-between sticky top-0 bg-white">
-              <h3 className="text-2xl font-bold text-gray-900">
-                {editingPage ? 'Editează Pagina' : 'Pagină Nouă'}
-              </h3>
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-100">
+            <div className="sticky top-0 z-10 bg-white/95 backdrop-blur px-6 py-5 flex justify-between items-center border-b border-gray-100 rounded-t-3xl">
+              <div>
+                <h3 className="text-2xl font-extrabold text-gray-900 tracking-tight">
+                  {editingPage ? 'Editează Pagina' : 'Pagină Nouă'}
+                </h3>
+
+                <p className="text-sm text-gray-500 mt-0.5">
+                  Completează titlul, URL-ul și conținutul paginii
+                </p>
+              </div>
+
               <button
-                onClick={() => setShowModal(false)}
-                className="p-2 hover:bg-gray-100 rounded-lg transition"
+                onClick={() => {
+                  setShowModal(false);
+                  resetForm();
+                }}
+                className="w-10 h-10 rounded-full bg-gray-50 hover:bg-gray-100 text-gray-600 flex items-center justify-center transition"
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 space-y-4">
-              <div>
-                <label className="block text-sm font-bold text-gray-900 mb-2">
-                  Titlu (RO) *
-                </label>
-                <input
-                  type="text"
-                  value={formData.title}
-                  onChange={handleTitleChange}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
-                  placeholder="ex: Despre Noi"
-                  required
-                />
+            <form onSubmit={handleSubmit} className="p-6 space-y-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-2">
+                    Titlu RO *
+                  </label>
+
+                  <input
+                    type="text"
+                    value={formData.title}
+                    onChange={handleTitleChange}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
+                    placeholder="ex: Despre Noi"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-2">
+                    Titlu RU 🇷🇺
+                  </label>
+
+                  <input
+                    type="text"
+                    value={formData.titleRu}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        titleRu: e.target.value
+                      })
+                    }
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
+                    placeholder="напр: О нас"
+                  />
+                </div>
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-2">
-                  Titlu RU 🇷🇺
+                <label className="block text-sm font-bold text-gray-700 mb-2">
+                  Slug URL *
                 </label>
-                <input
-                  type="text"
-                  value={formData.titleRu}
-                  onChange={(e) => setFormData({...formData, titleRu: e.target.value})}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
-                  placeholder="напр: О нас"
-                />
-              </div>
 
-              <div>
-                <label className="block text-sm font-bold text-gray-900 mb-2">
-                  Slug (URL) *
-                </label>
                 <div className="flex items-center gap-2">
-                  <span className="text-gray-500">/page/</span>
+                  <span className="hidden sm:inline-flex items-center px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 text-gray-500 text-sm font-semibold">
+                    /page/
+                  </span>
+
                   <input
                     type="text"
                     value={formData.slug}
-                    onChange={(e) => setFormData({...formData, slug: e.target.value})}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        slug: e.target.value
+                      })
+                    }
                     className="flex-1 px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 font-mono text-sm"
                     placeholder="despre-noi"
                     required
                   />
                 </div>
-                <p className="text-xs text-gray-500 mt-1">Se generează automat din titlu</p>
+
+                <p className="text-xs text-gray-500 mt-1">
+                  Se generează automat din titlu, dar îl poți edita manual.
+                </p>
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-2">
-                  Conținut (RO)
+                <label className="block text-sm font-bold text-gray-700 mb-2">
+                  Conținut RO
                 </label>
-                {isContactPage ? (
-                  <div className="space-y-4 border border-gray-200 rounded-xl bg-white p-6 bg-gray-50">
-                    <p className="text-sm text-gray-600 mb-4">📝 Editează datele de contact pentru pagina de contact:</p>
-                    
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">Adresă</label>
-                      <input
-                        type="text"
-                        value={contactData.address}
-                        onChange={(e) => setContactData({...contactData, address: e.target.value})}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
-                        placeholder="Str. Principală nr. 123, Chișinău, Moldova"
-                      />
-                    </div>
 
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Telefon</label>
+                {isContactPage ? (
+                  <div className="rounded-2xl border border-gray-100 bg-gray-50/60 p-5 space-y-4">
+                    <p className="text-sm text-gray-600 font-medium">
+                      Editează datele de contact pentru pagina de contact.
+                    </p>
+
+                    <div>
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
+                        Adresă
+                      </label>
+
+                      <div className="relative">
+                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+
                         <input
                           type="text"
-                          value={contactData.phone}
-                          onChange={(e) => setContactData({...contactData, phone: e.target.value})}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
-                          placeholder="+373 69 123 456"
+                          value={contactData.address}
+                          onChange={(e) =>
+                            setContactData({
+                              ...contactData,
+                              address: e.target.value
+                            })
+                          }
+                          className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
+                          placeholder="Str. Principală nr. 123, Chișinău"
                         />
                       </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Email</label>
+                        <label className="block text-sm font-bold text-gray-700 mb-2">
+                          Telefon
+                        </label>
+
+                        <div className="relative">
+                          <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+
+                          <input
+                            type="text"
+                            value={contactData.phone}
+                            onChange={(e) =>
+                              setContactData({
+                                ...contactData,
+                                phone: e.target.value
+                              })
+                            }
+                            className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
+                            placeholder="+373 69 123 456"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-bold text-gray-700 mb-2">
+                          Email
+                        </label>
+
+                        <div className="relative">
+                          <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+
+                          <input
+                            type="email"
+                            value={contactData.email}
+                            onChange={(e) =>
+                              setContactData({
+                                ...contactData,
+                                email: e.target.value
+                              })
+                            }
+                            className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
+                            placeholder="contact@agrosmart.md"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
+                        Program
+                      </label>
+
+                      <div className="relative">
+                        <Clock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+
                         <input
-                          type="email"
-                          value={contactData.email}
-                          onChange={(e) => setContactData({...contactData, email: e.target.value})}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
-                          placeholder="contact@agrosmart.md"
+                          type="text"
+                          value={contactData.hours}
+                          onChange={(e) =>
+                            setContactData({
+                              ...contactData,
+                              hours: e.target.value
+                            })
+                          }
+                          className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
+                          placeholder="Luni - Vineri: 08:00 - 20:00"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">Program</label>
-                      <input
-                        type="text"
-                        value={contactData.hours}
-                        onChange={(e) => setContactData({...contactData, hours: e.target.value})}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
-                        placeholder="Luni - Vineri: 08:00 - 20:00"
-                      />
-                    </div>
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
+                        Google Maps Embed URL
+                      </label>
 
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">Google Maps Embed URL</label>
                       <textarea
                         value={contactData.mapUrl}
-                        onChange={(e) => setContactData({...contactData, mapUrl: e.target.value})}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
+                        onChange={(e) =>
+                          setContactData({
+                            ...contactData,
+                            mapUrl: e.target.value
+                          })
+                        }
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
                         rows="3"
                         placeholder="https://www.google.com/maps/embed?pb=..."
                       />
+
                       <p className="text-xs text-gray-500 mt-1">
-                        Obține URL-ul de la Google Maps → Share → Embed a map → Copy HTML
+                        Google Maps → Share → Embed a map → Copy HTML.
                       </p>
                     </div>
                   </div>
                 ) : (
-                  <>
-                    <textarea
-                      value={formData.content}
-                      onChange={(e) => setFormData({...formData, content: e.target.value})}
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 min-h-[300px]"
-                      placeholder="Scrie conținutul paginii aici (RO)..."
-                    />
-                  </>
+                  <textarea
+                    value={formData.content}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        content: e.target.value
+                      })
+                    }
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 min-h-[260px]"
+                    placeholder="Scrie conținutul paginii aici..."
+                  />
                 )}
               </div>
 
               {!isContactPage && (
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-2">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">
                     Conținut RU 🇷🇺
                   </label>
+
                   <textarea
                     value={formData.contentRu}
-                    onChange={(e) => setFormData({...formData, contentRu: e.target.value})}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 min-h-[300px]"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        contentRu: e.target.value
+                      })
+                    }
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 min-h-[260px]"
                     placeholder="Напишите содержание страницы здесь..."
                   />
                 </div>
               )}
 
-              <div className="flex items-center gap-3">
+              <label className="flex items-center gap-3 rounded-2xl bg-gray-50 border border-gray-100 p-4 cursor-pointer">
                 <input
                   type="checkbox"
                   id="isPublished"
                   checked={formData.isPublished}
-                  onChange={(e) => setFormData({...formData, isPublished: e.target.checked})}
-                  className="w-5 h-5 text-brand-600 rounded focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      isPublished: e.target.checked
+                    })
+                  }
+                  className="w-5 h-5 accent-brand-500 cursor-pointer"
                 />
-                <label htmlFor="isPublished" className="text-sm font-semibold text-gray-900 cursor-pointer">
-                  Publică pagina (vizibilă pe site)
-                </label>
-              </div>
 
-              <div className="flex justify-end gap-3 pt-4 border-t">
-                <button
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                  className="px-6 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition font-semibold"
-                >
-                  Anulează
-                </button>
+                <div>
+                  <p className="text-sm font-bold text-gray-900">
+                    Publică pagina
+                  </p>
+
+                  <p className="text-xs text-gray-500">
+                    Dacă este bifat, pagina va fi vizibilă pe site.
+                  </p>
+                </div>
+              </label>
+
+              <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-100">
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-brand-500 text-white rounded-xl hover:bg-brand-600 transition font-semibold"
+                  className="flex-1 bg-brand-500 text-white py-3 rounded-xl hover:bg-brand-600 transition font-semibold shadow-md shadow-brand-200 inline-flex items-center justify-center gap-2"
                 >
-                  {editingPage ? 'Actualizează' : 'Creează'} Pagina
+                  <Save className="w-5 h-5" />
+                  {editingPage ? 'Actualizează Pagina' : 'Creează Pagina'}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowModal(false);
+                    resetForm();
+                  }}
+                  className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-xl hover:bg-gray-200 transition font-semibold"
+                >
+                  Anulează
                 </button>
               </div>
             </form>

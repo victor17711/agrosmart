@@ -18,7 +18,7 @@ export function Toaster() {
           <Toast
             key={id}
             {...props}
-            className="bg-teal-600 text-white border border-teal-500 shadow-2xl rounded-2xl px-5 py-4 flex items-start gap-3 data-[state=open]:animate-in data-[state=open]:fade-in data-[state=open]:slide-in-from-top-4 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:slide-out-to-top-4"
+            className="bg-[#a7cf26] text-white border border-[#a7cf26]/90 shadow-2xl rounded-2xl px-5 py-4 flex items-start gap-3 data-[state=open]:animate-in data-[state=open]:fade-in data-[state=open]:slide-in-from-top-4 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:slide-out-to-top-4"
           >
             <div className="flex-1">
               {title && (

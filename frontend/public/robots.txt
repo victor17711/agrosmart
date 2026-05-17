@@ -6,4 +6,4 @@ Disallow: /login
 
 Allow: /
 
-Sitemap: https://domix.md/api/sitemap.xml
+Sitemap: https://agrosmart.md/api/sitemap.xml
