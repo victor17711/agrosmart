@@ -15,6 +15,7 @@ import InfoBar from '../components/InfoBar';
 import FeaturesSection from '../components/FeaturesSection';
 import BrandsSection from '../components/BrandsSection';
 import CountdownTimer from '../components/CountdownTimer';
+import Preloader from '../components/Preloader';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -27,65 +28,70 @@ const HomePage = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [settings, setSettings] = useState(null);
+
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 
   useEffect(() => {
-    fetchSettings();
-    fetchProducts();
+    loadHomeData();
   }, []);
 
   useEffect(() => {
     if (settings?.featuredCategoryId) {
-      fetchFeaturedProducts();
+      fetchFeaturedProducts(settings.featuredCategoryId);
     }
   }, [settings]);
 
-  const fetchSettings = async () => {
-    try {
-      const response = await axios.get(`${API}/settings`);
-      setSettings(response.data);
-    } catch (error) {
-      console.error('Error fetching settings:', error);
-    }
-  };
+  const loadHomeData = async () => {
+    const startTime = Date.now();
 
-  const fetchProducts = async () => {
     try {
-      // Fetch only the latest 100 products for homepage display.
-      // Section components (BestSellers, FreshFinds, etc.) only need a subset.
-      const response = await axios.get(`${API}/products?limit=100`);
-      setProducts(response.data);
+      setLoading(true);
+
+      const [settingsRes, productsRes] = await Promise.all([
+        axios.get(`${API}/settings`).catch((error) => {
+          console.error('Error fetching settings:', error);
+          return { data: null };
+        }),
+
+        axios.get(`${API}/products?limit=100`).catch((error) => {
+          console.error('Error fetching products:', error);
+          return { data: [] };
+        }),
+      ]);
+
+      setSettings(settingsRes.data);
+      setProducts(productsRes.data || []);
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error('Error loading homepage data:', error);
     } finally {
-      setLoading(false);
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(1500 - elapsed, 0);
+
+      setTimeout(() => {
+        setLoading(false);
+      }, remaining);
     }
   };
 
-  const fetchFeaturedProducts = async () => {
+  const fetchFeaturedProducts = async (featuredCategoryId) => {
     try {
-      // Fetch category details
       const categoryRes = await axios.get(`${API}/categories`);
-      const category = categoryRes.data.find(cat => cat.id === settings.featuredCategoryId);
+      const category = categoryRes.data.find(
+        (cat) => cat.id === featuredCategoryId
+      );
 
       if (category) {
-        const response = await axios.get(`${API}/products?category=${encodeURIComponent(category.name)}&limit=20`);
-        setFeaturedProducts(response.data);
+        const response = await axios.get(
+          `${API}/products?category=${encodeURIComponent(category.name)}&limit=20`
+        );
+
+        setFeaturedProducts(response.data || []);
       }
     } catch (error) {
       console.error('Error fetching featured products:', error);
     }
   };
-
-  // if (loading) {
-  //   return <div className="min-h-screen flex items-center justify-center">
-  //     <div className="text-center">
-  //       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto"></div>
-  //       <p className="mt-4 text-gray-600">Se încarcă...</p>
-  //     </div>
-  //   </div>;
-  // }
 
   // Product sections
   const hotPicksProducts = products.slice(0, 6);
@@ -93,7 +99,10 @@ const HomePage = () => {
   const freshFindsProducts = products.slice(11, 19);
 
   return (
-    <div className="min-h-screen">
+    <div className="relative min-h-screen">
+      {/* Preloader overlay */}
+      {loading && <Preloader />}
+
       {/* Bara cu categorii din meniu */}
       <CategoryMenuCarousel />
 
@@ -129,10 +138,8 @@ const HomePage = () => {
 
       {/* Features Section */}
       {/* <FeaturesSection /> */}
-
     </div>
   );
 };
 
 export default HomePage;
-

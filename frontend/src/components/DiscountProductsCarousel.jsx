@@ -13,7 +13,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const DiscountProductsCarousel = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const [products, setProducts] = useState([]);
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -86,7 +86,7 @@ const DiscountProductsCarousel = () => {
       <section className="py-12 bg-white">
         <div className="w-full px-3 md:px-10 lg:px-16">
           <div className="flex items-center justify-center py-10">
-            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-teal-600"></div>
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#a7cf26]"></div>
           </div>
         </div>
       </section>
@@ -101,14 +101,23 @@ const DiscountProductsCarousel = () => {
     return null;
   }
 
-  const categoryName = featuredCategory?.name || t('discountProducts');
+  const isRu = language === 'ru';
+  const linkPrefix = isRu ? '/ru' : '';
+
+  const categoryName =
+    isRu && featuredCategory?.nameRu
+      ? featuredCategory.nameRu
+      : featuredCategory?.name || t('discountProducts');
+
   const titleWords = categoryName.split(' ');
   const lastWord = titleWords.pop();
   const firstWords = titleWords.join(' ');
 
   const categoryLink = featuredCategory
-    ? `/category/${featuredCategory.slug || createSlug(featuredCategory.name)}`
-    : '/category';
+    ? `${linkPrefix}/category/${featuredCategory.slug || createSlug(featuredCategory.name)}`
+    : `${linkPrefix}/category`;
+
+  const seeAllLabel = isRu ? 'Все товары' : 'Toate Produsele';
 
   return (
     <section className="pt-2 pb-10 md:pb-8 bg-white">
@@ -124,7 +133,7 @@ const DiscountProductsCarousel = () => {
             to={categoryLink}
             className="hidden md:inline-flex items-center gap-2 bg-[#f3f3f3] hover:bg-[#e9e9e9] text-[13px] md:text-[15px] text-[#444] font-semibold rounded-full px-5 py-3 transition-all duration-300"
           >
-            Toate Produsele
+            {seeAllLabel}
             <ChevronRight className="w-5 h-5" />
           </Link>
         </div>
@@ -132,7 +141,7 @@ const DiscountProductsCarousel = () => {
         <div className="relative">
           <Swiper
             modules={[Navigation, Autoplay]}
-            spaceBetween={12}
+            spaceBetween={15.5}
             slidesPerView={1.5}
             navigation={{
               prevEl: prevRef.current,
@@ -148,7 +157,7 @@ const DiscountProductsCarousel = () => {
               disableOnInteraction: false,
               pauseOnMouseEnter: true,
             }}
-            loop={displayProducts.length > 6}
+            loop={displayProducts.length > 10}
             breakpoints={{
               640: { slidesPerView: 2, spaceBetween: 18 },
               768: { slidesPerView: 3, spaceBetween: 20 },
@@ -165,17 +174,16 @@ const DiscountProductsCarousel = () => {
             ))}
           </Swiper>
 
-          {/* Navigation Buttons */}
           <button
             ref={prevRef}
-            className="hidden absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-lg items-center justify-center text-teal-600 hover:bg-teal-600 hover:text-white transition-all duration-300 hover:scale-110 border border-teal-600"
+            className="hidden absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-lg items-center justify-center text-[#a7cf26] hover:bg-[#a7cf26] hover:text-white transition-all duration-300 hover:scale-110 border border-[#a7cf26]"
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
 
           <button
             ref={nextRef}
-            className="hidden absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-lg items-center justify-center text-teal-600 hover:bg-teal-600 hover:text-white transition-all duration-300 hover:scale-110 border border-teal-600"
+            className="hidden absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-lg items-center justify-center text-[#a7cf26] hover:bg-[#a7cf26] hover:text-white transition-all duration-300 hover:scale-110 border border-[#a7cf26]"
           >
             <ChevronRight className="w-6 h-6" />
           </button>
@@ -187,7 +195,7 @@ const DiscountProductsCarousel = () => {
             to={categoryLink}
             className="inline-flex items-center gap-2 bg-[#f3f3f3] hover:bg-[#e9e9e9] text-[#444] font-semibold rounded-full px-7 py-4 transition-all duration-300"
           >
-            Toate Produsele
+            {seeAllLabel}
             <ChevronRight className="w-5 h-5" />
           </Link>
         </div>

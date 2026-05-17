@@ -163,7 +163,7 @@ const BestSellersSection = () => {
         ) : (
           <div
             key={activeTabId}
-            className={`grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 md:gap-6 transition-all duration-500 ease-out ${
+            className={`grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 md:gap-4 transition-all duration-500 ease-out ${
               isProductsLoading
                 ? 'opacity-0 translate-y-4'
                 : 'opacity-100 translate-y-0'

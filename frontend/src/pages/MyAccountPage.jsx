@@ -11,7 +11,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const MyAccountPage = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { wishlist, removeFromWishlist } = useCart();
   const [activeTab, setActiveTab] = useState('profile');
   const [loading, setLoading] = useState(true);
@@ -76,17 +76,19 @@ const MyAccountPage = () => {
   };
 
   const getAuthHeaders = () => {
-    const token = localStorage.getItem('userToken');
-    if (!token) {
-      window.location.href = '/';
-      return null;
+  const token = localStorage.getItem('userToken');
+
+  if (!token) {
+    setLoading(false);
+    return null;
+  }
+
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`
     }
-    return {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    };
   };
+};
 
   const fetchUserData = async () => {
     try {
@@ -106,9 +108,9 @@ const MyAccountPage = () => {
     } catch (error) {
       console.error('Error fetching user:', error);
       if (error.response?.status === 401) {
-        localStorage.removeItem('userToken');
-        window.location.href = '/';
-      }
+  localStorage.removeItem('userToken');
+  setUser(null);
+}
     } finally {
       setLoading(false);
     }
@@ -186,28 +188,35 @@ const MyAccountPage = () => {
       </div>
     );
   }
-
-  if (!user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center bg-white p-12 rounded-2xl shadow-lg">
-          <User className="w-20 h-20 text-gray-300 mx-auto mb-6" />
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            {t('myAccount.authRequired.title')}
-          </h2>
-          <p className="text-gray-600 mb-6">
-            {t('myAccount.authRequired.desc')}
-          </p>
-          <Link
-            to="/"
-            className="inline-block bg-[#a7cf26] text-white px-8 py-3 rounded-xl hover:bg-[#a7cf26]/60 transition font-semibold"
-          >
-            {t('myAccount.authRequired.backHome')}
-          </Link>
+if (!user) {
+  return (
+    <div className="bg-gray-50 px-4 py-14 md:py-14">
+      <div className="mx-auto max-w-[460px] rounded-[22px] bg-white px-5 py-7 text-center shadow-sm border border-gray-100 md:px-10 md:py-11 md:rounded-2xl md:shadow-lg">
+        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 md:mb-6 md:h-20 md:w-20">
+          <User className="h-7 w-7 text-gray-300 md:h-10 md:w-10" />
         </div>
+
+        <h2 className="mb-3 text-[22px] font-extrabold leading-tight text-gray-900 md:mb-4 md:text-3xl">
+          {t('myAccount.authRequired.title')}
+        </h2>
+
+        <p className="mx-auto mb-5 max-w-[330px] text-[14px] leading-relaxed text-gray-600 md:mb-6 md:text-base">
+          {t('myAccount.authRequired.desc')}
+        </p>
+
+<button
+  type="button"
+  onClick={() => {
+    window.dispatchEvent(new CustomEvent('open-auth-modal'));
+  }}
+  className="inline-flex h-11 items-center justify-center rounded-xl bg-[#a7cf26] px-6 text-[14px] font-bold text-white transition hover:bg-[#a7cf26]/70 md:h-12 md:px-8 md:text-base"
+>
+  {language === 'ru' ? 'Войти' : 'Autentificare'}
+</button>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
   return (
     <div className="bg-gray-50">

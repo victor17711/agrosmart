@@ -1153,7 +1153,7 @@ const ProductsManagement = () => {
               <div className="flex gap-3 pt-4">
                 <button
                   type="submit"
-                  className="flex-1 bg-gradient-to-r from-[#a7cf26] to-[#96bc21] text-white py-3 rounded-xl hover:from-[#96bc21] hover:to-[#86a91d] transition font-semibold"
+                  className="flex-1 bg-brand-500 text-white py-3 rounded-xl hover:bg-brand-600 transition font-semibold shadow-md shadow-brand-200"
                 >
                   {editingProduct ? 'Actualizează' : 'Creează'}
                 </button>

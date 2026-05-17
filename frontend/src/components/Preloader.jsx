@@ -1,29 +1,37 @@
-import React from 'react';
-import logo from '../assets/images/logo.png';
+import React from "react";
 
-const Preloader = () => {
+export default function Preloader({ text = "" }) {
   return (
-    <div className="fixed inset-0 bg-white z-[9999] flex items-center justify-center">
-      <div className="text-center">
-        {/* Logo with pulse animation */}
-        {/* <div className="mb-6 animate-pulse">
-          <img 
-            src={logo} 
-            alt="Loading..." 
-            className="h-24 w-auto mx-auto"
-          />
-        </div> */}
-        
-        {/* Spinner */}
-        <div className="flex justify-center">
-          <div className="w-12 h-12 border-4 border-teal-200 border-t-teal-600 rounded-full animate-spin"></div>
-        </div>
-        
-        {/* Loading text */}
-        <p className="mt-6 text-gray-600 font-semibold animate-pulse">Se încarcă...</p>
+    <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-[#a7cf26]">
+      <div className="flex items-end gap-2">
+        <span className="preloader-line h-8 w-2 rounded-full bg-white"></span>
+        <span className="preloader-line h-12 w-2 rounded-full bg-white [animation-delay:0.12s]"></span>
+        <span className="preloader-line h-8 w-2 rounded-full bg-white [animation-delay:0.24s]"></span>
       </div>
+
+      {text && (
+        <p className="mt-5 text-sm font-black uppercase tracking-[0.22em] text-black">
+          {text}
+        </p>
+      )}
+
+      <style>{`
+        .preloader-line {
+          animation: preloaderPulse 0.55s ease-in-out infinite;
+          transform-origin: center bottom;
+        }
+
+        @keyframes preloaderPulse {
+          0%, 100% {
+            transform: scaleY(0.55);
+            opacity: 0.65;
+          }
+          50% {
+            transform: scaleY(1.25);
+            opacity: 1;
+          }
+        }
+      `}</style>
     </div>
   );
-};
-
-export default Preloader;
+}

@@ -200,7 +200,7 @@ const AdminLayout = ({ children }) => {
               </div>
               <p className="mt-1 text-xs text-gray-500">Deschide magazinul online.</p>
               <Link
-                to="/admin/requests"
+                to="/"
                 className="mt-3 inline-flex w-full items-center justify-center rounded-xl bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold py-2 shadow-md shadow-brand-200 transition"
               >
                 Vizitează site-ul

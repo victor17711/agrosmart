@@ -106,7 +106,7 @@ const OtherProductsCarousel = () => {
         <div className="relative">
           <Swiper
             modules={[Navigation, Autoplay]}
-            spaceBetween={12}
+            spaceBetween={15.5}
             slidesPerView={1.5}
             navigation={{
               prevEl: prevRef.current,

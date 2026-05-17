@@ -4,7 +4,7 @@ export const translations = {
     navbar: {
       home: 'Acasă',
       language: 'Română',
-      allCategories: 'Toate categoriile',
+      allCategories: 'Categorii',
       search: 'Caută produse...',
       infoDesc: 'Ai nevoie de ajutor ?',
       account: 'Contul meu',
@@ -102,7 +102,7 @@ export const translations = {
 
     // Footer
     footer: {
-      aboutUs: 'Domix.md este magazinul tău online cu produse pentru gospodărie, grădinărit și bricolaj, oferind unelte și utilaje la prețuri accesibile, cu livrare în toată țara.',
+      aboutUs: 'AgroSmart este magazinul tău online cu produse pentru gospodărie, grădinărit și bricolaj, oferind unelte și utilaje la prețuri accesibile, cu livrare în toată țara.',
       menuFirst: 'Link-uri utile',
       menuSecond: 'Informații',
       menuThird: 'Categorii',
@@ -246,7 +246,7 @@ export const translations = {
     // Dynamic Page
     dynamic: {
       home: 'Acasă',
-      desc: 'Informații și detalii despre Domix'
+      desc: 'Informații și detalii despre AgroSmart'
     },
 
     // Brands Page
@@ -293,17 +293,17 @@ export const translations = {
         priceDesc: 'Oferim raport excelent calitate-preț pentru toate produsele.'
       },
       productsTitle: 'Tot ce ai nevoie pentru instalații, într-un singur loc',
-      productsDesc: 'La Domix găsești o gamă variată de produse pentru încălzire, apă, climatizare și instalații. Indiferent dacă lucrezi la o construcție nouă sau la renovare, avem soluții potrivite pentru fiecare proiect.',
+      productsDesc: 'La AgroSmart găsești o gamă variată de produse pentru încălzire, apă, climatizare și instalații. Indiferent dacă lucrezi la o construcție nouă sau la renovare, avem soluții potrivite pentru fiecare proiect.',
       features: {
         item1: 'Încălzire și ACM – centrale, radiatoare și accesorii',
         item2: 'Obiecte sanitare moderne pentru baie și bucătărie',
         item3: 'Aer condiționat și sisteme de ventilare',
         item4: 'Țevi, fitinguri și componente pentru instalații'
       },
-      productsDesc2: 'Alege Domix pentru produse de încredere, livrare rapidă și prețuri corecte. Indiferent de proiect, îți oferim soluțiile potrivite, simplu și eficient.',
+      productsDesc2: 'Alege AgroSmart pentru produse de încredere, livrare rapidă și prețuri corecte. Indiferent de proiect, îți oferim soluțiile potrivite, simplu și eficient.',
       testimonialsTitle: 'Ce spun clienții despre noi',
-      testimonialsDesc: 'Feedback real de la clienți care au ales Domix',
-      whyTitle: 'De ce să alegi Domix?',
+      testimonialsDesc: 'Feedback real de la clienți care au ales AgroSmart',
+      whyTitle: 'De ce să alegi AgroSmart?',
       whyDesc: 'Cu peste 15 ani de experiență, oferim produse de încredere, livrare rapidă și suport dedicat. Punem accent pe calitate și pe satisfacția clientului, pentru ca fiecare comandă să fie o experiență sigură și eficientă.',
       features2: {
         item1: 'Garanție produse',
@@ -322,7 +322,7 @@ export const translations = {
         item2: {
           name: 'Natalia Rusu',
           time: '14:10, 18 Dec, 2026',
-          text: 'Mi-a plăcut foarte mult că am primit ajutor la alegerea produselor. Nu eram sigură ce să aleg pentru baie, dar consultanța a fost foarte utilă. Recomand Domix fără dubii.',
+          text: 'Mi-a plăcut foarte mult că am primit ajutor la alegerea produselor. Nu eram sigură ce să aleg pentru baie, dar consultanța a fost foarte utilă. Recomand AgroSmart fără dubii.',
         },
         item3: {
           name: 'Sergiu Balan',
@@ -736,7 +736,7 @@ export const translations = {
     navbar: {
       home: 'Главная',
       language: 'Русский',
-      allCategories: 'Все категории',
+      allCategories: 'Категории',
       search: 'Поиск товаров...',
       infoDesc: 'Нужна помощь?',
       account: 'Мой аккаунт',
@@ -833,7 +833,7 @@ export const translations = {
     },
 
     footer: {
-      aboutUs: 'Domix.md — это ваш интернет-магазин товаров для дома, садоводства и ремонта, предлагающий инструменты и оборудование по доступным ценам с доставкой по всей стране.',
+      aboutUs: 'AgroSmart.md — это ваш интернет-магазин товаров для дома, садоводства и ремонта, предлагающий инструменты и оборудование по доступным ценам с доставкой по всей стране.',
       menuFirst: 'Полезные ссылки',
       menuSecond: 'Информация',
       menuThird: 'Категории',
@@ -977,7 +977,7 @@ export const translations = {
     // Dynamic Page
     dynamic: {
       home: 'Главная',
-      desc: 'Информация и подробности о Domix'
+      desc: 'Информация и подробности о AgroSmart'
     },
 
     // Brands Page
@@ -1024,17 +1024,17 @@ export const translations = {
         priceDesc: 'Отличное соотношение цены и качества для всех товаров.'
       },
       productsTitle: 'Все для инженерных систем в одном месте',
-      productsDesc: 'В Domix вы найдете широкий ассортимент товаров для отопления, водоснабжения, климатических систем и монтажа. Подходит как для нового строительства, так и для ремонта.',
+      productsDesc: 'В AgroSmart вы найдете широкий ассортимент товаров для отопления, водоснабжения, климатических систем и монтажа. Подходит как для нового строительства, так и для ремонта.',
       features: {
         item1: 'Отопление и ГВС — котлы, радиаторы и аксессуары',
         item2: 'Современная сантехника для ванной и кухни',
         item3: 'Кондиционирование и системы вентиляции',
         item4: 'Трубы, фитинги и комплектующие'
       },
-      productsDesc2: 'Выбирайте Domix — надежные товары, быстрая доставка и честные цены. Мы предлагаем оптимальные решения для любого проекта.',
+      productsDesc2: 'Выбирайте AgroSmart — надежные товары, быстрая доставка и честные цены. Мы предлагаем оптимальные решения для любого проекта.',
       testimonialsTitle: 'Что говорят о нас клиенты',
-      testimonialsDesc: 'Реальные отзывы клиентов, выбравших Domix',
-      whyTitle: 'Почему стоит выбрать Domix?',
+      testimonialsDesc: 'Реальные отзывы клиентов, выбравших AgroSmart',
+      whyTitle: 'Почему стоит выбрать AgroSmart?',
       whyDesc: 'Более 15 лет опыта, надежные товары, быстрая доставка и профессиональная поддержка. Мы ориентированы на качество и удовлетворенность клиентов.',
       features2: {
         item1: 'Гарантия на продукцию',
@@ -1053,7 +1053,7 @@ export const translations = {
         item2: {
           name: 'Наталия Русу',
           time: '14:10, 18 дек, 2026',
-          text: 'Очень понравилось, что мне помогли с выбором товаров. Я не знала, что выбрать для ванной, но консультация была очень полезной. Рекомендую Domix.',
+          text: 'Очень понравилось, что мне помогли с выбором товаров. Я не знала, что выбрать для ванной, но консультация была очень полезной. Рекомендую AgroSmart.',
         },
         item3: {
           name: 'Серджиу Балан',

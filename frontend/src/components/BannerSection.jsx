@@ -3,6 +3,12 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper/modules';
+import {
+  Truck,
+  ShieldCheck,
+  BadgeCheck,
+  Headphones,
+} from 'lucide-react';
 import ProductCard from './ProductCard';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -32,7 +38,6 @@ const BannerSection = () => {
           .catch(() => ({ data: [] }));
 
         const cats = catRes.data || [];
-
         let chosen = null;
 
         for (const c of cats) {
@@ -101,9 +106,41 @@ const BannerSection = () => {
     titleRu,
   } = categoryInfo;
 
-  const categoryName = language === 'ru' && nameRu ? nameRu : name;
-  const displayTitle = language === 'ru' && titleRu ? titleRu : title;
-  const linkPrefix = language === 'ru' ? '/ru' : '';
+  const isRu = language === 'ru';
+  const categoryName = isRu && nameRu ? nameRu : name;
+  const displayTitle = isRu && titleRu ? titleRu : title;
+  const linkPrefix = isRu ? '/ru' : '';
+
+  const benefits = [
+    {
+      icon: Truck,
+      title: isRu ? 'Быстрая доставка' : 'Livrare rapidă',
+      desc: isRu
+        ? 'Получите заказ быстро и безопасно.'
+        : 'Primești comanda rapid și sigur.',
+    },
+    {
+      icon: ShieldCheck,
+      title: isRu ? 'Проверенные товары' : 'Produse verificate',
+      desc: isRu
+        ? 'Гарантированное качество каждого товара.'
+        : 'Calitate garantată pentru fiecare produs.',
+    },
+    {
+      icon: BadgeCheck,
+      title: isRu ? 'Надежные бренды' : 'Branduri de încredere',
+      desc: isRu
+        ? 'Мы работаем с проверенными поставщиками и брендами.'
+        : 'Lucrăm cu furnizori și mărci selectate.',
+    },
+    {
+      icon: Headphones,
+      title: isRu ? 'Полезная консультация' : 'Consultanță utilă',
+      desc: isRu
+        ? 'Поможем выбрать подходящий товар.'
+        : 'Te ajutăm să alegi produsul potrivit.',
+    },
+  ];
 
   return (
     <section className="py-8 md:py-10">
@@ -112,7 +149,7 @@ const BannerSection = () => {
           {/* Left Banner */}
           <Link
             to={`${linkPrefix}/category/${categorySlug}`}
-            className="relative min-h-[460px] md:min-h-[500px] rounded-[24px] overflow-hidden group"
+            className="relative min-h-[500px] md:min-h-[580px] lg:min-h-[590px] rounded-[24px] overflow-hidden group"
           >
             <img
               src={bannerImage}
@@ -132,19 +169,19 @@ const BannerSection = () => {
               </h2>
 
               <span className="mt-8 inline-flex items-center justify-center rounded-full bg-[#a6cf24] text-white px-7 py-3 text-[15px] font-bold">
-                {language === 'ru' ? 'Смотреть все товары' : 'Vezi Toate Produsele'}
+                {isRu ? 'Смотреть все товары' : 'Vezi Toate Produsele'}
               </span>
             </div>
           </Link>
 
-          {/* Products Carousel */}
-          <div className="min-w-0">
+          {/* Products + Benefits */}
+          <div className="min-w-0 flex flex-col">
             <Swiper
               modules={[FreeMode]}
               freeMode
               grabCursor
               slidesPerView={1.5}
-              spaceBetween={12}
+              spaceBetween={15.5}
               breakpoints={{
                 480: {
                   slidesPerView: 1.5,
@@ -163,7 +200,7 @@ const BannerSection = () => {
                   spaceBetween: 20,
                 },
               }}
-              className="!pb-1"
+              className="!pb-1 w-full"
             >
               {products.map((product) => (
                 <SwiperSlide key={product.id} className="!h-auto">
@@ -173,6 +210,32 @@ const BannerSection = () => {
                 </SwiperSlide>
               ))}
             </Swiper>
+
+            {/* Benefits */}
+            <div className="mt-5 grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+              {benefits.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <div
+                    key={item.title}
+                    className="bg-white border border-[#a7cf26] rounded-[20px] p-4 md:p-5"
+                  >
+                    <div className="w-9 h-9 rounded-xl bg-[#a7cf26]/10 flex items-center justify-center mb-3">
+                      <Icon className="w-5 h-5 text-[#a7cf26]" />
+                    </div>
+
+                    <h3 className="text-[13px] md:text-[15px] font-extrabold text-gray-900 leading-tight">
+                      {item.title}
+                    </h3>
+
+                    <p className="mt-1.5 text-[11px] md:text-[13px] text-gray-500 leading-snug">
+                      {item.desc}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>

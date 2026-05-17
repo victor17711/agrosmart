@@ -1,10 +1,43 @@
 import React, { useEffect, useState } from 'react';
+import { useLanguage } from '../context/LanguageContext';
 
 const CountdownTimer = ({
   targetDate = '2026-05-15T23:59:59+03:00',
-  title = 'Ofertă Limitată!',
-  subtitle = 'Grăbește-te să cumperi aceste produse',
 }) => {
+  const { language } = useLanguage();
+
+  const text = {
+    ro: {
+      titleHighlight: 'Ofertă',
+      titleRest: 'Limitată!',
+      subtitle: 'Grăbește-te să cumperi aceste produse',
+      days: 'Zile',
+      hours: 'Ore',
+      minutes: 'Min',
+      seconds: 'Sec',
+    },
+    ru: {
+      titleHighlight: 'Ограниченное',
+      titleRest: 'предложение!',
+      subtitle: 'Поторопитесь купить эти товары',
+      days: 'Дни',
+      hours: 'Часы',
+      minutes: 'Мин',
+      seconds: 'Сек',
+    },
+    en: {
+      titleHighlight: 'Limited',
+      titleRest: 'Offer!',
+      subtitle: 'Hurry up to buy these products',
+      days: 'Days',
+      hours: 'Hours',
+      minutes: 'Min',
+      seconds: 'Sec',
+    },
+  };
+
+  const currentText = text[language] || text.ro;
+
   const calculateTimeLeft = () => {
     const difference = new Date(targetDate).getTime() - new Date().getTime();
 
@@ -36,26 +69,27 @@ const CountdownTimer = ({
   }, [targetDate]);
 
   const items = [
-    { value: timeLeft.days, label: 'Zile' },
-    { value: timeLeft.hours, label: 'Ore' },
-    { value: timeLeft.minutes, label: 'Min' },
-    { value: timeLeft.seconds, label: 'Sec' },
+    { value: timeLeft.days, label: currentText.days },
+    { value: timeLeft.hours, label: currentText.hours },
+    { value: timeLeft.minutes, label: currentText.minutes },
+    { value: timeLeft.seconds, label: currentText.seconds },
   ];
 
   return (
     <section className="w-full px-4 md:px-4 py-2">
       <div className="w-full bg-[#f4f4f4] rounded-[22px] px-5 md:px-7 py-6 md:py-10">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-          
           {/* Text */}
           <div>
             <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-[#242424] leading-tight">
-              <span className="text-[#bd4b35]">Ofertă</span>{' '}
-              Limitată!
+              <span className="text-[#bd4b35]">
+                {currentText.titleHighlight}
+              </span>{' '}
+              {currentText.titleRest}
             </h2>
 
             <p className="mt-3 text-base md:text-lg text-[#777] font-medium">
-              {subtitle}
+              {currentText.subtitle}
             </p>
           </div>
 
@@ -76,7 +110,6 @@ const CountdownTimer = ({
               </div>
             ))}
           </div>
-
         </div>
       </div>
     </section>

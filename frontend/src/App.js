@@ -10,6 +10,7 @@ import AdminLayout from './components/AdminLayout';
 import Preloader from './components/Preloader';
 import JivoChat from './components/JivoChat';
 import ScrollToTop from './components/ScrollToTop';
+import BottomMobileBar from "./components/BottomMobileBar";
 import HomePage from './pages/HomePage';
 import DynamicPage from './pages/DynamicPage';
 import CategoryPage from './pages/CategoryPage';
@@ -94,6 +95,24 @@ const AdminProtectedRoute = ({ children }) => {
   return <AdminLayout>{children}</AdminLayout>;
 };
 
+const PublicBottomMobileBar = () => {
+  const location = useLocation();
+
+  if (location.pathname.startsWith("/admin")) {
+    return null;
+  }
+
+  return (
+    <BottomMobileBar
+      wishlistCount={0}
+      cartCount={0}
+      onMenuClick={() => {
+        window.dispatchEvent(new CustomEvent("open-mobile-menu"));
+      }}
+    />
+  );
+};
+
 function App() {
   // Helper function to create routes with and without /ru prefix
   const createDualRoutes = (path, element) => {
@@ -111,7 +130,7 @@ function App() {
         <AdminProvider>
           <LanguageProvider>
             <CartProvider>
-              <div className="App">
+              <div className="App pb-[59px] md:pb-0">
                 <ScrollToTop />
                 <RouteChangeHandler>
                   {/* <JivoChat /> */}
@@ -357,7 +376,7 @@ function App() {
                 <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
               </Routes>
               </RouteChangeHandler>
-              
+              <PublicBottomMobileBar />
               <Toaster />
             </div>
           </CartProvider>
